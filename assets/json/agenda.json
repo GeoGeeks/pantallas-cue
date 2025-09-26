@@ -12,7 +12,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Break",
@@ -27,7 +27,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Plenaria - SIG: Integrando todo en todas partes",
@@ -42,7 +42,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Almuerzo",
@@ -57,7 +57,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Summit IA: ¿Qué pasa cuando la Inteligencia se vuelve geográfica?",
@@ -72,7 +72,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "ArcGIS para Desarrolladores",
@@ -87,7 +87,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "ArcGIS para Desarrolladores",
@@ -102,7 +102,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Expericencias que inspiran: Eficiencia operativa",
@@ -117,7 +117,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Expericencias que inspiran: Lideres Geoespaciales",
@@ -132,7 +132,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Summit: Imágenes y teledetección",
@@ -147,7 +147,7 @@
     "producto_esri": ["Drone2Map", "SiteScan"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Summit: Lanzamiento - Comunidad ImaGO",
@@ -162,7 +162,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Summit: Bloque temático ArcGIS Pro - Image Analyst",
@@ -177,7 +177,7 @@
     "producto_esri": ["ArcGIS Pro", "ArcGIS Image Analyst"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Summit: Bloque temático ArcGIS Excalibur - Video Server",
@@ -192,7 +192,7 @@
     "producto_esri": ["ArcGIS Excalibur", "ArcGIS Video Server"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "De Insights al ecosistema de apps de ArcGIS: análisis de Infecciones respiratorias agudas (IRA) en Colombia",
@@ -207,7 +207,11 @@
     "producto_esri": ["ArcGIS Pro", "ArcGIS Notebooks"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos", "Directivos y tomadores de decisiones"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos",
+      "Directivos y tomadores de decisiones"
+    ]
   },
   {
     "nombre": "De la vereda a la nube: simplificando la toma de datos con ArcGIS Survey123",
@@ -222,7 +226,7 @@
     "producto_esri": "ArcGIS Survey123",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Gestion eficiente de activos geograficos usando ArcGIS Online",
@@ -237,7 +241,7 @@
     "producto_esri": "ArcGIS Online",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":"Administradores y equipo IT"
+    "dirigido": "Administradores y equipo IT"
   },
   {
     "nombre": "De la tradición a la innovación: migrando con estrategia a ArcGIS Pro",
@@ -252,7 +256,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Aplicaciones web: ¿Cuál elegir? ",
@@ -267,7 +271,7 @@
     "producto_esri": ["ArcGIS Instant Apps", "ArcGIS StoryMaps"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "El tesoro está más cerca de los que creemos: ArcGIS Living Atlas",
@@ -282,7 +286,7 @@
     "producto_esri": "ArcGIS Living Atlas",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Optimización de flujos de trabajo en campo con ArcGIS Field Maps",
@@ -297,7 +301,7 @@
     "producto_esri": "ArcGIS Field Maps",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Colaboración entre portales, Interoperabilidad en acción.",
@@ -312,7 +316,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "Adopciones con huella: de Web AppBuilder a Experience Builder. Aplicaciones inteligentes para modernizar el seguimiento de adopciones en Bogotá",
@@ -327,7 +331,10 @@
     "producto_esri": "ArcGIS Experience Builder",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Directivos y tomadores de decisiones"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Directivos y tomadores de decisiones"
+    ]
   },
   {
     "nombre": "ArcGIS Arcade: AutonomIA e inteligencia en su mapa",
@@ -342,7 +349,11 @@
     "producto_esri": "ArcGIS Arcade",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Directivos y tomadores de decisiones", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Directivos y tomadores de decisiones",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "De horas a minutos: cómo Experience Builder optimiza la respuesta a emergencias",
@@ -357,7 +368,10 @@
     "producto_esri": "ArcGIS Experience Builder",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Diagnóstico Proactivo en ArcGIS Pro : Anatomía del Error 999999",
@@ -372,7 +386,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "ArcGIS Pro evoluciona: más fácil, más ágil... para todos",
@@ -387,7 +401,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Actualización 10.X a 11.X: Una transformación estrategica para un ArcGIS Enterprise modermo",
@@ -402,7 +416,7 @@
     "producto_esri": "ArcGIS Enterprise",
     "industria": "",
     "nivel_sesion": "Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "ArcGIS 3D: conectando los datos con decisiones reales",
@@ -417,7 +431,10 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Business Analyst: transformando datos en oportunidades",
@@ -432,7 +449,10 @@
     "producto_esri": "ArcGIS Business Analyst",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "ArcGIS Online en el 2025: el poder de la inteligencia geográfica",
@@ -447,7 +467,10 @@
     "producto_esri": "ArcGIS Online",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "De la historia al futuro: planificación urbana sostenible en Colombia con ArcGIS Urban",
@@ -462,7 +485,7 @@
     "producto_esri": "ArcGIS Urban",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Redes que hablan: análisis de grafos y sus hallazgos estratégicos",
@@ -477,7 +500,10 @@
     "producto_esri": "ArcGIS Knowledge",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "ArcGIS Monitor: salud del sistema SIG Cuando cada segundo cuenta",
@@ -492,7 +518,10 @@
     "producto_esri": "ArcGIS Monitor",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Del océano al mapa: estructuración y gestión de datos en ArcGIS",
@@ -507,7 +536,7 @@
     "producto_esri": ["ArcGIS Online", "ArcGIS Enterprise"],
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Esri + Microsoft: productividad geoespacial al alcance de todos",
@@ -522,7 +551,11 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Administradores y equipo IT",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Procesamiento y análisis distribuido de datos abiertos con ArcGIS GeoAnalytics Engine",
@@ -537,7 +570,11 @@
     "producto_esri": "ArcGIS GeoAnalytics Engine",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Administradores y equipo IT",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Datos con propósito: metadatos en ArcGIS para fortalecer su IDE",
@@ -552,7 +589,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "Transformando usuarios, potenciando organizaciones: metadatos en ArcGIS",
@@ -567,7 +604,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Administradores y equipo IT"
+    "dirigido": "Administradores y equipo IT"
   },
   {
     "nombre": "Análisis espacial para la localización estratégica de Hubs de Hidrogeno",
@@ -582,7 +619,10 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Datos que salvan vidas: tomando decisiones en tiempo real con ArcGIS GeoEvent y Velocity",
@@ -597,7 +637,10 @@
     "producto_esri": ["ArcGIS GeoEvent", "ArcGIS Velocity"],
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Conectando voces de la naturaleza: integración de datos con ArcGIS",
@@ -612,7 +655,10 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "De Insights al ecosistema de apps de ArcGIS: análisis de Infecciones respiratorias agudas (IRA) en Colombia",
@@ -627,7 +673,11 @@
     "producto_esri": ["ArcGIS Pro", "ArcGIS Notebooks"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos", "Directivos y tomadores de decisiones"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos",
+      "Directivos y tomadores de decisiones"
+    ]
   },
   {
     "nombre": "De la vereda a la nube: simplificando la toma de datos con ArcGIS Survey123",
@@ -642,7 +692,7 @@
     "producto_esri": "ArcGIS Survey123",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Gestion eficiente de activos geograficos usando ArcGIS Online",
@@ -657,7 +707,7 @@
     "producto_esri": "ArcGIS Online",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":"Administradores y equipo IT"
+    "dirigido": "Administradores y equipo IT"
   },
   {
     "nombre": "De la tradición a la innovación: migrando con estrategia a ArcGIS Pro",
@@ -672,7 +722,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Aplicaciones web: ¿Cuál elegir? ",
@@ -687,7 +737,7 @@
     "producto_esri": ["ArcGIS StoryMaps", "ArcGIS Instant Apps"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "El tesoro está más cerca de los que creemos: ArcGIS Living Atlas",
@@ -702,7 +752,7 @@
     "producto_esri": "ArcGIS Living Atlas",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Optimización de flujos de trabajo en campo con ArcGIS Field Maps",
@@ -717,7 +767,7 @@
     "producto_esri": "ArcGIS Field Maps",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Colaboración entre portales, Interoperabilidad en acción.",
@@ -732,7 +782,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "Adopciones con huella: de Web AppBuilder a Experience Builder. Aplicaciones inteligentes para modernizar el seguimiento de adopciones en Bogotá",
@@ -747,7 +797,10 @@
     "producto_esri": "ArcGIS Experience Builder",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Directivos y tomadores de decisiones"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Directivos y tomadores de decisiones"
+    ]
   },
   {
     "nombre": "ArcGIS Arcade: AutonomIA e inteligencia en su mapa",
@@ -762,7 +815,11 @@
     "producto_esri": "ArcGIS Arcade",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Directivos y tomadores de decisiones", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Directivos y tomadores de decisiones",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "De horas a minutos: cómo Experience Builder optimiza la respuesta a emergencias",
@@ -777,7 +834,10 @@
     "producto_esri": "ArcGIS Experience Builder",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Diagnóstico Proactivo en ArcGIS Pro : Anatomía del Error 999999",
@@ -792,7 +852,10 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Novedades en ArcGIS Enterprise 11.5",
@@ -807,7 +870,10 @@
     "producto_esri": "ArcGIS Enterprise",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Transformando la gestión de proyectos a través de flujos de trabajo inteligentes",
@@ -822,7 +888,10 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Transformando usuarios, potenciando organizaciones: metadatos en ArcGIS",
@@ -837,7 +906,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Administradores y equipo IT"
+    "dirigido": "Administradores y equipo IT"
   },
   {
     "nombre": "Esri + Microsoft: productividad geoespacial al alcance de todos",
@@ -852,7 +921,11 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Administradores y equipo IT",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "El valor corporativo de la gestión y análisis de imágenes",
@@ -867,7 +940,7 @@
     "producto_esri": "ArcGIS Enterprise",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "Actualización 10.X a 11.X: Una transformación estratégica para un ArcGIS Enterprise moderno",
@@ -882,7 +955,7 @@
     "producto_esri": "ArcGIS Enterprise",
     "industria": "",
     "nivel_sesion": "Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "ArcGIS 3D: conectando los datos con decisiones reales",
@@ -897,7 +970,10 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Activos empresariales: optimizando flujos de trabajo con drones",
@@ -912,7 +988,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Datos que salvan vidas: tomando decisiones en tiempo real con ArcGIS GeoEvent y Velocity",
@@ -927,7 +1003,10 @@
     "producto_esri": ["ArcGIS GeoEvent", "ArcGIS Velocity"],
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Business Analyst: transformando datos en oportunidades",
@@ -942,7 +1021,10 @@
     "producto_esri": "ArcGIS Business Analyst",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "ArcGIS Pro evoluciona: más fácil, más ágil... para todos",
@@ -957,7 +1039,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Redes que hablan: análisis de grafos y sus hallazgos estratégicos",
@@ -972,7 +1054,10 @@
     "producto_esri": "ArcGIS Knowledge",
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido":["Especialistas y analistas SIG", "Investigadores y científicos de datos"]
+    "dirigido": [
+      "Especialistas y analistas SIG",
+      "Investigadores y científicos de datos"
+    ]
   },
   {
     "nombre": "Análisis espacial para la localización estratégica de Hubs de Hidrogeno",
@@ -987,7 +1072,10 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Datos con propósito: metadatos en ArcGIS para fortalecer su IDE",
@@ -1002,7 +1090,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":["Especialistas y analistas SIG", "Administradores y equipo IT"]
+    "dirigido": ["Especialistas y analistas SIG", "Administradores y equipo IT"]
   },
   {
     "nombre": "Conectando voces de la naturaleza: integración de datos con ArcGIS",
@@ -1017,7 +1105,10 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":["Directivos y tomadores de decisiones", "Especialistas y analistas SIG"]
+    "dirigido": [
+      "Directivos y tomadores de decisiones",
+      "Especialistas y analistas SIG"
+    ]
   },
   {
     "nombre": "Del océano al mapa: estructuración y gestión de datos en ArcGIS ",
@@ -1032,7 +1123,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":"Especialistas y analistas SIG"
+    "dirigido": "Especialistas y analistas SIG"
   },
   {
     "nombre": "Cumbre para Defensa y Seguridad",
@@ -1047,7 +1138,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Bienvenida - Administración de tierras",
@@ -1062,7 +1153,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Identificación de predios con IA ",
@@ -1077,7 +1168,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Soluciones ArcGIS para Gestión Predial",
@@ -1092,7 +1183,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Conversatorio Gestión Predial",
@@ -1107,7 +1198,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Conversatorio - Gestión Catastral Multipropósito",
@@ -1122,7 +1213,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Paquetes de beneficios para operadores y municipios",
@@ -1137,7 +1228,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Preguntas y despedida",
@@ -1152,7 +1243,7 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "Intermedio",
-    "dirigido":""
+    "dirigido": ""
   },
   {
     "nombre": "Analice datos ráster multitemporales con ArcGIS Pro",
@@ -1167,7 +1258,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Analice datos usando Python y ArcGIS Notebooks",
@@ -1182,7 +1273,7 @@
     "producto_esri": "ArcGIS Notebooks",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Automatice el análisis espacial para la toma de decisiones",
@@ -1197,7 +1288,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Cree, explore y converse en ArcGIS con Asistentes Inteligentes",
@@ -1212,7 +1303,7 @@
     "producto_esri": ["ArcGIS Online", "ArcGIS Survey123"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Cree mapas que comuniquen con ArcGIS Pro",
@@ -1227,7 +1318,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Explore datos espaciales en Power BI",
@@ -1242,7 +1333,7 @@
     "producto_esri": "Power BI",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Analice datos ráster multitemporales con ArcGIS Pro",
@@ -1257,7 +1348,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Analice datos usando Python y ArcGIS Notebooks",
@@ -1272,7 +1363,7 @@
     "producto_esri": "ArcGIS Notebooks",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Automatice el análisis espacial para la toma de decisiones",
@@ -1287,7 +1378,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Cree, explore y converse en ArcGIS con Asistentes Inteligentes",
@@ -1302,7 +1393,7 @@
     "producto_esri": ["ArcGIS Online", "ArcGIS Survey123"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Cree mapas que comuniquen con ArcGIS Pro",
@@ -1317,7 +1408,7 @@
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Explore datos espaciales en Power BI",
@@ -1332,6 +1423,6 @@
     "producto_esri": "Power BI",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
-    "dirigido":"Todos los usuarios"
+    "dirigido": "Todos los usuarios"
   }
 ]
