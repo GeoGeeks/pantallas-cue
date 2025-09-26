@@ -1,0 +1,697 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gris-4) transparent;
+}
+
+:root {
+  --rojo-vino: #7e212a;
+  --rojo-vino-hover: #59171c;
+  --morado: #7c216e;
+  --morado-hover: #54174a;
+  --naranja: #ec6936;
+  --naranja-hover: #ce4310;
+  --rosado-1: #f1a7cd;
+  --rosado-3: #c64865;
+  --gris-2: #ededed;
+  --gris-3: #dfdfdf;
+  --gris-4: #cccccc;
+  --gris-5: #737373;
+}
+
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('../fonts/AvenirNextLTPro-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Avenir Next LT Pro", Arial;
+  background: url("/assets/images/bg-blanco.avif") no-repeat center center /
+    cover;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* --- INICIO --- */
+
+/* Banner */
+.banner-inicio {
+  width: 100%;
+  height: 25%;
+  flex-shrink: 0;
+  background: url("/assets/images/bg-morado.avif") no-repeat center center /
+    cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.banner-inicio > img {
+  position: absolute;
+  width: 30%;
+  height: auto;
+  aspect-ratio: 297 / 49;
+  top: 6%;
+  right: 3%;
+}
+.banner-inicio .logo-banner {
+  width: 40%;
+  aspect-ratio: 1;
+  height: fit-content;
+  position: relative;
+  transform: translateY(50%);
+  background: var(--gris-2);
+  border: 4px solid var(--gris-4);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banner-inicio .logo-banner img {
+  width: 65%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+/* Contenido */
+.content-inicio {
+  width: 100%;
+  flex-grow: 1;
+  padding: 13vh 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4vh;
+  position: relative;
+}
+.content-inicio h1 {
+  width: 70%;
+  color: #000;
+  font-size: 5vw;
+  font-weight: 700;
+}
+.content-inicio a {
+  font-size: 4vw;
+  font-weight: 400;
+  padding: 1rem;
+  text-decoration: none;
+}
+.content-inicio p {
+  max-width: 60%;
+  margin-top: 5vh;
+  color: #000;
+  font-size: 3vw;
+  font-weight: 400;
+}
+.content-inicio > img {
+  width: 25%;
+}
+/* Botones */
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 65%;
+  border: 1px solid var(--gris-2);
+  color: #fff;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn:hover {
+  transform: scale(1.03);
+}
+.btn-red {
+  background: var(--rojo-vino);
+}
+.btn-red:hover {
+  background: var(--rojo-vino-hover);
+}
+.btn-purple {
+  background: var(--morado);
+}
+.btn-purple:hover {
+  background: var(--morado-hover);
+}
+.btn-orange {
+  background: var(--naranja);
+}
+.btn-orange:hover {
+  background: var(--naranja-hover);
+}
+
+/* --- ESTILOS GENERALES POR SEGMENTO --- */
+
+/* Banner */
+.banner-segmento {
+  width: 90%;
+  height: 8vh;
+  margin-left: 10%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  border-bottom-left-radius: 90px;
+}
+.banner-segmento h1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 4.2vw;
+  padding-right: 5%;
+}
+.banner-segmento a {
+  width: 12%;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  left: -5%;
+  background: var(--gris-2);
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banner-segmento svg {
+  width: 40%;
+  aspect-ratio: 1;
+}
+/* Contenido */
+.content-segmento {
+  width: 100%;
+  height: 92vh;
+  padding: 5% 0 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.content-segmento > p {
+  width: 65%;
+  position: absolute;
+  bottom: 2dvh;
+  left: 3%;
+  color: #000;
+  font-size: 2vw;
+  font-weight: 400;
+  text-align: left;
+}
+.content-segmento > svg {
+  width: 25%;
+  aspect-ratio: 3/1;
+  position: absolute;
+  bottom: 1.5vh;
+  right: 3%;
+}
+/* Caja de búsqueda */
+.buscar {
+  display: flex;
+  align-items: center;
+  width: 79%;
+  margin-left: 5%;
+  height: 3%;
+  position: relative;
+}
+.buscar svg {
+  position: absolute;
+  width: 4vw;
+  aspect-ratio: 43 / 48;
+  transform: translateY(-10%) translateX(20%);
+}
+.buscar button {
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 3vw;
+  display: none;
+}
+.buscar input[type="text"] {
+  width: 100%;
+  height: 100%;
+  padding: 0.7em 1.5em 0.7em 2.5em;
+  font-size: 3.5vw;
+  border: none;
+  background: transparent;
+  outline: none;
+  text-overflow: ellipsis;
+}
+.buscar input[type="text"]::placeholder {
+  opacity: 0.8;
+}
+/* Filtros */
+.filtros {
+  padding: 4% 5%;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1.5vw;
+  flex-wrap: wrap;
+}
+.filtros .sel {
+  position: relative;
+  font-size: 1.5vw;
+  font-weight: 400;
+  cursor: pointer;
+  width: fit-content;
+  min-height: fit-content;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+}
+.filtros[class] .sel[class].has-value .sel__placeholder,
+.filtros[class] .sel[class].active .sel__placeholder {
+  color: white;
+}
+.filtros .sel__placeholder {
+  flex: 1;
+  padding: 0.4em 4em 0.4em 1em;
+  text-align: left;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  z-index: 3;
+}
+.filtros .sel__clear {
+  position: absolute;
+  right: 2.5em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5vw;
+  color: white;
+  cursor: pointer;
+  display: none;
+  z-index: 4;
+}
+.filtros .sel__clear:hover {
+  color: var(--rosado-1);
+}
+.filtros .sel__arrow {
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  width: 20px;
+  height: 20px;
+  width: 0.9vw;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+  z-index: 3;
+}
+.filtros .sel.active .sel__arrow {
+  transform: translateY(-50%) rotate(90deg);
+  color: white;
+}
+.filtros .sel.has-value .sel__arrow {
+  color: white;
+}
+.filtros .sel__box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 50vh;
+  overflow-y: scroll;
+  opacity: 0;
+  pointer-events: none;
+  background: white;
+  list-style: none;
+  border: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+.filtros .sel.active .sel__box {
+  opacity: 1;
+  pointer-events: auto;
+}
+.filtros .sel__box__options {
+  padding: 0.7em 3.5em 0.7em 1em;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+  animation-delay: var(--delay, 0s);
+}
+.filtros[class] .sel__box__options:last-child {
+  border-bottom: none;
+}
+.filtros .sel__box__options .sel__clear {
+  position: absolute;
+  right: 1.4em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2vw;
+  cursor: pointer;
+  display: block;
+  line-height: 1;
+}
+.filtros .sel__box__options .sel__clear:hover {
+  color: var(--gris-5);
+}
+.filtros .sel__box__options.selected {
+  background: var(--gris-3);
+}
+.filtros .sel__box__options:hover {
+  background: var(--gris-3);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Agenda */
+.agenda {
+  width: 100%;
+  height: 70dvh;
+  overflow-y: auto;
+}
+.evento {
+  display: grid;
+  grid-template-columns: 25ch 1fr;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--morado);
+  padding: 1rem 0;
+  align-items: center;
+}
+.evento .hora {
+  text-align: left;
+  font-size: 2vw;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.evento .info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.evento .nombre {
+  font-size: 1.8vw;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.evento .detalles {
+  display: flex;
+  flex-direction: column;
+}
+.evento .detalles a {
+  text-decoration: none;
+  font-size: 1.3vw;
+  font-weight: 300;
+  font-style: italic;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+.evento .detalles p {
+  max-height: 0;
+  overflow: hidden;
+  font-size: 1.6vw;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 0;
+  padding: 0;
+  transition: max-height 0.4s ease, margin-top 0.4s ease;
+}
+.evento .detalles p.open {
+  margin-top: 0.5rem;
+}
+.evento .detalles svg {
+  width: 1.4vw;
+  height: auto;
+  aspect-ratio: 7 / 5;
+  transition: transform 0.3s ease;
+  transform: rotate(-90deg);
+}
+.evento .detalles svg.rotated {
+  transform: rotate(90deg);
+}
+.evento .fecha p {
+  font-size: 16px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.evento .fecha svg {
+  width: 2.5vw;
+  aspect-ratio: 1 / 1;
+}
+.evento .tematica {
+  width: 100%;
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.evento .tematica li {
+  list-style: none;
+  color: var(--gris-5);
+  background: var(--gris-3);
+  padding: 0.4rem 0.5rem;
+  border-radius: 11px;
+}
+.resultados {
+  padding: 3% 6%;
+}
+.resultados p {
+  font-size: 2.5vw;
+}
+/* Imagen Piso- Lugar */
+/* .modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.modal-content {
+  display: block;
+  margin: 10% auto;
+  max-width: 80%;
+}
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+}
+#modal-caption {
+  text-align: center;
+  color: white;
+  margin-top: 10px;
+} */
+
+/* Scroll */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gris-4);
+}
+
+/* ------------ SALONES TEMÁTICOS ------------  */
+
+/* Banner */
+.banner-segmento.salones-tematicos {
+  background: url("/assets/images/bg-morado.avif") no-repeat center center /
+    cover;
+}
+/* Caja de búsqueda */
+.buscar.salones-tematicos button {
+  color: var(--morado);
+}
+.buscar.salones-tematicos input[type="text"] {
+  color: var(--morado);
+  border-bottom: 1px solid var(--morado);
+}
+.buscar.salones-tematicos input[type="text"]:hover,
+.buscar.salones-tematicos input[type="text"]:focus {
+  border-bottom-color: var(--morado-hover);
+}
+.buscar.salones-tematicos input[type="text"]::placeholder {
+  color: var(--morado);
+}
+/* Filtros */
+.filtros.salones-tematicos .sel {
+  border: 1px solid var(--morado);
+  color: var(--morado);
+}
+.filtros.salones-tematicos .sel.has-value,
+.filtros.salones-tematicos .sel.active {
+  background: var(--morado);
+}
+.filtros.salones-tematicos .sel__placeholder {
+  color: var(--morado);
+}
+.filtros.salones-tematicos .sel__arrow {
+  fill: var(--morado);
+}
+.filtros.salones-tematicos .sel__box {
+  outline: 1px solid var(--morado);
+}
+.filtros.salones-tematicos .sel__box__options {
+  color: var(--morado);
+  border-bottom: 1px solid var(--morado);
+}
+.filtros.salones-tematicos .sel__box__options .sel__clear {
+  color: var(--morado);
+}
+/* Agenda */
+.agenda.salones-tematicos .evento .detalles a {
+  color: var(--morado);
+}
+
+/* ------------  CHARLAS TÉCNICAS ------------  */
+
+/* Banner */
+.banner-segmento.charlas-tecnicas {
+  background: url("/assets/images/bg-rojo.avif") no-repeat center center / cover;
+}
+/* Caja de búsqueda */
+.buscar.charlas-tecnicas button {
+  color: var(--rojo-vino);
+}
+.buscar.charlas-tecnicas input[type="text"] {
+  color: var(--rojo-vino);
+  border-bottom: 1px solid var(--rojo-vino);
+}
+.buscar.charlas-tecnicas input[type="text"]:hover,
+.buscar.charlas-tecnicas input[type="text"]:focus {
+  border-bottom-color: var(--rojo-vino-hover);
+}
+.buscar.charlas-tecnicas input[type="text"]::placeholder {
+  color: var(--rojo-vino);
+}
+/* Filtros */
+.filtros.charlas-tecnicas .sel {
+  border: 1px solid var(--rojo-vino);
+  color: var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .sel.has-value,
+.filtros.charlas-tecnicas .sel.active {
+  background: var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .sel__placeholder {
+  color: var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .sel__arrow {
+  fill: var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .sel__box {
+  outline: 1px solid var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .sel__box__options {
+  color: var(--rojo-vino);
+  border-bottom: 1px solid var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .sel__box__options .sel__clear {
+  color: var(--rojo-vino);
+}
+/* Agenda */
+.agenda.charlas-tecnicas .evento .detalles a {
+  color: var(--rojo-vino);
+}
+
+/* ------------ LABORATORIOS DE ENTRENAMIENTO ------------  */
+
+/* Banner */
+.banner-segmento.laboratorios-entrenamiento {
+  background: url("/assets/images/bg-naranja.avif") no-repeat center center /
+    cover;
+}
+/* Caja de búsqueda */
+.buscar.laboratorios-entrenamiento button {
+  color: var(--naranja);
+}
+.buscar.laboratorios-entrenamiento input[type="text"] {
+  color: var(--naranja);
+  border-bottom: 1px solid var(--naranja);
+}
+.buscar.laboratorios-entrenamiento input[type="text"]:hover,
+.buscar.laboratorios-entrenamiento input[type="text"]:focus {
+  border-bottom-color: var(--naranja-hover);
+}
+.buscar.laboratorios-entrenamiento input[type="text"]::placeholder {
+  color: var(--naranja);
+}
+/* Filtros */
+.filtros.laboratorios-entrenamiento .sel {
+  border: 1px solid var(--naranja);
+  color: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel.has-value,
+.filtros.laboratorios-entrenamiento .sel.active {
+  background: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel__placeholder {
+  color: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel__arrow {
+  fill: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel__box {
+  outline: 1px solid var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel__box__options {
+  color: var(--naranja);
+  border-bottom: 1px solid var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel__box__options .sel__clear {
+  color: var(--naranja);
+}
+/* Agenda */
+.agenda.laboratorios-entrenamiento .evento .detalles a {
+  color: var(--naranja);
+}
+
+/* ------------  Iconos ------------  */
+.icono-morado {
+  color: var(--morado);
+}
+.icono-rosado-1 {
+  color: var(--rosado-1);
+}
+.icono-rosado-3 {
+  color: var(--rosado-3);
+}
+.icono-rojo-vino {
+  color: var(--rojo-vino);
+}
+.icono-naranja {
+  color: var(--naranja);
+}
+.icono-blanco {
+  color: white;
+}
