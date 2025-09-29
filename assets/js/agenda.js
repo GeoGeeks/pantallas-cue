@@ -1,4 +1,5 @@
 let data = [];
+let temporizador;
 
 const agenda = document.getElementById("agenda");
 const buscar = document.getElementById("buscar");
@@ -9,44 +10,52 @@ const nivel = document.getElementById("nivel");
 const lugar = document.getElementById("lugar");
 const dia = document.getElementById("dia");
 const dirigido = document.getElementById("dirigido");
-/* const lugarLinkDiv = document.getElementById("lugar-link");
+const verMapa = document.getElementById("ver-mapa");
+const modal = document.getElementById("mapaModal");
+const mapaImg = document.getElementById("mapa-img");
+const closeBtn = document.querySelector(".close");
+const tiempoInactividad = 3 * 30 * 1000;
 
-// Modadl Imagen Piso - Salon
-const modal = document.getElementById("modal-lugar");
-const modalImg = document.getElementById("modal-lugar-img");
-const caption = document.getElementById("modal-caption");
-const closeBtn = modal.querySelector(".modal-close");
-
-function updateLugarLink() {
-  lugarLinkDiv.innerHTML = "";
-
-  const valor = lugar.value;
-  if (!valor) return;
-  const imagenPath = encodeURI(`assets/images/Piso-Salon/${valor}.avif`);
-  modalImg.src = imagenPath;
-
-  console.log("Ruta de la imagen para el modal:", imagenPath);
-
-  const enlace = document.createElement("a");
-  enlace.href = "#";
-  enlace.textContent = "Ver imagen del lugar";
-  enlace.onclick = function (e) {
-    e.preventDefault();
-    modal.style.display = "block";
-    modalImg.src = imagenPath;
-    caption.textContent = `Plano del lugar: Piso-Salon ${valor}`;
-  };
-
-  lugarLinkDiv.appendChild(enlace);
-}
-
-closeBtn.onclick = () => (modal.style.display = "none");
-modal.onclick = (e) => {
-  if (e.target === modal) modal.style.display = "none";
+const mapaImgs = {
+  "Piso 2 - Salón A": "assets/images/Piso-Salon/P2SA.avif",
+  "Piso 2 - Salón BC": "assets/images/Piso-Salon/P2SBC.avif",
+  "Piso 2 - Salón D": "assets/images/Piso-Salon/P2SD.avif",
+  "Piso 2 - Salón EFG": "assets/images/Piso-Salon/P2SEFG.avif",
+  "Piso 3 - Salón HI": "assets/images/Piso-Salon/P3SHI.avif",
+  "Piso 3 - Salón J": "assets/images/Piso-Salon/P3SJ.avif",
+  "Piso 3 - Salón K": "assets/images/Piso-Salon/P3SK.avif",
+  "Piso 3 - Salón LM": "assets/images/Piso-Salon/P3SLM.avif",
+  "Piso 3 - Salón N": "assets/images/Piso-Salon/P3SN.avif",
+  "Piso 3 - Salón ÑO": "assets/images/Piso-Salon/P3SÑO.avif",
+  "Piso 3 - Salón ÑOP": "assets/images/Piso-Salon/P3SÑOP.avif",
+  "Piso 3 - Salón P": "assets/images/Piso-Salon/P3SP.avif",
 };
 
-lugar.addEventListener("change", updateLugarLink);
-updateLugarLink(); */
+window.onload = resetearTemporizador;
+document.onmousemove = resetearTemporizador;
+document.addEventListener("keypress", resetearTemporizador);
+document.ontouchstart = resetearTemporizador;
+document.onclick = resetearTemporizador;
+document.onscroll = resetearTemporizador;
+
+lugar.addEventListener("change", () => {
+  const valor = lugar.value;
+  if (mapaImgs[valor]) {
+    verMapa.style.display = "inline-block";
+    verMapa.onclick = () => {
+      mapaImg.src = mapaImgs[valor];
+      modal.style.display = "flex";
+    };
+  } else {
+    verMapa.style.display = "none";
+    mapaImg.src = "";
+  }
+});
+
+closeBtn.onclick = () => (modal.style.display = "none");
+window.onclick = (e) => {
+  if (e.target === modal) modal.style.display = "none";
+};
 
 /* ================================
    🔹 SELECT PERSONALIZADO
@@ -499,6 +508,15 @@ function showMoreInfo(e, link) {
       p.removeEventListener("transitionend", te);
     });
   }
+}
+
+function redirigir() {
+  window.location.href = "index.html";
+}
+
+function resetearTemporizador() {
+  clearTimeout(temporizador);
+  temporizador = setTimeout(redirigir, tiempoInactividad);
 }
 
 /* ================================

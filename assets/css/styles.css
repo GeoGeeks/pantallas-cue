@@ -2,8 +2,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* scrollbar-width: thin;
-  scrollbar-color: var(--gris-4) transparent; */
 }
 
 :root {
@@ -377,6 +375,54 @@ main {
     opacity: 1;
   }
 }
+/* Imagenes */
+.btn-mapa {
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 1.5vw;
+  transition: background 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-mapa svg {
+  width: 1.5vw;
+  aspect-ratio: 1;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90vw;
+  aspect-ratio: 1;
+  text-align: center;
+  position: relative;
+  font-size: 2.5vw;
+}
+.modal-content img {
+  width: 100%;
+  aspect-ratio: 1;
+}
+.close {
+  position: absolute;
+  top: 0.5%;
+  right: 1%;
+  font-size: 4.5vw;
+  font-weight: bold;
+  cursor: pointer;
+}
 /* Agenda */
 .agenda {
   width: 100%;
@@ -554,6 +600,16 @@ main {
 .filtros.salones-tematicos .sel__box__options .sel__clear {
   color: var(--morado);
 }
+/* Imagenes */
+.filtros.salones-tematicos .modal-content {
+  color: var(--morado);
+}
+.filtros.salones-tematicos .btn-mapa {
+  color: var(--morado);
+}
+.filtros.salones-tematicos .close {
+  color: var(--morado);
+}
 /* Agenda */
 .agenda.salones-tematicos .evento .detalles a {
   color: var(--morado);
@@ -631,6 +687,16 @@ main {
 .filtros.charlas-tecnicas .sel__box__options .sel__clear {
   color: var(--rojo-vino);
 }
+/* Imagenes */
+.filtros.charlas-tecnicas .modal-content {
+  color: var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .btn-mapa {
+  color: var(--rojo-vino);
+}
+.filtros.charlas-tecnicas .close {
+  color: var(--rojo-vino);
+}
 /* Agenda */
 .agenda.charlas-tecnicas .evento .detalles a {
   color: var(--rojo-vino);
@@ -639,7 +705,7 @@ main {
 /* ------------ LABORATORIOS DE ENTRENAMIENTO ------------  */
 
 /* Contenido */
-.content-segmento.laboratorios-entrenamiento> p {
+.content-segmento.laboratorios-entrenamiento > p {
   color: var(--naranja);
 }
 /* Banner */
@@ -703,6 +769,16 @@ main {
   border-bottom: 1px solid var(--naranja);
 }
 .filtros.laboratorios-entrenamiento .sel__box__options .sel__clear {
+  color: var(--naranja);
+}
+/* Imagenes */
+.filtros.laboratorios-entrenamiento .modal-content {
+  color: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .btn-mapa {
+  color: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .close {
   color: var(--naranja);
 }
 /* Agenda */
