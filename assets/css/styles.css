@@ -440,10 +440,10 @@ main {
 }
 .evento {
   display: grid;
-  grid-template-columns: 25ch 1fr;
+  grid-template-columns: 25% 1fr;
   align-items: flex-start;
   border-bottom: 1px solid var(--morado);
-  padding: 1rem 0;
+  padding: 1vh 0;
   align-items: center;
 }
 .evento .hora {
