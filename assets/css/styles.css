@@ -300,9 +300,6 @@ main {
   display: none;
   z-index: 4;
 }
-.filtros .sel__clear:hover {
-  color: var(--rosado-1);
-}
 .filtros .sel__arrow {
   position: absolute;
   right: 1em;
@@ -367,7 +364,7 @@ main {
   display: block;
   line-height: 1;
 }
-.filtros .sel__box__options .sel__clear:hover {
+.filtros[class] .sel__box__options .sel__clear:hover {
   color: var(--gris-5);
 }
 .filtros .sel__box__options.selected {
@@ -554,6 +551,9 @@ main {
 .buscar.salones-tematicos button {
   color: var(--morado);
 }
+.buscar.salones-tematicos button:hover {
+  color: var(--morado-hover);
+}
 .buscar.salones-tematicos input[type="text"] {
   color: var(--morado);
   border-bottom: 1px solid var(--morado);
@@ -608,6 +608,9 @@ main {
 .filtros.salones-tematicos .sel__box__options .sel__clear {
   color: var(--morado);
 }
+.filtros.salones-tematicos .sel__clear:hover {
+  color: var(--rosado-1);
+}
 /* Imagenes */
 .filtros.salones-tematicos .modal-content {
   color: var(--morado);
@@ -623,7 +626,7 @@ main {
   color: var(--morado);
 }
 
-/* ------------  CHARLAS TÉCNICAS ------------  */
+/* ------------  SESIONES TÉCNICAS ------------  */
 
 /* Contenido */
 .content-segmento.charlas-tecnicas > p {
@@ -636,6 +639,9 @@ main {
 /* Caja de búsqueda */
 .buscar.charlas-tecnicas button {
   color: var(--rojo-vino);
+}
+.buscar.charlas-tecnicas button:hover {
+  color: var(--rojo-vino-hover);
 }
 .buscar.charlas-tecnicas input[type="text"] {
   color: var(--rojo-vino);
@@ -695,6 +701,9 @@ main {
 .filtros.charlas-tecnicas .sel__box__options .sel__clear {
   color: var(--rojo-vino);
 }
+.filtros.charlas-tecnicas .sel__clear:hover {
+  color: var(--naranja-hover);
+}
 /* Imagenes */
 .filtros.charlas-tecnicas .modal-content {
   color: var(--rojo-vino);
@@ -723,6 +732,9 @@ main {
 /* Caja de búsqueda */
 .buscar.laboratorios-entrenamiento button {
   color: var(--naranja);
+}
+.buscar.laboratorios-entrenamiento button:hover {
+  color: var(--naranja-hover);
 }
 .buscar.laboratorios-entrenamiento input[type="text"] {
   color: var(--naranja);
@@ -777,6 +789,9 @@ main {
 }
 .filtros.laboratorios-entrenamiento .sel__box__options .sel__clear {
   color: var(--naranja);
+}
+.filtros.laboratorios-entrenamiento .sel__clear:hover {
+  color: var(--naranja-hover);
 }
 /* Imagenes */
 .filtros.laboratorios-entrenamiento .modal-content {
