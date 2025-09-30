@@ -30,7 +30,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: "Avenir Next LT Pro", Arial;
-  background: url("/assets/images/bg-blanco.avif") no-repeat center center /
+  background: url("../images/bg-blanco.avif") no-repeat center center /
     cover;
 }
 
@@ -47,7 +47,7 @@ main {
   width: 100%;
   height: 25%;
   flex-shrink: 0;
-  background: url("/assets/images/bg-morado.avif") no-repeat center center /
+  background: url("../images/bg-morado.avif") no-repeat center center /
     cover;
   display: flex;
   justify-content: center;
@@ -539,7 +539,7 @@ main {
 }
 /* Banner */
 .banner-segmento.salones-tematicos {
-  background: url("/assets/images/bg-morado.avif") no-repeat center center /
+  background: url("../images/bg-morado.avif") no-repeat center center /
     cover;
 }
 /* Caja de búsqueda */
@@ -623,7 +623,7 @@ main {
 }
 /* Banner */
 .banner-segmento.charlas-tecnicas {
-  background: url("/assets/images/bg-rojo.avif") no-repeat center center / cover;
+  background: url("../images/bg-rojo.avif") no-repeat center center / cover;
 }
 /* Caja de búsqueda */
 .buscar.charlas-tecnicas button {
@@ -710,7 +710,7 @@ main {
 }
 /* Banner */
 .banner-segmento.laboratorios-entrenamiento {
-  background: url("/assets/images/bg-naranja.avif") no-repeat center center /
+  background: url("../images/bg-naranja.avif") no-repeat center center /
     cover;
 }
 /* Caja de búsqueda */
