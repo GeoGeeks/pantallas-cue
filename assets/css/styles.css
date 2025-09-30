@@ -334,7 +334,7 @@ main {
   z-index: 5;
 }
 .filtros .sel__box__options {
-  padding: 0.7em 3.5em 0.7em 1em;
+  padding: 0.4em 4em 0.4em 1em;
   cursor: pointer;
   user-select: none;
   display: flex;

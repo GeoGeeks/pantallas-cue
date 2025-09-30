@@ -219,41 +219,44 @@ function normalize(str) {
   );
 }
 
-function formatDateToMonthDay(dateStr) {
-  if (!dateStr) return "";
-  const parts = dateStr.split(/[-/]/);
-  if (parts.length < 3) return dateStr;
-  const month = parseInt(parts[1], 10);
-  const day = parseInt(parts[2], 10);
+function formatDateToMonthDay(timestamp) {
+  if (!timestamp || !("_seconds" in timestamp)) return "";
+
+  const dateObj = new Date(timestamp._seconds * 1000);
+
   const months = [
     "Enero",
     "Febrero",
-    "marzo",
-    "abril",
-    "mayo",
-    "junio",
-    "julio",
-    "agosto",
-    "septiembre",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
     "Oct",
-    "noviembre",
-    "diciembre",
+    "Noviembre",
+    "Diciembre",
   ];
-  return `${months[month - 1]} ${day}`;
+
+  const month = months[dateObj.getMonth()];
+  const day = dateObj.getDate();
+
+  return `${month} ${day}`;
 }
 
-function formatTimeOnly(dateTimeStr) {
-  if (!dateTimeStr) return "";
-  const timePart = dateTimeStr.includes(" ")
-    ? dateTimeStr.split(" ")[1]
-    : dateTimeStr;
-  if (!timePart) return "";
-  const [hh, mm] = timePart.split(":");
-  let hourNum = parseInt(hh, 10);
-  const minute = mm || "00";
-  const ampm = hourNum >= 12 ? "p.m." : "a.m.";
-  hourNum = hourNum % 12 || 12;
-  return `${hourNum}:${minute} ${ampm}`;
+function formatTimeOnly(timestamp) {
+  if (!timestamp || !("_seconds" in timestamp)) return "";
+
+  const dateObj = new Date(timestamp._seconds * 1000);
+
+  let hours = dateObj.getHours();
+  let minutes = dateObj.getMinutes().toString().padStart(2, "0");
+
+  const ampm = hours >= 12 ? "p.m." : "a.m.";
+  hours = hours % 12 || 12;
+
+  return `${hours}:${minutes} ${ampm}`;
 }
 
 function toggleClearButton() {
@@ -344,7 +347,7 @@ function renderCards(items) {
     let detallesLinkText = "Ver detalles de la sesión";
     if (
       normalize(item.tipo_actividad) ===
-      normalize("laboratorio de entrenamiento")
+      normalize("laboratorios de entrenamiento")
     ) {
       detallesLinkText = "Ver detalles del laboratorio";
     }
@@ -392,7 +395,7 @@ function applyPageFilter(allData) {
   const map = {
     salones: ["summit", "summit ia", "salón temático", "salon tematico"],
     charlas: ["solución express", "sesión técnica"],
-    laboratorios: ["laboratorio de entrenamiento"],
+    laboratorios: ["laboratorios de entrenamiento"],
   };
   const allowed = map[page];
   if (!allowed) return allData;
@@ -545,7 +548,7 @@ if (clearSearch) {
 /* ================================
    🔹 CARGA INICIAL
 ================================ */
-fetch("/assets/json/agenda.json")
+fetch("https://geoapps.esri.co/rest-app-cue/api/conferences")
   .then((res) => res.json())
   .then((json) => {
     data = applyPageFilter(json);
