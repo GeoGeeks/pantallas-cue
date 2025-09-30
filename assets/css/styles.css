@@ -30,8 +30,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: "Avenir Next LT Pro", Arial;
-  background: url("../images/bg-blanco.avif") no-repeat center center /
-    cover;
+  background: url("../images/bg-blanco.avif") no-repeat center center / cover;
 }
 
 main {
@@ -47,8 +46,7 @@ main {
   width: 100%;
   height: 25%;
   flex-shrink: 0;
-  background: url("../images/bg-morado.avif") no-repeat center center /
-    cover;
+  background: url("../images/bg-morado.avif") no-repeat center center / cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -210,7 +208,7 @@ main {
 .buscar {
   display: flex;
   align-items: center;
-  width: 79%;
+  width: 75%;
   margin-left: 5%;
   height: 3%;
   position: relative;
@@ -221,7 +219,7 @@ main {
   aspect-ratio: 43 / 48;
   transform: translateY(-10%) translateX(20%);
 }
-.buscar button {
+.buscar button#clear-buscar {
   position: absolute;
   right: 1em;
   top: 50%;
@@ -229,13 +227,24 @@ main {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 3vw;
+  font-size: 2vw;
+  display: none;
+}
+.buscar button#limpiar-filtros {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(110%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 2vw;
   display: none;
 }
 .buscar input[type="text"] {
   width: 100%;
   height: 100%;
-  padding: 0.5em 1.5em 0.5em 2.5em;
+  padding: 0.5em 3em 0.5em 2.5em;
   font-size: 2.5vw;
   border: none;
   background: transparent;
@@ -539,8 +548,7 @@ main {
 }
 /* Banner */
 .banner-segmento.salones-tematicos {
-  background: url("../images/bg-morado.avif") no-repeat center center /
-    cover;
+  background: url("../images/bg-morado.avif") no-repeat center center / cover;
 }
 /* Caja de búsqueda */
 .buscar.salones-tematicos button {
@@ -710,8 +718,7 @@ main {
 }
 /* Banner */
 .banner-segmento.laboratorios-entrenamiento {
-  background: url("../images/bg-naranja.avif") no-repeat center center /
-    cover;
+  background: url("../images/bg-naranja.avif") no-repeat center center / cover;
 }
 /* Caja de búsqueda */
 .buscar.laboratorios-entrenamiento button {

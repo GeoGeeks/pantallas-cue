@@ -179,6 +179,32 @@ document.querySelectorAll(".sel").forEach((customSel) => {
   });
 });
 
+document.getElementById("limpiar-filtros").addEventListener("click", () => {
+  [tematica, producto, nivel, lugar, dia, dirigido].forEach((sel) => {
+    if (sel) {
+      sel.value = "";
+      const customSel = sel.closest(".sel");
+      if (customSel) {
+        const placeholder = customSel.querySelector(".sel__placeholder");
+        const clearBtn = customSel.querySelector(".sel__clear");
+        const box = customSel.querySelector(".sel__box");
+
+        placeholder.textContent = placeholder.dataset.placeholder;
+        clearBtn.style.display = "none";
+        box
+          .querySelectorAll(".sel__box__options")
+          .forEach((el) => el.classList.remove("selected"));
+
+        customSel.classList.remove("has-value", "active");
+      }
+    }
+  });
+
+  update();
+  toggleClearButton();
+  toggleLimpiarFiltros();
+});
+
 document.addEventListener("click", (e) => {
   document.querySelectorAll(".sel").forEach((sel) => {
     if (!sel.contains(e.target)) {
@@ -522,6 +548,20 @@ function resetearTemporizador() {
   temporizador = setTimeout(redirigir, tiempoInactividad);
 }
 
+function toggleLimpiarFiltros() {
+  const hayFiltros =
+    tematica?.value ||
+    producto?.value ||
+    nivel?.value ||
+    lugar?.value ||
+    dia?.value ||
+    dirigido?.value;
+
+  document.getElementById("limpiar-filtros").style.display = hayFiltros
+    ? "inline-block"
+    : "none";
+}
+
 /* ================================
    🔹 EVENTOS DE FILTRO
 ================================ */
@@ -529,6 +569,7 @@ if (buscar) {
   buscar.addEventListener("input", () => {
     update();
     toggleClearButton();
+    toggleLimpiarFiltros();
   });
 }
 if (clearSearch) {
@@ -536,13 +577,17 @@ if (clearSearch) {
     buscar.value = "";
     update();
     toggleClearButton();
+    toggleLimpiarFiltros();
     buscar.focus();
   });
 }
 
 [tematica, producto, nivel, lugar, dia, dirigido].forEach((select) => {
   if (!select) return;
-  select.addEventListener("change", update);
+  select.addEventListener("change", () => {
+    update();
+    toggleLimpiarFiltros();
+  });
 });
 
 /* ================================
@@ -554,6 +599,7 @@ fetch("https://geoapps.esri.co/rest-app-cue/api/conferences")
     data = applyPageFilter(json);
     populateSelects();
     toggleClearButton();
+    toggleLimpiarFiltros();
     update();
   })
   .catch((err) => {
