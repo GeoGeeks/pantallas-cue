@@ -61,7 +61,7 @@
   },
   {
     "nombre": "Summit IA: ¿Qué pasa cuando la inteligencia se vuelve geográfica?",
-  "descripcion": "Mostrará cómo ArcGIS integra capacidades de IA para potenciar el análisis espacial y abrir nuevas oportunidades de innovación con los SIG.",
+    "descripcion": "Mostrará cómo ArcGIS integra capacidades de IA para potenciar el análisis espacial y abrir nuevas oportunidades de innovación con los SIG.",
     "hora_inicio": "2025/10/02 14:00:00",
     "hora_fin": "2025/10/02 14:05:00",
     "fecha": "2025/10/02",
@@ -114,14 +114,14 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-  "producto_esri": "ArcGIS Platform",
+    "producto_esri": "ArcGIS Platform",
     "industria": "",
     "nivel_sesion": "Básico",
     "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "Administrando mi organización con ArcGIS API for Python",
-  "descripcion": "Conoce más sobre la administración de usuarios, contenido, consumo de créditos, generación de backups offline y migración entre organizaciones utilizando la ArcGIS API for Python para la automatización del flujo de trabajo",
+    "descripcion": "Conoce más sobre la administración de usuarios, contenido, consumo de créditos, generación de backups offline y migración entre organizaciones utilizando la ArcGIS API for Python para la automatización del flujo de trabajo",
     "hora_inicio": "2025/10/02 09:15:00",
     "hora_fin": "2025/10/02 09:45:00",
     "fecha": "2025/10/02",
@@ -136,7 +136,7 @@
   },
   {
     "nombre": "Proximity: Una plataforma geoespacial impulsada por ArcGIS que transforma la manera de encontrar tu lugar ideal.",
-  "descripcion": "Aplicación de búsqueda de hoteles, locales y casas que usa inteligencia artificial y funciones geoespaciales de análisis de proximidad para el ruteo y la búsqueda de los lugares que mejor se adapten a los requerimientos del usuario.",
+    "descripcion": "Aplicación de búsqueda de hoteles, locales y casas que usa inteligencia artificial y funciones geoespaciales de análisis de proximidad para el ruteo y la búsqueda de los lugares que mejor se adapten a los requerimientos del usuario.",
     "hora_inicio": "2025/10/02 09:45:00",
     "hora_fin": "2025/10/02 10:00:00",
     "fecha": "2025/10/02",
@@ -144,7 +144,11 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS Pro, ArcGIS Maps SDK para JavaScript, ArcGIS Survey123",
+    "producto_esri": [
+      "ArcGIS Pro",
+      "ArcGIS Maps SDK para JavaScript",
+      "ArcGIS Survey123"
+    ],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
     "dirigido": "Todos los usuarios"
@@ -159,14 +163,14 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS 360 VR, ArcGIS Cityengine",
+    "producto_esri": ["ArcGIS 360 VR", "ArcGIS CityEngine"],
     "industria": "",
     "nivel_sesion": "Avanzado",
     "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "ArcGIS Maps SDK para JavaScript: Implementando componentes web Calcite",
-  "descripcion": "Hablaremos sobre ArcGIS Maps SDK para JavaScript y cómo aprovechar su potencial al integrar los componentes web Calcite para el desarrollo de aplicaciones geoespaciales. Veremos qué son los componentes web, sus principales ventajas y cómo el componente Calcite facilita la creación de interfaces consistentes con ArcGIS.",
+    "descripcion": "Hablaremos sobre ArcGIS Maps SDK para JavaScript y cómo aprovechar su potencial al integrar los componentes web Calcite para el desarrollo de aplicaciones geoespaciales. Veremos qué son los componentes web, sus principales ventajas y cómo el componente Calcite facilita la creación de interfaces consistentes con ArcGIS.",
     "hora_inicio": "2025/10/02 10:45:00",
     "hora_fin": "2025/10/02 11:00:00",
     "fecha": "2025/10/02",
@@ -174,7 +178,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS SDK de mapas para Javascript",
+    "producto_esri": "ArcGIS Maps SDK para JavaScript",
     "industria": "",
     "nivel_sesion": "Avanzado",
     "dirigido": "Todos los usuarios"
@@ -204,14 +208,14 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS SDK de mapas para Unity",
+    "producto_esri": "ArcGIS Maps SDK para Unity",
     "industria": "",
     "nivel_sesion": "Avanzado",
     "dirigido": "Todos los usuarios"
   },
   {
     "nombre": "GeoParking: una solución que integra ArcGIS Maps SDK for JavaScript y ArcGIS API for JavaScript para encontrar parqueaderos en tiempo real.",
-  "descripcion": "Aplicación de búsqueda, ruteo y monitoreo de parqueaderos, usando visualización 3D interactiva.",
+    "descripcion": "Aplicación de búsqueda, ruteo y monitoreo de parqueaderos, usando visualización 3D interactiva.",
     "hora_inicio": "2025/10/02 11:30:00",
     "hora_fin": "2025/10/02 11:45:00",
     "fecha": "2025/10/02",
@@ -219,7 +223,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS SDK de mapas para Javascript",
+    "producto_esri": "ArcGIS Maps SDK para JavaScript",
     "industria": "",
     "nivel_sesion": "Avanzado",
     "dirigido": "Todos los usuarios"
@@ -234,7 +238,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "GeoAI, ArcGIS Pro",
+    "producto_esri": ["GeoAI", "ArcGIS Pro"],
     "industria": "Agricultura",
     "nivel_sesion": "Avanzado",
     "dirigido": "Todos los usuarios"
@@ -249,7 +253,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-  "producto_esri": "ArcGIS Platform",
+    "producto_esri": "ArcGIS Platform",
     "industria": "",
     "nivel_sesion": "Básico",
     "dirigido": "Todos los usuarios"
@@ -279,7 +283,12 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS Pro, ArcGIS Maps SDK para JavaScript, ArcGIS Survey123, ArcGIS location platform",
+    "producto_esri": [
+      "ArcGIS Pro",
+      "ArcGIS Maps SDK para JavaScript",
+      "ArcGIS Survey123",
+      "ArcGIS location platform"
+    ],
     "industria": "",
     "nivel_sesion": "Intermedio - Avanzado",
     "dirigido": "Todos los usuarios"
@@ -294,7 +303,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS 360 VR, ArcGIS Cityengine",
+    "producto_esri": ["ArcGIS 360 VR", "ArcGIS CityEngine"],
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
     "dirigido": "Todos los usuarios"
@@ -309,7 +318,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS SDK de mapas para Javascript",
+    "producto_esri": "ArcGIS Maps SDK para JavaScript",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
     "dirigido": "Todos los usuarios"
@@ -324,7 +333,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS SDK de mapas para Unity",
+    "producto_esri": "ArcGIS Maps SDK para Unity",
     "industria": "",
     "nivel_sesion": "Básico - Intermedio",
     "dirigido": "Todos los usuarios"
@@ -339,7 +348,11 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "ArcGIS SDK de mapas para Javascript, ArcGIS location platform, Dashboard, Survey 123",
+    "producto_esri": [
+      "ArcGIS Maps SDK para JavaScript",
+      "ArcGIS location platform",
+      "Dashboard", "Survey 123"
+    ],
     "industria": "",
     "nivel_sesion": "Intermedio",
     "dirigido": "Todos los usuarios"
@@ -354,7 +367,7 @@
     "dia": "jueves",
     "lugar": "Salón A",
     "tematica": "ArcGIS para desarrolladores",
-    "producto_esri": "GeoAI, ArcGIS Pro",
+    "producto_esri": ["GeoAI", "ArcGIS Pro"],
     "industria": "Agricultura",
     "nivel_sesion": "Intermedio - Avanzado",
     "dirigido": "Todos los usuarios"

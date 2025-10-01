@@ -183,7 +183,6 @@ document.getElementById("limpiar-filtros").addEventListener("click", () => {
   [tematica, producto, nivel, lugar, dia, dirigido].forEach((sel) => {
     if (sel) {
       sel.value = "";
-      // trigger change so any listeners (e.g. lugar -> verMapa) update accordingly
       sel.dispatchEvent(new Event("change"));
       const customSel = sel.closest(".sel");
       if (customSel) {
