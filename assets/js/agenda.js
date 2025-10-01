@@ -183,6 +183,8 @@ document.getElementById("limpiar-filtros").addEventListener("click", () => {
   [tematica, producto, nivel, lugar, dia, dirigido].forEach((sel) => {
     if (sel) {
       sel.value = "";
+      // trigger change so any listeners (e.g. lugar -> verMapa) update accordingly
+      sel.dispatchEvent(new Event("change"));
       const customSel = sel.closest(".sel");
       if (customSel) {
         const placeholder = customSel.querySelector(".sel__placeholder");
@@ -245,44 +247,41 @@ function normalize(str) {
   );
 }
 
-function formatDateToMonthDay(timestamp) {
-  if (!timestamp || !("_seconds" in timestamp)) return "";
-
-  const dateObj = new Date(timestamp._seconds * 1000);
-
+function formatDateToMonthDay(dateStr) {
+  if (!dateStr) return "";
+  const parts = dateStr.split(/[-/]/);
+  if (parts.length < 3) return dateStr;
+  const month = parseInt(parts[1], 10);
+  const day = parseInt(parts[2], 10);
   const months = [
     "Enero",
     "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
     "Oct",
-    "Noviembre",
-    "Diciembre",
+    "noviembre",
+    "diciembre",
   ];
-
-  const month = months[dateObj.getMonth()];
-  const day = dateObj.getDate();
-
-  return `${month} ${day}`;
+  return `${months[month - 1]} ${day}`;
 }
 
-function formatTimeOnly(timestamp) {
-  if (!timestamp || !("_seconds" in timestamp)) return "";
-
-  const dateObj = new Date(timestamp._seconds * 1000);
-
-  let hours = dateObj.getHours();
-  let minutes = dateObj.getMinutes().toString().padStart(2, "0");
-
-  const ampm = hours >= 12 ? "p.m." : "a.m.";
-  hours = hours % 12 || 12;
-
-  return `${hours}:${minutes} ${ampm}`;
+function formatTimeOnly(dateTimeStr) {
+  if (!dateTimeStr) return "";
+  const timePart = dateTimeStr.includes(" ")
+    ? dateTimeStr.split(" ")[1]
+    : dateTimeStr;
+  if (!timePart) return "";
+  const [hh, mm] = timePart.split(":");
+  let hourNum = parseInt(hh, 10);
+  const minute = mm || "00";
+  const ampm = hourNum >= 12 ? "p.m." : "a.m.";
+  hourNum = hourNum % 12 || 12;
+  return `${hourNum}:${minute} ${ampm}`;
 }
 
 function toggleClearButton() {
@@ -593,7 +592,7 @@ if (clearSearch) {
 /* ================================
    🔹 CARGA INICIAL
 ================================ */
-fetch("https://geoapps.esri.co/rest-app-cue/api/conferences")
+fetch("assets/json/agenda.json")
   .then((res) => res.json())
   .then((json) => {
     data = applyPageFilter(json);
