@@ -349,18 +349,10 @@ function filterData() {
     );
   });
   filtered.sort((a, b) => {
-    const diaA = normalize(a.dia || a.fecha);
-    const diaB = normalize(b.dia || b.fecha);
+    const dateA = new Date(a.hora_inicio);
+    const dateB = new Date(b.hora_inicio);
 
-    const idxA = diasOrden.indexOf(diaA);
-    const idxB = diasOrden.indexOf(diaB);
-
-    if (idxA !== idxB) {
-      return idxA - idxB;
-    }
-    const horaA = a.hora_inicio || "";
-    const horaB = b.hora_inicio || "";
-    return horaA.localeCompare(horaB);
+    return dateA - dateB;
   });
 
   return filtered;
