@@ -521,7 +521,7 @@ main {
   list-style: none;
   color: var(--gris-5);
   background: var(--gris-3);
-  padding: 0.4rem 0.5rem;
+  padding: 0.5em 0.8em;
   border-radius: 11px;
 }
 .resultados {
