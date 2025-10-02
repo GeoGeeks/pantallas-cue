@@ -417,7 +417,7 @@ function applyPageFilter(allData) {
     .replace(".html", "")
     .toLowerCase();
   const map = {
-    salones: ["summit", "summit ia", "salón temático", "salon tematico"],
+    salones: ["summit", "summit ia", "salón temático"],
     charlas: ["solución express", "sesión técnica"],
     laboratorios: ["laboratorios de entrenamiento"],
   };
