@@ -75,21 +75,6 @@
     "dirigido": "Todos los usuarios"
   },
   {
-    "nombre": "ArcGIS para Desarrolladores",
-    "descripcion": "",
-    "hora_inicio": "2025/10/02 14:00:00",
-    "hora_fin": "2025/10/02 17:00:00",
-    "fecha": "2025/10/02",
-    "tipo_actividad": "Salón temático",
-    "dia": "jueves",
-    "lugar": "Piso 2 - Salón A",
-    "tematica": "Developers",
-    "producto_esri": "",
-    "industria": "",
-    "nivel_sesion": "Intermedio - Avanzado",
-    "dirigido": ""
-  },
-  {
     "nombre": "Potencia tu ArcGIS con HERE GIS Data Suite: Datos precisos para mejores decisiones",
     "descripcion": "HERE GIS Data Suite de HERE Technologies, es el conjunto de datos geoespaciales de alta fidelidad ya preparados para ArcGIS Pro, e integrable con Network Analyst. El set de datos incluye redes de transporte con atributos para camiones (altura, peso, peajes), Geocodificador, lugares, POIs, cobertura de red celular, entre otros. Los datos se actualizan globalmente cada trimestre, lo que permite análisis confiables, visualización inmediata y ahorro de tiempo al eliminar tareas de preparación. Ideal para clientes de ArcGIS que buscan optimizar decisiones estratégicas y operativas a partir de un set de datos listo para usar.",
     "hora_inicio": "2025/10/02 14:00:00",
@@ -102,21 +87,6 @@
     "producto_esri": "",
     "industria": "",
     "nivel_sesion": "",
-    "dirigido": ""
-  },
-  {
-    "nombre": "ArcGIS para Desarrolladores",
-    "descripcion": "",
-    "hora_inicio": "2025/10/03 8:30:00",
-    "hora_fin": "2025/10/03 12:00:00",
-    "fecha": "2025/10/03",
-    "tipo_actividad": "Salón temático",
-    "dia": "viernes",
-    "lugar": "Piso 2 - Salón A",
-    "tematica": "Developers",
-    "producto_esri": "",
-    "industria": "",
-    "nivel_sesion": "Intermedio - Avanzado",
     "dirigido": ""
   },
   {
