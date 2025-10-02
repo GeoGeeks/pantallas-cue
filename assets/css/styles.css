@@ -658,10 +658,6 @@ main {
   border: 1px solid var(--rojo-vino);
   color: var(--rojo-vino);
 }
-.filtros.charlas-tecnicas .sel {
-  border: 1px solid var(--morado);
-  color: var(--morado);
-}
 .filtros.charlas-tecnicas .sel.lugar {
   width: 24ch;
 }
@@ -688,7 +684,7 @@ main {
   color: var(--rojo-vino);
 }
 .filtros.charlas-tecnicas .sel__arrow {
-  fill: var(--rojo-vino);
+  color: var(--rojo-vino);
 }
 .filtros.charlas-tecnicas .sel__box {
   outline: 1px solid var(--rojo-vino);
