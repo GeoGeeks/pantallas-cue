@@ -296,7 +296,10 @@ function filterData() {
   const diaVal = dia?.value || "";
   const dirigidoVal = dirigido?.value || "";
 
-  return data.filter((item) => {
+  // Define el orden de los días
+  const diasOrden = ["jueves", "viernes", "sabado", "domingo", "lunes", "martes", "miercoles"];
+
+  let filtered = data.filter((item) => {
     const matchNombre = normalize(item.nombre).includes(q);
 
     const matchTema =
@@ -345,6 +348,22 @@ function filterData() {
       matchDirigido
     );
   });
+  filtered.sort((a, b) => {
+    const diaA = normalize(a.dia || a.fecha);
+    const diaB = normalize(b.dia || b.fecha);
+
+    const idxA = diasOrden.indexOf(diaA);
+    const idxB = diasOrden.indexOf(diaB);
+
+    if (idxA !== idxB) {
+      return idxA - idxB;
+    }
+    const horaA = a.hora_inicio || "";
+    const horaB = b.hora_inicio || "";
+    return horaA.localeCompare(horaB);
+  });
+
+  return filtered;
 }
 
 function renderCards(items) {
