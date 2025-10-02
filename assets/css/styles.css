@@ -512,7 +512,7 @@ main {
 }
 .evento .tematica {
   width: 100%;
-  font-size: 10px;
+  font-size: 1.1vw;
   font-weight: 500;
   display: flex;
   flex-wrap: wrap;
