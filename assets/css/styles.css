@@ -438,7 +438,6 @@ main {
   display: grid;
   grid-template-columns: 25% 1fr;
   align-items: flex-start;
-  border-bottom: 1px solid var(--morado);
   padding: 1vh 0;
   align-items: center;
 }
@@ -621,6 +620,9 @@ main {
   color: var(--morado);
 }
 /* Agenda */
+.agenda.salones-tematicos .evento {
+  border-bottom: 1px solid var(--morado);
+}
 .agenda.salones-tematicos .evento .detalles a {
   color: var(--morado);
 }
@@ -710,6 +712,9 @@ main {
   color: var(--rojo-vino);
 }
 /* Agenda */
+.agenda.charlas-tecnicas .evento {
+  border-bottom: 1px solid var(--rojo-vino);
+}
 .agenda.charlas-tecnicas .evento .detalles a {
   color: var(--rojo-vino);
 }
@@ -799,6 +804,9 @@ main {
   color: var(--naranja);
 }
 /* Agenda */
+.agenda.laboratorios-entrenamiento .evento {
+  border-bottom: 1px solid var(--naranja);
+}
 .agenda.laboratorios-entrenamiento .evento .detalles a {
   color: var(--naranja);
 }
