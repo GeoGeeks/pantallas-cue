@@ -297,7 +297,15 @@ function filterData() {
   const dirigidoVal = dirigido?.value || "";
 
   // Define el orden de los días
-  const diasOrden = ["jueves", "viernes", "sabado", "domingo", "lunes", "martes", "miercoles"];
+  const diasOrden = [
+    "jueves",
+    "viernes",
+    "sabado",
+    "domingo",
+    "lunes",
+    "martes",
+    "miercoles",
+  ];
 
   let filtered = data.filter((item) => {
     const matchNombre = normalize(item.nombre).includes(q);
@@ -407,9 +415,11 @@ function renderCards(items) {
           ${detallesHTML}
           <div class="fecha">
             <p><svg class="${colorIcono}"><use xlink:href="#clock"></use></svg>
-              ${startTime || ""} - ${endTime || ""}</p>
+              ${startTime || ""} - ${endTime || ""}
+              <br><svg class="${colorIcono}"><use xlink:href="#floor"></use></svg>
+              ${item.lugar}</p>
           </div>
-          <ul class="tematica">${tematicasHTML}</ul>
+          <ul class="tematica">${tematicasHTML}</ul>  
         </div>
       </div>
     `;
