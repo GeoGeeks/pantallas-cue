@@ -173,7 +173,7 @@
     "dirigido": "Especialistas y analistas SIG"
   },
   {
-    "nombre": "Gestion eficiente de activos geograficos usando ArcGIS Online",
+    "nombre": "Gestión eficiente de activos geograficos usando ArcGIS Online",
     "descripcion": "Planee, organice y ejecute una efectiva y eficiente  gestion de contenido, usuarios, creditos y politicas de seguridad con ArcGIS Online, en beneficio de los activos geograficos de su organizacion.",
     "hora_inicio": "2025/10/03 8:30:00",
     "hora_fin": "2025/10/03 9:00:00",
@@ -195,26 +195,11 @@
     "fecha": "2025/10/03",
     "tipo_actividad": "Solución express",
     "dia": "viernes",
-    "lugar": "Piso 3 - Salón P",
+    "lugar": "Piso 3 - Salón K",
     "tematica": ["Novedades de producto", "Visualización y comunicación"],
     "producto_esri": "ArcGIS Pro",
     "industria": "",
     "nivel_sesion": "Básico",
-    "dirigido": "Especialistas y analistas SIG"
-  },
-  {
-    "nombre": "Aplicaciones web: ¿Cuál elegir? ",
-    "descripcion": "En esta charla mostraremos cómo aprovechar ArcGIS StoryMaps y ArcGIS Instant Apps para transformar datos en soluciones web claras y efectivas. A partir de un ejemplo práctico con información sobre el agua en Bogotá, los asistentes conocerán el potencial narrativo de StoryMaps y la capacidad de personalización de Instant Apps. La sesión busca guiar a los participantes en la toma de decisiones al momento de elegir qué aplicación web implementar según su necesidad: comunicación, análisis técnico, exploración de datos o participación ciudadana. Una oportunidad para entender, de forma práctica, cómo estas herramientas apoyan diferentes proyectos.",
-    "hora_inicio": "2025/10/03 9:00:00",
-    "hora_fin": "2025/10/03 9:30:00",
-    "fecha": "2025/10/03",
-    "tipo_actividad": "Solución express",
-    "dia": "viernes",
-    "lugar": "Piso 3 - Salón K",
-    "tematica": ["Novedades de producto", "Visualización y comunicación"],
-    "producto_esri": ["ArcGIS StoryMaps", "ArcGIS Instant Apps"],
-    "industria": "",
-    "nivel_sesion": "Básico - Intermedio",
     "dirigido": "Especialistas y analistas SIG"
   },
   {
@@ -602,21 +587,6 @@
     "industria": "",
     "nivel_sesion": "Intermedio",
     "dirigido": "Especialistas y analistas SIG"
-  },
-  {
-    "nombre": "Cumbre para Defensa y Seguridad",
-    "descripcion": "",
-    "hora_inicio": "2025/10/03 7:00:00",
-    "hora_fin": "2025/10/03 12:00:00",
-    "fecha": "2025/10/03",
-    "tipo_actividad": "Salón temático",
-    "dia": "viernes",
-    "lugar": "Piso 3 - Salón HI",
-    "tematica": "Defensa y Seguridad",
-    "producto_esri": "",
-    "industria": "",
-    "nivel_sesion": "Intermedio",
-    "dirigido": ""
   },
   {
     "nombre": "Bienvenida - Administración de tierras",
