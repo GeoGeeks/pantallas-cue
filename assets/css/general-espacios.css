@@ -1,0 +1,396 @@
+/* --- ESTILOS GENERALES POR SEGMENTO --- */
+
+/* Banner */
+.banner-segmento {
+  width: 90%;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  align-self: end;
+  border-bottom-left-radius: 90px;
+}
+.banner-segmento h1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: var( --font-5);
+  padding: 2rem 1rem 2rem 0;
+}
+.banner-segmento a {
+  width: 12%;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  left: -5%;
+  background: var(--gris-3);
+  border: 1.5px solid white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banner-segmento svg {
+  width: 40%;
+  aspect-ratio: 1;
+}
+/* Contenido */
+.content-segmento {
+  width: 100%;
+  height: 92vh;
+  padding: 5% 0 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.content-segmento > p {
+  width: 65%;
+  position: absolute;
+  bottom: 2dvh;
+  left: 3%;
+  font-size: 2vw;
+  font-weight: 400;
+  text-align: left;
+}
+.content-segmento > svg {
+  width: 25%;
+  aspect-ratio: 3/1;
+  position: absolute;
+  bottom: 1.5vh;
+  right: 3%;
+}
+/* Caja de búsqueda */
+.buscar {
+  display: flex;
+  align-items: center;
+  width: 75%;
+  margin-left: 5%;
+  height: 3%;
+  position: relative;
+}
+.buscar svg {
+  position: absolute;
+  width: 3vw;
+  aspect-ratio: 43 / 48;
+  transform: translateY(-10%) translateX(20%);
+}
+.buscar button#clear-buscar {
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 2vw;
+  display: none;
+}
+.buscar button#limpiar-filtros {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(110%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 2vw;
+  display: none;
+}
+.buscar input[type="text"] {
+  width: 100%;
+  height: 100%;
+  padding: 0.5em 3em 0.5em 2.5em;
+  font-size: 2.5vw;
+  border: none;
+  background: transparent;
+  outline: none;
+  text-overflow: ellipsis;
+}
+.buscar input[type="text"]::placeholder {
+  opacity: 0.8;
+}
+/* Filtros */
+.filtros {
+  padding: 4% 5%;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1.5vw;
+  flex-wrap: wrap;
+}
+.filtros .sel {
+  position: relative;
+  font-size: 1.5vw;
+  font-weight: 400;
+  cursor: pointer;
+  min-width: 100px;
+  min-height: fit-content;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+}
+.filtros[class] .sel[class].has-value .sel__placeholder,
+.filtros[class] .sel[class].active .sel__placeholder {
+  color: white;
+}
+.filtros .sel__placeholder {
+  flex: 1;
+  padding: 0.4em 4em 0.4em 1em;
+  text-align: left;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  z-index: 3;
+}
+.filtros .sel__clear {
+  position: absolute;
+  right: 2.5em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5vw;
+  color: white;
+  cursor: pointer;
+  display: none;
+  z-index: 4;
+}
+.filtros .sel__arrow {
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  width: 20px;
+  height: 20px;
+  width: 0.9vw;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+  z-index: 3;
+}
+.filtros .sel.active .sel__arrow {
+  transform: translateY(-50%) rotate(90deg);
+  color: white;
+}
+.filtros .sel.has-value .sel__arrow {
+  color: white;
+}
+.filtros .sel__box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 50vh;
+  overflow-y: scroll;
+  opacity: 0;
+  pointer-events: none;
+  background: white;
+  list-style: none;
+  border: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+.filtros[class] .sel.active .sel__box {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 5;
+}
+.filtros .sel__box__options {
+  padding: 0.4em 4em 0.4em 1em;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+  animation-delay: var(--delay, 0s);
+}
+.filtros[class] .sel__box__options:last-child {
+  border-bottom: none;
+}
+.filtros .sel__box__options .sel__clear {
+  position: absolute;
+  right: 1.4em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5vw;
+  cursor: pointer;
+  display: block;
+  line-height: 1;
+}
+.filtros[class] .sel__box__options .sel__clear:hover {
+  color: var(--gris-5);
+}
+.filtros .sel__box__options.selected {
+  background: var(--gris-3);
+}
+.filtros .sel__box__options:hover {
+  background: var(--gris-3);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Imagenes */
+.btn-mapa {
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 1.5vw;
+  transition: background 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-mapa svg {
+  width: 1.5vw;
+  aspect-ratio: 1;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90vw;
+  aspect-ratio: 1;
+  text-align: center;
+  position: relative;
+  font-size: 2.5vw;
+}
+.modal-content img {
+  width: 100%;
+  aspect-ratio: 1;
+}
+.close {
+  position: absolute;
+  top: 0.5%;
+  right: 1%;
+  font-size: 4.5vw;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* Agenda */
+.agenda {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: auto;
+}
+.evento {
+  display: grid;
+  grid-template-columns: 25% 1fr;
+  align-items: flex-start;
+  padding: 1vh 0;
+  align-items: center;
+}
+.evento .hora {
+  text-align: left;
+  font-size: 2vw;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.evento .info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-right: 5.5vw;
+}
+.evento .nombre {
+  font-size: 1.8vw;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.evento .detalles {
+  display: flex;
+  flex-direction: column;
+}
+.evento .detalles a {
+  text-decoration: none;
+  font-size: 1.3vw;
+  font-weight: 300;
+  font-style: italic;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+.evento .detalles p {
+  max-height: 0;
+  overflow: hidden;
+  font-size: 1.6vw;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 0;
+  padding: 0;
+  transition:
+    max-height 0.4s ease,
+    margin-top 0.4s ease;
+}
+.evento .detalles p.open {
+  margin-top: 0.5rem;
+}
+.evento .detalles svg {
+  width: 1.4vw;
+  height: auto;
+  aspect-ratio: 7 / 5;
+  transition: transform 0.3s ease;
+  transform: rotate(-90deg);
+}
+.evento .detalles svg.rotated {
+  transform: rotate(90deg);
+}
+.evento .fecha {
+  display: inline-block;
+}
+.evento .fecha p {
+  font-size: 1.5vw;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.evento .fecha svg {
+  width: 1.5vw;
+  aspect-ratio: 1 / 1;
+}
+.evento .tematica {
+  width: 100%;
+  font-size: 1.1vw;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.evento .tematica li {
+  list-style: none;
+  color: var(--gris-5);
+  background: var(--gris-3);
+  padding: 0.5em 0.8em;
+  border-radius: 11px;
+}
+.resultados {
+  padding: 3% 6%;
+}
+.resultados p {
+  font-size: 2.5vw;
+}
+/* Scroll */
+::-webkit-scrollbar {
+  display: none;
+}
