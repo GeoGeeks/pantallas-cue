@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -140,15 +140,27 @@
 
     <main>
       <div class="banner-segmento salones-tematicos">
-        <a href="index.html" aria-label="Ir al inicio">
-          <svg class="icono-morado">
-            <use xlink:href="#arrow"></use>
-          </svg>
-        </a>
-        <h1>Salones temáticos</h1>
-      </div>
-      <div class="content-segmento salones-tematicos">
-        <div class="buscar salones-tematicos">
+        <div class="header-nav salones-tematicos">
+          <a href="index.html" aria-label="Ir al inicio">
+            <svg class="icono-morado">
+              <use xlink:href="#arrow"></use>
+            </svg>
+          </a>
+          <h1>Salones temáticos</h1>
+        </div>
+        <section class="section-utilities">
+          <div class="container-dias">
+            <ul>
+              <li><span>Jueves&nbsp</span>01 de Octubre</li>
+              <li><span>Viernes&nbsp</span>02 de Octubre</li>
+            </ul>
+          </div>
+          <div class="nav-items">
+            <button>Filtros</button>
+            <button>Busqueda</button>
+          </div>
+        </section>
+        <!-- <div class="buscar salones-tematicos">
           <svg class="icono-morado">
             <use xlink:href="#search"></use>
           </svg>
@@ -159,8 +171,8 @@
           <button id="limpiar-filtros" type="button" title="Limpiar filtros">
             Limpiar filtros
           </button>
-        </div>
-        <div class="filtros salones-tematicos">
+        </div> -->
+        <!-- <div class="filtros salones-tematicos">
           <div class="sel lugar">
             <select
               id="lugar"
@@ -172,17 +184,6 @@
               <use xlink:href="#arrow"></use>
             </svg>
           </div>
-          <!-- <div class="sel dia">
-            <select
-              id="dia"
-              title="dia"
-              name="dia"
-              data-placeholder="Día"
-            ></select>
-            <svg class="sel__arrow">
-              <use xlink:href="#arrow"></use>
-            </svg>
-          </div> -->
           <div class="sel tematica">
             <select
               id="tematica"
@@ -240,15 +241,20 @@
               <img id="mapa-img" src="" alt="Mapa" />
             </div>
           </div>
-        </div>
-        <div class="agenda salones-tematicos" id="agenda"></div>
-        <p>
-          Personalice su agenda y planee su ruta desde nuestra aplicación móvil.
-        </p>
-        <svg class="icono-morado">
-          <use xlink:href="#logo"></use>
-        </svg>
+        </div> -->
       </div>
+      <!-- <div class="content-segmento salones-tematicos">
+        <div class="agenda salones-tematicos" id="agenda"></div>
+        <div class="footer-section">
+          <p>
+            Personalice su agenda y planee su ruta desde nuestra aplicación
+            móvil.
+          </p>
+          <svg class="icono-morado">
+            <use xlink:href="#logo"></use>
+          </svg>
+        </div>
+      </div> -->
     </main>
 
     <script src="assets/js/agenda.js" defer></script>

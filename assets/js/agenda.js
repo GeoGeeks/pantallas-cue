@@ -120,7 +120,7 @@ document.querySelectorAll(".sel").forEach((customSel) => {
   const obs = new MutationObserver(() => {
     buildOptions();
     const selOpt = box.querySelector(
-      `.sel__box__options[data-value="${select.value}"]`
+      `.sel__box__options[data-value="${select.value}"]`,
     );
     if (selOpt) {
       placeholder.textContent = selOpt.dataset.text;
@@ -155,7 +155,7 @@ document.querySelectorAll(".sel").forEach((customSel) => {
         .querySelectorAll(".sel__box__options")
         .forEach((el) => el.classList.remove("selected"));
       const selectedOption = box.querySelector(
-        `.sel__box__options[data-value="${select.value}"]`
+        `.sel__box__options[data-value="${select.value}"]`,
       );
       if (selectedOption) {
         selectedOption.classList.add("selected");
@@ -167,7 +167,7 @@ document.querySelectorAll(".sel").forEach((customSel) => {
       customSel.appendChild(clearBtn);
       if (select.value) {
         const selectedOption = box.querySelector(
-          `.sel__box__options[data-value="${select.value}"]`
+          `.sel__box__options[data-value="${select.value}"]`,
         );
         if (selectedOption)
           placeholder.textContent = selectedOption.dataset.text;
@@ -217,7 +217,7 @@ document.addEventListener("click", (e) => {
       sel.appendChild(clearBtn);
       if (select.value) {
         const selectedOption = box.querySelector(
-          `.sel__box__options[data-value="${select.value}"]`
+          `.sel__box__options[data-value="${select.value}"]`,
         );
         if (selectedOption) {
           placeholder.textContent = selectedOption.dataset.text;
@@ -405,11 +405,11 @@ function renderCards(items) {
          </div>`
       : "";
 
+    /* ${displayDate || ""}<br /> */
+
     agenda.innerHTML += `
       <div class="evento">
-        <div class="hora"><p>${displayDate || ""}<br />${
-      startTime || ""
-    }</p></div>
+        <div class="hora"><p>${startTime || ""}</p></div>
         <div class="info">
           <h3 class="nombre">${item.nombre}</h3>
           ${detallesHTML}
@@ -446,7 +446,7 @@ function applyPageFilter(allData) {
   if (!allowed) return allData;
   const allowedNorm = allowed.map((s) => normalize(s));
   return allData.filter((item) =>
-    allowedNorm.includes(normalize(item.tipo_actividad || ""))
+    allowedNorm.includes(normalize(item.tipo_actividad || "")),
   );
 }
 
@@ -465,7 +465,7 @@ function populateSelects() {
   data.forEach((item) => {
     if (item.tematica)
       (Array.isArray(item.tematica) ? item.tematica : [item.tematica]).forEach(
-        (t) => sets.tematica.add(t)
+        (t) => sets.tematica.add(t),
       );
     if (item.producto_esri)
       (Array.isArray(item.producto_esri)
@@ -477,7 +477,7 @@ function populateSelects() {
     if (item.dia) sets.dia.add(item.dia);
     if (item.dirigido)
       (Array.isArray(item.dirigido) ? item.dirigido : [item.dirigido]).forEach(
-        (d) => sets.dirigido.add(d)
+        (d) => sets.dirigido.add(d),
       );
   });
 
@@ -500,8 +500,8 @@ function populateSelects() {
             val.toLowerCase() === "jueves"
               ? "Día 1"
               : val.toLowerCase() === "viernes"
-              ? "Día 2"
-              : val;
+                ? "Día 2"
+                : val;
         } else {
           opt.value = val;
           opt.textContent = val;

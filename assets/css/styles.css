@@ -17,6 +17,8 @@
   --gris-3: #dfdfdf;
   --gris-4: #cccccc;
   --gris-5: #737373;
+  --text: #00000094;
+  --text-low-opacity: #00000094;
   --font--3: clamp(0.625rem, 0.625rem + 0vw, 0.625rem);
   --font--2: clamp(0.625rem, 0.568181818rem + 0.252525253vw, 0.75rem);
   --font--1: clamp(0.75rem, 0.693181818rem + 0.252525253vw, 0.875rem);
@@ -121,7 +123,7 @@ main {
   max-width: 100%;
   max-width: 80ch;
   color: #000;
-  font-size: var(--font-1);
+  font-size: var(--font-2);
   font-weight: 400;
 }
 .content-inicio > img {

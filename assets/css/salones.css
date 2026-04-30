@@ -1,15 +1,16 @@
 /* ------------ SALONES TEMÁTICOS ------------  */
 
+/* Banner */
+.header-nav.salones-tematicos {
+  background: url("../images/bg-morado.avif") no-repeat center center / cover;
+}
 /* Contenido */
 .content-segmento.salones-tematicos > p {
   color: var(--morado);
 }
-/* Banner */
-.banner-segmento.salones-tematicos {
-  background: url("../images/bg-morado.avif") no-repeat center center / cover;
-}
 /* Caja de búsqueda */
-.buscar.salones-tematicos button {
+.buscar.salones-tematicos .icono-morado,
+button {
   color: var(--morado);
 }
 .buscar.salones-tematicos button:hover {
@@ -87,5 +88,10 @@
   border-bottom: 1px solid var(--morado);
 }
 .agenda.salones-tematicos .evento .detalles a {
+  color: var(--morado);
+}
+/* Iconos */
+.footer-section svg,
+.evento .fecha svg {
   color: var(--morado);
 }
