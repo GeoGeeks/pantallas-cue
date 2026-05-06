@@ -1,20 +1,56 @@
 let data = [];
 let temporizador;
+let diaSeleccionado = "";
 
 const agenda = document.getElementById("agenda");
 const buscar = document.getElementById("buscar");
-const clearSearch = document.getElementById("clear-buscar");
+const closeSearchBtn = document.getElementById("clear-buscar");
+const clearTextBtn = document.getElementById("limpiar-busqueda");
 const tematica = document.getElementById("tematica");
 const producto = document.getElementById("producto");
 const nivel = document.getElementById("nivel");
 const lugar = document.getElementById("lugar");
-const dia = document.getElementById("dia");
 const dirigido = document.getElementById("dirigido");
 const verMapa = document.getElementById("ver-mapa");
 const modal = document.getElementById("mapaModal");
 const mapaImg = document.getElementById("mapa-img");
 const closeBtn = document.querySelector(".close");
+const cerrarFiltrosBtn = document.getElementById("cerrar-filtros");
+const limpiarFiltrosBtn = document.getElementById("limpiar-filtros");
+const sectionUtilities = document.querySelector(".section-utilities");
+const filtrosPanel = document.querySelector(".filtros");
+const toggleBuscarBtn = document.getElementById("toggle-buscar");
+const toggleFiltrosBtn = document.getElementById("toggle-filtros");
+let isSearchActive = false;
+let isFiltersOpen = false;
+
 const tiempoInactividad = 3 * 30 * 1000;
+
+if (toggleBuscarBtn) {
+  toggleBuscarBtn.addEventListener("click", toggleSearchMode);
+}
+if (buscar && sectionUtilities) {
+  buscar.addEventListener("focus", activateSearchMode);
+  buscar.addEventListener("click", activateSearchMode);
+}
+if (toggleFiltrosBtn) {
+  toggleFiltrosBtn.addEventListener("click", toggleFiltersMode);
+}
+if (cerrarFiltrosBtn) {
+  cerrarFiltrosBtn.addEventListener("click", resetUIState);
+}
+
+document.addEventListener("click", (event) => {
+  if (
+    (isSearchActive || isFiltersOpen) &&
+    sectionUtilities &&
+    !sectionUtilities.contains(event.target)
+  ) {
+    resetUIState();
+  }
+});
+
+updateUIState();
 
 const mapaImgs = {
   "Piso 2 - Salón A": "assets/images/Piso-Salon/P2SA.avif",
@@ -179,32 +215,44 @@ document.querySelectorAll(".sel").forEach((customSel) => {
   });
 });
 
-document.getElementById("limpiar-filtros").addEventListener("click", () => {
-  [tematica, producto, nivel, lugar, dia, dirigido].forEach((sel) => {
-    if (sel) {
-      sel.value = "";
-      sel.dispatchEvent(new Event("change"));
-      const customSel = sel.closest(".sel");
-      if (customSel) {
-        const placeholder = customSel.querySelector(".sel__placeholder");
-        const clearBtn = customSel.querySelector(".sel__clear");
-        const box = customSel.querySelector(".sel__box");
+if (limpiarFiltrosBtn) {
+  limpiarFiltrosBtn.addEventListener("click", () => {
+    [tematica, producto, nivel, lugar, dirigido].forEach((sel) => {
+      if (sel) {
+        sel.value = "";
+        sel.dispatchEvent(new Event("change"));
+        const customSel = sel.closest(".sel");
+        if (customSel) {
+          const placeholder = customSel.querySelector(".sel__placeholder");
+          const clearBtn = customSel.querySelector(".sel__clear");
+          const box = customSel.querySelector(".sel__box");
 
-        placeholder.textContent = placeholder.dataset.placeholder;
-        clearBtn.style.display = "none";
-        box
-          .querySelectorAll(".sel__box__options")
-          .forEach((el) => el.classList.remove("selected"));
+          placeholder.textContent = placeholder.dataset.placeholder;
+          clearBtn.style.display = "none";
+          box
+            .querySelectorAll(".sel__box__options")
+            .forEach((el) => el.classList.remove("selected"));
 
-        customSel.classList.remove("has-value", "active");
+          customSel.classList.remove("has-value", "active");
+        }
       }
-    }
-  });
+    });
 
-  update();
-  toggleClearButton();
-  toggleLimpiarFiltros();
-});
+    const primerDia = document.querySelector("#dias-container li");
+    if (primerDia) {
+      document
+        .querySelectorAll("#dias-container li")
+        .forEach((el) => el.classList.remove("active"));
+
+      primerDia.classList.add("active");
+      diaSeleccionado = primerDia.dataset.value;
+    }
+
+    update();
+    toggleClearButton();
+    toggleLimpiarFiltros();
+  });
+}
 
 document.addEventListener("click", (e) => {
   document.querySelectorAll(".sel").forEach((sel) => {
@@ -255,16 +303,16 @@ function formatDateToMonthDay(dateStr) {
   const months = [
     "Enero",
     "Febrero",
-    "marzo",
-    "abril",
-    "mayo",
-    "junio",
-    "julio",
-    "agosto",
-    "septiembre",
-    "Oct",
-    "noviembre",
-    "diciembre",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
   ];
   return `${months[month - 1]} ${day}`;
 }
@@ -283,8 +331,46 @@ function formatTimeOnly(dateTimeStr) {
   return `${hourNum}:${minute} ${ampm}`;
 }
 
+function parseFechaSafe(fecha) {
+  if (!fecha) return null;
+
+  const partes = fecha.split(/[-/]/);
+  if (partes.length < 3) return null;
+
+  const year = parseInt(partes[0], 10);
+  const month = parseInt(partes[1], 10) - 1;
+  const day = parseInt(partes[2], 10);
+
+  return new Date(year, month, day);
+}
+
+function getDiaDesdeFecha(fecha) {
+  const dias = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+  ];
+
+  const d = parseFechaSafe(fecha);
+  if (!d) return "";
+
+  return dias[d.getDay()];
+}
+
 function toggleClearButton() {
-  if (clearSearch) clearSearch.style.display = buscar.value ? "block" : "none";
+  if (!buscar) return;
+  if (closeSearchBtn) {
+    closeSearchBtn.style.display = isSearchActive ? "block" : "none";
+    closeSearchBtn.title = "Cerrar búsqueda";
+    closeSearchBtn.setAttribute("aria-label", "Cerrar búsqueda");
+  }
+  if (clearTextBtn) {
+    clearTextBtn.style.display = buscar.value ? "block" : "none";
+  }
 }
 
 function filterData() {
@@ -293,19 +379,7 @@ function filterData() {
   const prodVal = producto?.value || "";
   const sesionVal = nivel?.value || "";
   const lugarVal = lugar?.value || "";
-  const diaVal = dia?.value || "";
   const dirigidoVal = dirigido?.value || "";
-
-  // Define el orden de los días
-  const diasOrden = [
-    "jueves",
-    "viernes",
-    "sabado",
-    "domingo",
-    "lunes",
-    "martes",
-    "miercoles",
-  ];
 
   let filtered = data.filter((item) => {
     const matchNombre = normalize(item.nombre).includes(q);
@@ -334,11 +408,8 @@ function filterData() {
         ? item.lugar.includes(lugarVal)
         : item.lugar === lugarVal);
 
-    const matchDia =
-      !diaVal ||
-      (Array.isArray(item.dia)
-        ? item.dia.includes(diaVal)
-        : item.dia === diaVal);
+    const diaItem = getDiaDesdeFecha(item.fecha);
+    const matchDia = diaItem === diaSeleccionado;
 
     const matchDirigido =
       !dirigidoVal ||
@@ -437,16 +508,17 @@ function applyPageFilter(allData) {
     .pop()
     .replace(".html", "")
     .toLowerCase();
-  const map = {
-    salones: ["summit", "summit ia", "salón temático"],
-    charlas: ["solución express", "sesión técnica"],
-    laboratorios: ["laboratorios de entrenamiento"],
+  const matchesByPage = {
+    salones: (tipo) =>
+      tipo.includes("summit") || (tipo.includes("sal") && tipo.includes("tem")),
+    charlas: (tipo) =>
+      tipo.includes("soluc") || (tipo.includes("ses") && tipo.includes("tec")),
+    laboratorios: (tipo) => tipo.includes("laborator"),
   };
-  const allowed = map[page];
-  if (!allowed) return allData;
-  const allowedNorm = allowed.map((s) => normalize(s));
+  const matcher = matchesByPage[page];
+  if (!matcher) return allData;
   return allData.filter((item) =>
-    allowedNorm.includes(normalize(item.tipo_actividad || "")),
+    matcher(normalize(item.tipo_actividad || "")),
   );
 }
 
@@ -458,7 +530,6 @@ function populateSelects() {
     producto: new Set(),
     nivel: new Set(),
     lugar: new Set(),
-    dia: new Set(),
     dirigido: new Set(),
   };
 
@@ -474,7 +545,6 @@ function populateSelects() {
       ).forEach((p) => sets.producto.add(p));
     if (item.nivel_sesion) sets.nivel.add(item.nivel_sesion);
     if (item.lugar) sets.lugar.add(item.lugar);
-    if (item.dia) sets.dia.add(item.dia);
     if (item.dirigido)
       (Array.isArray(item.dirigido) ? item.dirigido : [item.dirigido]).forEach(
         (d) => sets.dirigido.add(d),
@@ -493,19 +563,8 @@ function populateSelects() {
       .sort((a, b) => String(a).localeCompare(String(b), "es"))
       .forEach((val) => {
         const opt = document.createElement("option");
-
-        if (key === "dia") {
-          opt.value = val.toLowerCase();
-          opt.textContent =
-            val.toLowerCase() === "jueves"
-              ? "Día 1"
-              : val.toLowerCase() === "viernes"
-                ? "Día 2"
-                : val;
-        } else {
-          opt.value = val;
-          opt.textContent = val;
-        }
+        opt.value = val;
+        opt.textContent = val;
 
         sel.appendChild(opt);
       });
@@ -516,6 +575,66 @@ function populateSelects() {
     if (selContainer) {
       selContainer.style.display = sel.options.length > 1 ? "block" : "none";
     }
+  });
+}
+
+function renderDias() {
+  const container = document.querySelector("#dias-container ul");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const diasUnicos = new Set();
+  const fechasPorDia = {};
+
+  data.forEach((item) => {
+    if (!item.fecha) return;
+
+    const diaReal = getDiaDesdeFecha(item.fecha);
+
+    diasUnicos.add(diaReal);
+
+    if (!fechasPorDia[diaReal]) {
+      fechasPorDia[diaReal] = item.fecha;
+    }
+  });
+
+  const diasOrdenados = Array.from(diasUnicos).sort((a, b) => {
+    return parseFechaSafe(fechasPorDia[a]) - parseFechaSafe(fechasPorDia[b]);
+  });
+
+  diasOrdenados.forEach((dia, index) => {
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.innerHTML = `${dia}&nbsp;`;
+
+    const fecha = formatDateToMonthDay(fechasPorDia[dia]);
+
+    li.appendChild(span);
+    li.append(fecha);
+
+    li.dataset.value = dia;
+
+    if (index === 0) {
+      li.classList.add("active");
+      diaSeleccionado = dia;
+    }
+
+    li.addEventListener("click", () => {
+      document
+        .querySelectorAll("#dias-container li")
+        .forEach((el) => el.classList.remove("active"));
+
+      li.classList.add("active");
+      diaSeleccionado = dia;
+
+      update();
+      if (agenda) agenda.scrollTop = 0;
+      toggleLimpiarFiltros();
+    });
+
+    container.appendChild(li);
   });
 }
 
@@ -573,12 +692,66 @@ function toggleLimpiarFiltros() {
     producto?.value ||
     nivel?.value ||
     lugar?.value ||
-    dia?.value ||
     dirigido?.value;
 
-  document.getElementById("limpiar-filtros").style.display = hayFiltros
-    ? "inline-block"
-    : "none";
+  if (limpiarFiltrosBtn) {
+    limpiarFiltrosBtn.style.display = hayFiltros ? "inline-block" : "none";
+  }
+}
+
+function updateUIState() {
+  if (!sectionUtilities || !filtrosPanel) return;
+
+  sectionUtilities.classList.toggle("search-active", isSearchActive);
+  sectionUtilities.classList.toggle("filters-open", isFiltersOpen);
+  filtrosPanel.classList.toggle("open", isFiltersOpen);
+
+  if (toggleBuscarBtn) {
+    toggleBuscarBtn.title = isSearchActive ? "Cerrar búsqueda" : "Buscar";
+    toggleBuscarBtn.setAttribute(
+      "aria-label",
+      isSearchActive ? "Cerrar búsqueda" : "Abrir búsqueda",
+    );
+  }
+  if (toggleFiltrosBtn) {
+    toggleFiltrosBtn.title = "Filtros";
+    toggleFiltrosBtn.setAttribute("aria-label", "Abrir filtros");
+  }
+}
+
+function resetUIState() {
+  isSearchActive = false;
+  isFiltersOpen = false;
+  updateUIState();
+  toggleClearButton();
+}
+
+function activateSearchMode() {
+  if (isFiltersOpen) {
+    isFiltersOpen = false;
+  }
+  isSearchActive = true;
+  updateUIState();
+  toggleClearButton();
+  if (buscar) buscar.focus();
+}
+
+function toggleSearchMode() {
+  if (isSearchActive) {
+    resetUIState();
+    return;
+  }
+  activateSearchMode();
+}
+
+function toggleFiltersMode() {
+  if (isFiltersOpen) {
+    resetUIState();
+    return;
+  }
+  isSearchActive = false;
+  isFiltersOpen = true;
+  updateUIState();
 }
 
 /* ================================
@@ -590,9 +763,24 @@ if (buscar) {
     toggleClearButton();
     toggleLimpiarFiltros();
   });
+  buscar.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      if (buscar.value) {
+        buscar.value = "";
+        update();
+      } else {
+        resetUIState();
+        buscar.blur();
+      }
+      toggleClearButton();
+      toggleLimpiarFiltros();
+    }
+  });
 }
-if (clearSearch) {
-  clearSearch.addEventListener("click", () => {
+if (clearTextBtn) {
+  clearTextBtn.addEventListener("click", () => {
+    if (!buscar) return;
     buscar.value = "";
     update();
     toggleClearButton();
@@ -600,8 +788,14 @@ if (clearSearch) {
     buscar.focus();
   });
 }
+if (closeSearchBtn) {
+  closeSearchBtn.addEventListener("click", () => {
+    resetUIState();
+    if (buscar) buscar.blur();
+  });
+}
 
-[tematica, producto, nivel, lugar, dia, dirigido].forEach((select) => {
+[tematica, producto, nivel, lugar, dirigido].forEach((select) => {
   if (!select) return;
   select.addEventListener("change", () => {
     update();
@@ -617,6 +811,7 @@ fetch("assets/json/agenda.json")
   .then((json) => {
     data = applyPageFilter(json);
     populateSelects();
+    renderDias();
     toggleClearButton();
     toggleLimpiarFiltros();
     update();

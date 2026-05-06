@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -149,101 +149,135 @@
           <h1>Salones temáticos</h1>
         </div>
         <section class="section-utilities">
-          <div class="container-dias">
-            <ul>
-              <li><span>Jueves&nbsp</span>01 de Octubre</li>
-              <li><span>Viernes&nbsp</span>02 de Octubre</li>
-            </ul>
+          <div class="container-dias" id="dias-container">
+            <ul></ul>
           </div>
-          <div class="nav-items">
-            <button>Filtros</button>
-            <button>Busqueda</button>
+          <div class="utilities-actions">
+            <button
+              id="toggle-buscar"
+              type="button"
+              class="btn-utility"
+              aria-label="Abrir búsqueda"
+              title="Buscar"
+            >
+              <svg class="icono-morado">
+                <use xlink:href="#search"></use>
+              </svg>
+            </button>
+            <button
+              id="toggle-filtros"
+              type="button"
+              class="btn-utility"
+              aria-label="Abrir filtros"
+              title="Filtros"
+            >
+              <svg class="icono-morado">
+                <use xlink:href="#search"></use>
+              </svg>
+            </button>
           </div>
-        </section>
-        <!-- <div class="buscar salones-tematicos">
-          <svg class="icono-morado">
-            <use xlink:href="#search"></use>
-          </svg>
-          <input type="text" id="buscar" placeholder="Buscar" />
-          <button id="clear-buscar" type="button" title="Limpiar">
-            &#10005;
-          </button>
-          <button id="limpiar-filtros" type="button" title="Limpiar filtros">
-            Limpiar filtros
-          </button>
-        </div> -->
-        <!-- <div class="filtros salones-tematicos">
-          <div class="sel lugar">
-            <select
-              id="lugar"
-              title="lugar"
-              name="lugar"
-              data-placeholder="Piso - Salón"
-            ></select>
-            <svg class="sel__arrow">
-              <use xlink:href="#arrow"></use>
-            </svg>
-          </div>
-          <div class="sel tematica">
-            <select
-              id="tematica"
-              title="tematica"
-              name="tematica"
-              data-placeholder="Temática"
-            ></select>
-            <svg class="sel__arrow">
-              <use xlink:href="#arrow"></use>
-            </svg>
-          </div>
-          <div class="sel nivel">
-            <select
-              id="nivel"
-              title="nivel"
-              name="nivel"
-              data-placeholder="Nivel de Sesión"
-            ></select>
-            <svg class="sel__arrow">
-              <use xlink:href="#arrow"></use>
-            </svg>
-          </div>
-          <div class="sel producto">
-            <select
-              id="producto"
-              title="producto"
-              name="producto"
-              data-placeholder="Producto ArcGIS"
-            ></select>
-            <svg class="sel__arrow">
-              <use xlink:href="#arrow"></use>
-            </svg>
-          </div>
-          <div class="sel dirigido">
-            <select
-              id="dirigido"
-              title="dirigido"
-              name="dirigido"
-              data-placeholder="Diseñado para"
-            ></select>
-            <svg class="sel__arrow">
-              <use xlink:href="#arrow"></use>
-            </svg>
-          </div>
-          <button id="ver-mapa" class="btn-mapa" style="display: none">
+          <div class="buscar salones-tematicos">
             <svg class="icono-morado">
-              <use xlink:href="#floor"></use>
+              <use xlink:href="#search"></use>
             </svg>
-            Ver ubicación en mapa
-          </button>
-          <div id="mapaModal" class="modal">
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <h3>Mapa del piso</h3>
-              <img id="mapa-img" src="" alt="Mapa" />
+            <input type="text" id="buscar" placeholder="Buscar" />
+            <button id="limpiar-busqueda" type="button" title="Limpiar">
+              Limpiar
+            </button>
+            <button id="clear-buscar" type="button" title="Limpiar">
+              &#10005;
+            </button>
+          </div>
+          <div class="filtros salones-tematicos">
+            <div class="filtros-header">
+              <p>Filtros</p>
+              <button
+                id="cerrar-filtros"
+                class="btn-cerrar-filtros"
+                type="button"
+                aria-label="Cerrar filtros"
+                title="Cerrar filtros"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="sel lugar">
+              <select
+                id="lugar"
+                title="lugar"
+                name="lugar"
+                data-placeholder="Piso - Salón"
+              ></select>
+              <svg class="sel__arrow">
+                <use xlink:href="#arrow"></use>
+              </svg>
+            </div>
+            <div class="sel tematica">
+              <select
+                id="tematica"
+                title="tematica"
+                name="tematica"
+                data-placeholder="Temática"
+              ></select>
+              <svg class="sel__arrow">
+                <use xlink:href="#arrow"></use>
+              </svg>
+            </div>
+            <div class="sel nivel">
+              <select
+                id="nivel"
+                title="nivel"
+                name="nivel"
+                data-placeholder="Nivel de Sesión"
+              ></select>
+              <svg class="sel__arrow">
+                <use xlink:href="#arrow"></use>
+              </svg>
+            </div>
+            <div class="sel producto">
+              <select
+                id="producto"
+                title="producto"
+                name="producto"
+                data-placeholder="Producto ArcGIS"
+              ></select>
+              <svg class="sel__arrow">
+                <use xlink:href="#arrow"></use>
+              </svg>
+            </div>
+            <div class="sel dirigido">
+              <select
+                id="dirigido"
+                title="dirigido"
+                name="dirigido"
+                data-placeholder="Diseñado para"
+              ></select>
+              <svg class="sel__arrow">
+                <use xlink:href="#arrow"></use>
+              </svg>
+            </div>
+            <div class="filtros-footer">
+              <button id="ver-mapa" class="btn-mapa" style="display: none">
+                <svg class="icono-morado">
+                  <use xlink:href="#floor"></use>
+                </svg>
+                Ver ubicación en mapa
+              </button>
+              <button id="limpiar-filtros" type="button" title="Limpiar filtros">
+                Limpiar filtros
+              </button>
+            </div>
+            <div id="mapaModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Mapa del piso</h3>
+                <img id="mapa-img" src="" alt="Mapa" />
+              </div>
             </div>
           </div>
-        </div> -->
+        </section>
       </div>
-      <!-- <div class="content-segmento salones-tematicos">
+      <div class="content-segmento salones-tematicos">
         <div class="agenda salones-tematicos" id="agenda"></div>
         <div class="footer-section">
           <p>
@@ -254,7 +288,7 @@
             <use xlink:href="#logo"></use>
           </svg>
         </div>
-      </div> -->
+      </div>
     </main>
 
     <script src="assets/js/agenda.js" defer></script>

@@ -2,6 +2,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--morado) transparent;
 }
 
 :root {
@@ -44,7 +46,12 @@ body {
   height: 100%;
   margin: 0;
   font-family: "Avenir Next LT Pro", Arial;
+}
+
+body {
+  min-height: 100vh;
   background: url("../images/bg-blanco.avif") no-repeat center center / cover;
+  background-attachment: fixed;
 }
 
 main {
@@ -57,7 +64,7 @@ main {
 /* Banner */
 .banner-inicio {
   width: 100%;
-  height: 16/9;
+  height: 4/3;
   flex-shrink: 0;
   background: url("../images/bg-morado.avif") no-repeat center center / cover;
   display: flex;
@@ -69,6 +76,7 @@ main {
   position: absolute;
   width: 20dvw;
   min-width: 150px;
+  max-width: 350px;
   height: auto;
   top: 1rem;
   right: 1rem;
@@ -79,7 +87,7 @@ main {
   aspect-ratio: 1;
   height: fit-content;
   position: relative;
-  transform: translateY(50%);
+  transform: translateY(65%);
   background: var(--gris-2);
   border: 4px solid var(--gris-4);
   border-radius: 50%;
@@ -97,12 +105,12 @@ main {
 .content-inicio {
   width: 100%;
   flex-grow: 1;
-  padding: 6rem 1rem 3rem 1rem;
+  padding: 9rem 1.5rem 3rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 4vh;
+  gap: 3rem;
   position: relative;
 }
 .content-inicio h1 {
@@ -128,7 +136,7 @@ main {
 }
 .content-inicio > img {
   width: 100%;
-  max-width: 200px;
+  max-width: 350px;
   height: auto;
 }
 /* Botones */
@@ -136,8 +144,9 @@ main {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 65%;
+  width: min-content;
   border: 1px solid var(--gris-2);
+  border-radius: 99px;
   color: #fff;
   transition:
     background 0.3s,
