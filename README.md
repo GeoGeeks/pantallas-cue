@@ -1,43 +1,21 @@
-# Astro Starter Kit: Minimal
+# Pantallas CUE - Astro
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Migración del monolito a **Astro** con despliegue automático en GitHub Pages.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🚀 Comandos de Desarrollo
 
-## 🚀 Project Structure
+- `pnpm install` : Instala dependencias.
+- `pnpm dev` : Inicia el servidor local.
+- `pnpm build` : Genera los archivos estáticos en `./dist/`.
+- `pnpm preview` : Previsualiza el build de producción.
 
-Inside of your Astro project, you'll see the following folders and files:
+## ⚙️ Despliegue
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- **CI/CD**: Despliegue automático vía GitHub Actions (`.github/workflows/deploy.yml`).
+- **Configuración**: Configurado con `base: '/pantallas-cue/'` en `astro.config.mjs`.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 📁 Estructura
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `/src/pages`: Enrutamiento principal.
+- `/src/components`: Componentes reutilizables.
+- `/public`: Assets estáticos.
