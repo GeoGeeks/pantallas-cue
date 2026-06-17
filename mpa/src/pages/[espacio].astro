@@ -1,0 +1,38 @@
+---
+// src/pages/[espacio].astro
+import AgendaLayout from "../layouts/AgendaLayout.astro";
+import agendaCompleta from "../data/agenda.json";
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { espacio: "salones" },
+      props: { icono: "easel", title: "Salón temático" },
+    },
+    {
+      params: { espacio: "charlas" },
+      props: { icono: "mic", title: "Sesión técnica" },
+    },
+    {
+      params: { espacio: "laboratorios" },
+      props: { icono: "flask", title: "Laboratorios de entrenamiento" },
+    },
+  ];
+}
+
+const { espacio } = Astro.params;
+const { icono, title } = Astro.props;
+
+const eventosFiltrados = agendaCompleta.filter(
+  (item) => item.tipo_actividad === title,
+);
+---
+
+<AgendaLayout
+  title={title}
+  segmento={espacio}
+  icono={icono}
+  eventos={eventosFiltrados}
+>
+  <div id="agenda" class={`agenda ${espacio}`}></div>
+</AgendaLayout>

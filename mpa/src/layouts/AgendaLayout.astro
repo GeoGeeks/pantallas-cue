@@ -1,0 +1,46 @@
+---
+// src/layouts/AgendaLayout.astro
+import BaseLayout from "./BaseLayout.astro";
+import FiltersPanel from "../components/FiltersPanel.astro";
+import AgendaFooter from "../components/AgendaFooter.astro";
+
+interface Props {
+  title: string;
+  segmento: string;
+  icono: string;
+  showDia?: boolean;
+  eventos: any[];
+}
+
+const { title, segmento, icono, showDia = false, eventos } = Astro.props;
+---
+
+<BaseLayout title={title} extraCss={["espacios"]}>
+  <main>
+    <div class={`banner-segmento ${segmento}`}>
+      <div class="header-nav">
+        <h1>{title}</h1>
+        <a href={`${import.meta.env.BASE_URL}/`}>
+          <svg><use xlink:href="#arrow-back"></use></svg>
+        </a>
+      </div>
+
+      <FiltersPanel icono={icono} segmento={segmento} showDia={showDia} />
+    </div>
+
+    <div
+      id="agenda-container"
+      data-eventos={encodeURIComponent(JSON.stringify(eventos ?? []))}
+      class={`content-segmento ${segmento}`}
+    >
+      <slot />
+      <AgendaFooter icono={icono} />
+    </div>
+  </main>
+
+  <script type="module" src={(() => {
+    const rawBase = import.meta.env.BASE_URL || '/';
+    const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+    return `${base}js/main.js`;
+  })()}></script>
+</BaseLayout>

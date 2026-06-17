@@ -1,0 +1,15 @@
+---
+interface Props {
+  icono: string;
+}
+
+const { icono } = Astro.props;
+---
+
+<div class="footer-section">
+  <p>Personalice su agenda y planee su ruta desde nuestra aplicación móvil.</p>
+
+  <svg class={`${icono}`}>
+    <use href="#logo"></use>
+  </svg>
+</div>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Obtenemos la base para construir las rutas
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Agenda CUE25 | Esri Colombia" extraCss={["inicio"]}>
+  <main>
+    <div class="banner-inicio">
+      <img src={`${base}/images/logo-esri-co.avif`} alt="Logo Esri Colombia" />
+      <div class="logo-banner">
+        <img
+          src={`${base}/icons/logo-vertical.svg`}
+          alt="Logo CUE25 Esri Colombia"
+        />
+      </div>
+    </div>
+
+    <div class="content-inicio">
+      <h1>Consulte la agenda del evento y planee su día</h1>
+
+      <a href={`${base}/salones`} class="btn btn-purple">Salones temáticos</a>
+      <a href={`${base}/charlas`} class="btn btn-red">Sesiones técnicas</a>
+      <a href={`${base}/laboratorios`} class="btn btn-orange"
+        >Laboratorios de entrenamiento</a
+      >
+
+      <img src={`${base}/images/app-qr.avif`} alt="app-qr" />
+      <p>
+        Personalice su agenda y planee su ruta desde nuestra aplicación móvil.
+      </p>
+    </div>
+  </main>
+</BaseLayout>
