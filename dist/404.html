@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirigiendo...</title>
+    <script>
+      // Redirigir a index.html para SPA en GitHub Pages
+      const baseURL = "/pantallas-cue/";
+      const path = window.location.pathname.replace(baseURL, "");
+      if (path && path !== "404.html") {
+        window.location.href = baseURL + "index.html#" + path;
+      }
+    </script>
+  </head>
+  <body>
+    Redirigiendo...
+  </body>
+</html>

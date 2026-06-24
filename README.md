@@ -1,21 +1,28 @@
-# Pantallas CUE - Astro
+# Pantallas CUE - React
 
-Migración del monolito a **Astro** con despliegue automático en GitHub Pages.
+Aplicacion de agenda de evento migrada a **React + Vite**.
 
-## 🚀 Comandos de Desarrollo
+## Características
 
-- `pnpm install` : Instala dependencias.
-- `pnpm dev` : Inicia el servidor local.
-- `pnpm build` : Genera los archivos estáticos en `./dist/`.
-- `pnpm preview` : Previsualiza el build de producción.
+- React Router para navegación SPA
 
-## ⚙️ Despliegue
+## Comandos de desarrollo
 
-- **CI/CD**: Despliegue automático vía GitHub Actions (`.github/workflows/deploy.yml`).
-- **Configuración**: Configurado con `base: '/pantallas-cue/'` en `astro.config.mjs`.
+- `pnpm install`: instala dependencias.
+- `pnpm dev`: inicia el servidor local.
+- `pnpm build`: genera los archivos estaticos en `./dist/`.
+- `pnpm preview`: previsualiza el build de produccion.
 
-## 📁 Estructura
+## Despliegue
 
-- `/src/pages`: Enrutamiento principal.
-- `/src/components`: Componentes reutilizables.
-- `/public`: Assets estáticos.
+- **Configuracion**: `base: "/pantallas-cue/"` en `vite.config.js`.
+- **SPA Redirect**: `public/404.html` redirige todas las rutas a `index.html` para funcionamiento correcto.
+
+## Estructura
+
+- `/src/App.jsx`: enrutamiento con React Router.
+- `/src/components`: componentes React reutilizables (AgendaFooter, FiltersPanel, SvgSprites).
+- `/src/data/`: datos de agenda en JSON.
+- `/src/styles.css`: estilos globales (importa desde `/public/styles/`).
+- `/public/`: assets estaticos (iconos, imágenes, estilos CSS).
+- `vite.config.js`: configuración de Vite con soporte para React.
