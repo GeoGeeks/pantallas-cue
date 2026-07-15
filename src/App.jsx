@@ -52,7 +52,7 @@ function HomePage() {
               Sesiones técnicas
             </Link>
             <Link to="laboratorios" className="btn btn-labs">
-              Laboratorios
+              Labs. Entrenamiento
             </Link>
           </div>
         </div>
@@ -89,6 +89,10 @@ function AgendaPage({ espacio, icono, title }) {
         </div>
 
         <FiltersPanel icono={icono} segmento={espacio} />
+      </div>
+
+      <div className="utilities">
+        Viernes 02
       </div>
 
       <div className={`content-segmento ${espacio}`}>

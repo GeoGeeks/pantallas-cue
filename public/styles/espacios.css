@@ -23,7 +23,6 @@
   top: 0;
   flex-shrink: 0;
   z-index: 50;
-  background-color: var(--color-segmento, var(--morado));
 }
 
 .header-nav {
@@ -36,7 +35,7 @@
 }
 
 .header-nav h1 {
-  color: #fff;
+  color: var(--color-segmento);
   font-weight: 700;
   font-size: var(--font-5);
   padding: 1.5rem 2rem;
@@ -57,7 +56,9 @@
   aspect-ratio: 1;
 }
 
-.section-utilities {
+/* UTILITIES */
+
+/* .section-utilities {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -146,7 +147,7 @@
 
 .section-utilities.filters-open {
   padding-bottom: 1rem;
-}
+} */
 
 .content-segmento {
   width: 100%;

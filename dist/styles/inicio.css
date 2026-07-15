@@ -4,14 +4,14 @@
 
 .main-page .logo {
   width: 100%;
-  max-width: 350px;
+  max-width: 250px;
   position: fixed;
-  top: 3rem;
-  right: 4rem;
+  top: 2rem;
+  right: 2rem;
 }
 
 .main-page .fr-inicio {
-  width: 50dvw;
+  width: 40dvw;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -24,12 +24,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7rem;
+  gap: 5rem;
 }
 
 .content img {
   width: 100%;
-  max-width: 600px;
+  max-width: 400px;
 }
 
 .espacios {
@@ -41,7 +41,7 @@
 }
 
 .espacios h1 {
-  font-size: var(--font-6);
+  font-size: var(--font-5);
   font-weight: 500;
   color: var(--text);
 }
@@ -103,9 +103,9 @@
 }
 
 .awp p {
-  width: 40ch;
+  width: 30ch;
   text-align: center;
-  font-size: var(--font-4);
+  font-size: var(--font-3);
   color: var(--text);
   font-weight: 400;
 }
