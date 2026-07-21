@@ -1,14 +1,19 @@
+import React, { useState, useMemo } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import agendaCompleta from "./data/agenda.json";
-import FiltersPanel from "./components/FiltersPanel.jsx";
-import SvgSprites from "./components/SvgSprites.jsx";
+import { obtenerDiasUnicos } from "./utils/agendaUtils.js";
 import { usePageTitle } from "./hooks/usePageTitle.js";
+import agenda from "./data/agenda.json";
+import SvgSprites from "./components/SvgSprites.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Utilities from "./components/Utilities.jsx";
+import FiltersPanel from "./components/FiltersPanel.jsx";
+import ContentSegmento from "./components/ContentSegmento.jsx";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
 const espacios = {
-  salones: { icono: "easel", title: "Salón temático" },
-  charlas: { icono: "mic", title: "Sesión técnica" },
+  salones: { icono: "easel", title: "Salones temáticos" },
+  charlas: { icono: "mic", title: "Charlas técnicas" },
   laboratorios: {
     icono: "flask",
     title: "Laboratorios de entrenamiento",
@@ -24,11 +29,9 @@ function HomePage() {
 
   return (
     <main className="main-page">
-      <img
-        className="logo"
-        src={withBase("icons/logo-esri-ecuador.svg")}
-        alt="Logo Esri Ecuador"
-      />
+      <svg className="logo-esri">
+        <use href="#logo-esri-ecuador" />
+      </svg>
 
       <img
         className="fr-inicio"
@@ -37,19 +40,18 @@ function HomePage() {
       />
 
       <div className="content">
-        <img
-          src={withBase("icons/logo-cue-ecuador.svg")}
-          alt="Logo CUE Ecuador"
-        />
+        <svg className="logo-cue">
+          <use href="#logo-cue" />
+        </svg>
 
         <div className="espacios">
-          <h1>Consulte la agenda del evento y planee su día</h1>
+          <h2>Consulte la agenda del evento y planeé su día</h2>
           <div className="espacios-btn">
             <Link to="salones" className="btn btn-salones">
               Salones temáticos
             </Link>
             <Link to="charlas" className="btn btn-charlas">
-              Sesiones técnicas
+              Charlas técnicas
             </Link>
             <Link to="laboratorios" className="btn btn-labs">
               Labs. Entrenamiento
@@ -60,8 +62,9 @@ function HomePage() {
         <div className="awp">
           <img src={withBase("images/app-qr.avif")} alt="app-qr" />
           <p>
-            Personalice su agenda y planee su ruta desde nuestra aplicación
-            móvil.
+            Personalice su agenda y planee su ruta
+            <br />
+            desde nuestra aplicación móvil.
           </p>
         </div>
       </div>
@@ -69,56 +72,53 @@ function HomePage() {
   );
 }
 
-function AgendaPage({ espacio, icono, title }) {
+function AgendaPage({ espacio, icono, title, filtro }) {
   usePageTitle();
 
-  const eventos = agendaCompleta
-    .filter((item) => item.tipo_actividad === title)
-    .sort((a, b) => new Date(a.hora_inicio) - new Date(b.hora_inicio));
+  const listaDias = useMemo(() => obtenerDiasUnicos(agenda), []);
+
+  // 2. Inicializar el estado con la fecha del primer día disponible ("2026/10/02")
+  const [diaSeleccionado, setDiaSeleccionado] = useState(
+    () => listaDias[0]?.id || "",
+  );
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const eventos = agenda
+    .filter((item) => {
+      const matchTipo = item.tipo_actividad === (filtro || title);
+      const matchDia = item.fecha === diaSeleccionado;
+      const matchSearch =
+        item.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.lugar &&
+          item.lugar.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      return matchTipo && matchDia && matchSearch;
+    })
+    .sort((a, b) => a.hora_inicio.localeCompare(b.hora_inicio));
 
   return (
     <main className="agenda">
-      <div className={`banner-segmento ${espacio}`}>
-        <div className="header-nav">
-          <h1>{title}</h1>
-          <Link to="/">
-            <svg>
-              <use href="#arrow" />
-            </svg>
-          </Link>
-        </div>
+      <Navbar title={title} espacio={espacio} />
 
-        <FiltersPanel icono={icono} segmento={espacio} />
-      </div>
+      <Utilities
+        dias={listaDias}
+        diaSeleccionado={diaSeleccionado}
+        onSelectDia={setDiaSeleccionado}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        espacio={espacio}
+      />
 
-      <div className="utilities">
-        Viernes 02
-      </div>
+      <ContentSegmento eventos={eventos} espacio={espacio} />
 
-      <div className={`content-segmento ${espacio}`}>
-        <div id="agenda" className={`agenda ${espacio}`}>
-          {eventos.map((item) => (
-            <div className="evento" key={`${item.nombre}-${item.hora_inicio}`}>
-              <div className="hora">
-                <p>{item.hora_inicio}</p>
-              </div>
-              <div className="info">
-                <h3 className="nombre">{item.nombre}</h3>
-                <p>{item.lugar}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="footer-section">
-          <p>
-            Personalice su agenda y planee su ruta desde nuestra aplicación
-            móvil.
-          </p>
+      <div className="footer-section">
+        <p>
+          Personalice su agenda y planeé su ruta desde nuestra aplicación móvil.
+        </p>
 
-          <svg className={icono}>
-            <use href="#logo" />
-          </svg>
-        </div>
+        <svg className="logo-cue">
+          <use href="#logo-cue" />
+        </svg>
       </div>
     </main>
   );

@@ -26,3 +26,4 @@ Aplicacion de agenda de evento migrada a **React + Vite**.
 - `/src/styles.css`: estilos globales (importa desde `/public/styles/`).
 - `/public/`: assets estaticos (iconos, imágenes, estilos CSS).
 - `vite.config.js`: configuración de Vite con soporte para React.
+DDD
