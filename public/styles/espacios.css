@@ -56,7 +56,6 @@
   justify-content: center;
   align-items: center;
   border: none;
-  cursor: pointer;
   padding: 0;
   background-color: transparent;
   transition: color 0.3s;
@@ -171,7 +170,6 @@
 .action-btn {
   background: transparent;
   border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,7 +219,6 @@
 .btn-close-search {
   background: transparent;
   border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
 }
