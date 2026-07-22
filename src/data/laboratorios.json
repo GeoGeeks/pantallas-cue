@@ -1,0 +1,27 @@
+[
+  {
+    "id": "3fa85f64-...",
+    "name": "GeoAI para analisis espacial",
+    "description": "Introduccion a GeoAI...",
+    "day": "Martes",
+    "date": "2026-10-15",
+    "startTime": "2026-10-15T08:00:00.000Z",
+    "endTime": "2026-10-15T09:30:00.000Z",
+    "activityType": "Conferencia",
+    "location": "Salon Principal",
+    "industry": "Gobierno",
+    "sessionLevel": "Basico",
+    "type": "talk",
+    "topics": [{ "id": 1, "value": "GeoAI", "normalizedValue": "geoai" }],
+    "esriProducts": [
+      { "id": 1, "value": "ArcGIS Pro", "normalizedValue": "arcgis pro" }
+    ],
+    "targetAudiences": [
+      {
+        "id": 1,
+        "value": "Todos los usuarios",
+        "normalizedValue": "todos los usuarios"
+      }
+    ]
+  }
+]
