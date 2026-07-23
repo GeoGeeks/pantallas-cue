@@ -237,18 +237,25 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
+  padding: 0 2dvw;
 }
 .evento {
   display: grid;
-  grid-template-columns: 25% 1fr;
-  padding: 2rem 0;
+  grid-template-columns: 20% 1fr;
+  padding: 2dvh 0;
   align-items: center;
+  /*  border-bottom: 1px solid var(--color-espacio-dark); */
 }
+
+/* .evento:last-child {
+  border-bottom: none;
+} */
+
 .evento .hora {
+  width: 100%;
   text-align: left;
-  font-size: var(--font-3);
-  font-weight: 400;
-  display: flex;
+  font-size: 3dvw;
+  font-weight: 300;
   align-self: flex-start;
   align-items: center;
   justify-content: center;
@@ -258,14 +265,57 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.3dvh;
+  padding-right: 5dvw;
 }
 .evento .nombre {
   width: 100%;
   max-width: 65ch;
-  font-size: var(--font-3);
+  font-size: 2.5dvw;
   font-weight: 600;
   letter-spacing: 0.04em;
+}
+.evento .descripcion {
+  font-size: 1.5dvw;
+}
+.evento .detalles {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-size: 1.5dvw;
+  gap: 2dvw;
+}
+.box-detalles {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-size: 1.8dvw;
+}
+.box-detalles.lugar p{
+  border-bottom: 1px solid var(--color-espacio-ligth);
+}
+.evento .detalles .icono-detalles {
+  width: 1.8dvw;
+  aspect-ratio: 1;
+  color: var(--color-espacio-dark);
+  margin-right: 0.5dvw;
+}
+.evento .tematicas {
+  display: flex;
+  flex-direction: row;
+  gap: 1dvw;
+}
+.evento .tematicas p{
+  font-size: 1.1dvw;
+  background-color: var(--gris-3);
+  padding: 0.5dvw 1.2dvw;
+  color: var(--gris-5);
+  border-radius: 10px;
+  font-weight: 600;
 }
 
 /* FOOTER */

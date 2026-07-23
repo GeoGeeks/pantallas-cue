@@ -7,7 +7,7 @@ import SvgSprites from "./components/SvgSprites.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Utilities from "./components/Utilities.jsx";
 import FiltersPanel from "./components/FiltersPanel.jsx";
-import ContentSegmento from "./components/ContentSegmento.jsx";
+import Actividades from "./components/Actividades.jsx";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -109,7 +109,7 @@ function AgendaPage({ espacio, icono, title, filtro }) {
         espacio={espacio}
       />
 
-      <ContentSegmento eventos={eventos} espacio={espacio} />
+      <Actividades eventos={eventos} espacio={espacio} />
 
       <div className="footer-section">
         <p>
