@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState, useMemo } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { obtenerDiasUnicos } from "./utils/agendaUtils.js";
@@ -77,11 +78,75 @@ function AgendaPage({ espacio, icono, title, filtro }) {
 
   const listaDias = useMemo(() => obtenerDiasUnicos(agenda), []);
 
-  // 2. Inicializar el estado con la fecha del primer día disponible ("2026/10/02")
   const [diaSeleccionado, setDiaSeleccionado] = useState(
     () => listaDias[0]?.id || "",
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [filtrosActivos, setFiltrosActivos] = useState([]);
+
+  const gruposFiltros = useMemo(() => {
+    const tipoActual = filtro || title;
+    const tematicasSet = new Set();
+    const nivelesSet = new Set();
+
+    agenda.forEach((item) => {
+      if (item.tipo_actividad === tipoActual) {
+        if (Array.isArray(item.tematicas)) {
+          item.tematicas.forEach((t) => t && tematicasSet.add(t));
+        } else if (item.tematica) {
+          tematicasSet.add(item.tematica);
+        }
+
+        if (item.nivel) {
+          nivelesSet.add(item.nivel);
+        }
+      }
+    });
+
+    const config = [
+      {
+        id: "tematica",
+        label: "Temáticas",
+        opciones: Array.from(tematicasSet),
+      },
+    ];
+
+    if (nivelesSet.size > 0) {
+      config.push({
+        id: "nivel",
+        label: "Nivel",
+        opciones: Array.from(nivelesSet),
+      });
+    }
+
+    return config;
+  }, [filtro, title]);
+
+  const handleAddFiltro = (nuevoFiltro) => {
+    const existe = filtrosActivos.some(
+      (f) => f.grupoId === nuevoFiltro.grupoId && f.valor === nuevoFiltro.valor,
+    );
+    if (!existe) {
+      setFiltrosActivos([...filtrosActivos, nuevoFiltro]);
+    }
+  };
+
+  const handleRemoveFiltro = (filtroToRemove) => {
+    setFiltrosActivos(
+      filtrosActivos.filter(
+        (f) =>
+          !(
+            f.grupoId === filtroToRemove.grupoId &&
+            f.valor === filtroToRemove.valor
+          ),
+      ),
+    );
+  };
+
+  const handleLimpiarFiltros = () => {
+    setFiltrosActivos([]);
+  };
 
   const eventos = agenda
     .filter((item) => {
@@ -92,12 +157,26 @@ function AgendaPage({ espacio, icono, title, filtro }) {
         (item.lugar &&
           item.lugar.toLowerCase().includes(searchQuery.toLowerCase()));
 
-      return matchTipo && matchDia && matchSearch;
+      const itemTematicas = Array.isArray(item.tematicas)
+        ? item.tematicas
+        : item.tematica
+          ? [item.tematica]
+          : [];
+
+      const matchFiltros =
+        filtrosActivos.length === 0 ||
+        filtrosActivos.some((f) => {
+          if (f.grupoId === "tematica") return itemTematicas.includes(f.valor);
+          if (f.grupoId === "nivel") return item.nivel === f.valor;
+          return true;
+        });
+
+      return matchTipo && matchDia && matchSearch && matchFiltros;
     })
     .sort((a, b) => a.hora_inicio.localeCompare(b.hora_inicio));
 
   return (
-    <main className="agenda">
+    <main className={`espacios ${espacio}`}>
       <Navbar title={title} espacio={espacio} />
 
       <Utilities
@@ -107,7 +186,21 @@ function AgendaPage({ espacio, icono, title, filtro }) {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         espacio={espacio}
+        onToggleFilters={() => setShowFilters(!showFilters)}
       />
+
+      {(showFilters || filtrosActivos.length > 0) && (
+        <FiltersPanel
+          gruposFiltros={gruposFiltros}
+          filtrosActivos={filtrosActivos}
+          onAddFiltro={handleAddFiltro}
+          onRemoveFiltro={handleRemoveFiltro}
+          onLimpiarFiltros={handleLimpiarFiltros}
+          onClose={() => setShowFilters(false)}
+          espacio={espacio}
+          isPanelOpen={showFilters}
+        />
+      )}
 
       <Actividades eventos={eventos} espacio={espacio} />
 

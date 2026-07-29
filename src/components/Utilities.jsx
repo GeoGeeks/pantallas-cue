@@ -1,4 +1,4 @@
-// src/components/Utilities.jsx
+
 import React, { useState } from "react";
 
 export default function Utilities({
@@ -8,6 +8,7 @@ export default function Utilities({
   searchQuery,
   onSearchChange,
   espacio,
+  onToggleFilters,
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -91,6 +92,7 @@ export default function Utilities({
             <button
               type="button"
               className="action-btn filter-btn"
+              onClick={onToggleFilters}
               aria-label="Filtrar"
             >
               <svg className="icon">

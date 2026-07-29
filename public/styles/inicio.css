@@ -64,6 +64,7 @@
   color: white;
   width: max-content;
   padding: 3dvw;
+  cursor: default;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -75,10 +76,7 @@
   transition:
     transform 0.2s ease,
     opacity 0.2s ease;
-}
-.btn:hover {
-  transform: scale(1.03);
-  opacity: 0.95;
+
 }
 .btn-salones {
   background-color: var(--fucsia);
