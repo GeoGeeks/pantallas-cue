@@ -34,10 +34,34 @@ export default function FiltersPanel({
   return (
     <div className={`filters-panel-container ${espacio}`} ref={containerRef}>
       <div className="filters-bar">
-        <div className="filters-left">
-          <span className="filtros-label">Filtros</span>
+        <div className="filters-header">
+          <span className="filtros-label">Filtros {filtrosActivos.length}</span>
 
-          {/* 1. Chips de Filtros Activos (Píldora Rellena) */}
+          <div className="actions">
+            {filtrosActivos.length > 0 && (
+              <button
+                type="button"
+                className="btn-limpiar"
+                onClick={onLimpiarFiltros}
+              >
+                Limpiar filtros
+              </button>
+            )}
+
+            {isPanelOpen && onClose && (
+              <button
+                type="button"
+                className="btn-close-panel"
+                onClick={onClose}
+                aria-label="Cerrar filtros"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="filters-content">
           {filtrosActivos.map((item) => (
             <div
               key={`${item.grupoId}-${item.valor}`}
@@ -56,7 +80,6 @@ export default function FiltersPanel({
             </div>
           ))}
 
-          {/* 2. Selectores de Grupos que AÚN NO tienen un filtro activo seleccionado */}
           {isPanelOpen &&
             gruposFiltros.map((grupo) => {
               // Verifica si este grupo ya tiene alguna opción seleccionada activa
@@ -110,29 +133,6 @@ export default function FiltersPanel({
                 </div>
               );
             })}
-        </div>
-
-        <div className="filters-right">
-          {filtrosActivos.length > 0 && (
-            <button
-              type="button"
-              className="btn-limpiar"
-              onClick={onLimpiarFiltros}
-            >
-              Limpiar filtros
-            </button>
-          )}
-
-          {isPanelOpen && onClose && (
-            <button
-              type="button"
-              className="btn-close-panel"
-              onClick={onClose}
-              aria-label="Cerrar filtros"
-            >
-              ✕
-            </button>
-          )}
         </div>
       </div>
     </div>
