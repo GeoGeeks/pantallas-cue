@@ -24,7 +24,13 @@ export default function Actividades({ eventos = [], espacio }) {
 
                 {item.descripcion && (
                   <div className="descripcion">
-                    <p>{item.descripcion}</p>
+                    <button>
+                      Ver detalles de la sesión
+                      <svg className="icono-flecha">
+                        <use href="#icon-arrow" />
+                      </svg>
+                    </button>
+                    <p className="descripcion-info">{item.descripcion}</p>
                   </div>
                 )}
 

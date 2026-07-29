@@ -437,6 +437,35 @@
 }
 .evento .descripcion {
   font-size: 1.5dvw;
+  color: black;
+  gap: 1dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.evento .descripcion button {
+  background-color: transparent;
+  border: none;
+  color: var(--color-espacio-dark);
+}
+
+.evento .descripcion .icono-flecha {
+  width: 1dvw;
+  aspect-ratio: 1;
+  margin-left: 1rem;
+}
+
+.evento .descripcion .icono-flecha .active {
+  transform: scaleY(-1);
+}
+
+.evento .descripcion-info {
+  font-size: 1.5dvw;
+  color: black;
+  display: none;
+}
+.evento .descripcion .active {
+  display: block;
 }
 .evento .detalles {
   display: flex;

@@ -45,7 +45,7 @@ function HomePage() {
           <use href="#logo-cue" />
         </svg>
 
-        <div className="espacios">
+        <div className="espacios-inicio">
           <h2>Consulte la agenda del evento y planeé su día</h2>
           <div className="espacios-btn">
             <Link to="salones" className="btn btn-salones">
