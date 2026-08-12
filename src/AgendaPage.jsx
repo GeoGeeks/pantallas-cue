@@ -65,9 +65,15 @@ export default function AgendaPage({ espacio, title, activityType }) {
       )}
 
       <div className="footer-section">
-        <p>
-          Personalice su agenda y planee su ruta desde nuestra aplicación móvil.
-        </p>
+        <div className="scan-qr">
+          <p>
+            Personalice su agenda y planee su ruta desde nuestra aplicación
+            móvil.
+          </p>
+          <svg className="icono-qr">
+            <use href="#icon-qr" />
+          </svg>
+        </div>
 
         <svg className="logo-cue">
           <use href="#logo-cue" />

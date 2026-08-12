@@ -118,15 +118,17 @@ export default function FiltersPanel({
                     aria-expanded={isOpen}
                   >
                     <span>{labelText}</span>
-                    <span className="arrow">{isOpen ? "⌃" : "⌄"}</span>
+                    <svg className={`arrow-icon ${isOpen ? "active" : ""}`} aria-hidden="true">
+                      <use href="#icon-arrow" xlinkHref="#icon-arrow" />
+                    </svg>
                   </button>
 
                   {isOpen && (
                     <ul className="dropdown-menu">
-                      <li className="dropdown-header" onClick={() => setDropdownOpenId(null)}>
+                      {/* <li className="dropdown-header" onClick={() => setDropdownOpenId(null)}>
                         <span>{grupo.label}</span>
                         <span className="arrow">⌃</span>
-                      </li>
+                      </li> */}
                       {uniqueOptions.length === 0 ? (
                         <li>
                           <div className="dropdown-empty">No hay opciones disponibles</div>

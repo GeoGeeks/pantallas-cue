@@ -34,7 +34,8 @@ const FALLBACK_AGENDA = {
     },
     {
       name: "Tendencias de IA en GIS",
-      description: "Ver detalles de la sesión",
+      description:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde perferendis officiis magnam totam corrupti similique quas pariatur in, eaque nihil quia quae, soluta dolores voluptatibus amet autem sint quidem perspiciatis.",
       date: "2026-10-03",
       startTime: "2026-10-03T09:30:00",
       location: "Salón B",
@@ -305,7 +306,9 @@ function buildApiErrorMessage(status, errorBody) {
     return "Error de servidor. Intente de nuevo más tarde.";
   }
 
-  return errorBody || `Error en el endpoint (${status}). Revise la URL del endpoint.`;
+  return (
+    errorBody || `Error en el endpoint (${status}). Revise la URL del endpoint.`
+  );
 }
 
 function getFallbackAgenda(espacio) {
@@ -317,7 +320,9 @@ function getFallbackAgenda(espacio) {
         ? "Salones temáticos"
         : "Charlas técnicas";
 
-  return fallback.map((item, index) => normalizeItem(item, index, tipoActividad));
+  return fallback.map((item, index) =>
+    normalizeItem(item, index, tipoActividad),
+  );
 }
 
 export async function fetchAgendaData(espacio) {
@@ -355,11 +360,14 @@ export async function fetchAgendaData(espacio) {
     }
 
     if (response.status >= 500) {
-      console.warn("API con error del servidor, usando agenda local de respaldo.", {
-        espacio,
-        status: response.status,
-        response: errorBody,
-      });
+      console.warn(
+        "API con error del servidor, usando agenda local de respaldo.",
+        {
+          espacio,
+          status: response.status,
+          response: errorBody,
+        },
+      );
       return getFallbackAgenda(espacio);
     }
 
