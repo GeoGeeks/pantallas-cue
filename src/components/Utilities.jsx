@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function Utilities({
   dias = [],
@@ -9,12 +8,9 @@ export default function Utilities({
   onSearchChange,
   espacio,
   onToggleFilters,
+  activeFilterCount = 0,
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
-
-  const handleClearSearch = () => {
-    onSearchChange("");
-  };
 
   const handleCloseSearch = () => {
     onSearchChange("");
@@ -34,7 +30,7 @@ export default function Utilities({
             className="search-input"
             placeholder="Buscar..."
             value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={(event) => onSearchChange(event.target.value)}
             autoFocus
           />
 
@@ -43,7 +39,7 @@ export default function Utilities({
               <button
                 type="button"
                 className="btn-clear"
-                onClick={handleClearSearch}
+                onClick={() => onSearchChange("")}
               >
                 Limpiar
               </button>
@@ -98,6 +94,9 @@ export default function Utilities({
               <svg className="icon">
                 <use href="#icon-filter" />
               </svg>
+              {activeFilterCount > 0 && (
+                <span className="filter-badge">{activeFilterCount}</span>
+              )}
             </button>
           </div>
         </div>

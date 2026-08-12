@@ -1,36 +1,65 @@
-// src/components/Actividades.jsx
-import React from "react";
+import { useState } from "react";
+import { getItemTopics } from "../utils/agendaUtils.js";
 
 export default function Actividades({ eventos = [], espacio }) {
+  const [itemAbierto, setItemAbierto] = useState(null);
+
+  const esLaboratorio = (item) => {
+    const tipoActividad = String(item.tipo_actividad || "").toLowerCase();
+    return espacio === "laboratorios" || tipoActividad.includes("laboratorio");
+  };
+
+  const getTextoBoton = (item, abierto) => {
+    if (abierto) {
+      return esLaboratorio(item)
+        ? "Ocultar detalles del laboratorio"
+        : "Ocultar detalles de la sesión";
+    }
+
+    return esLaboratorio(item)
+      ? "Ver detalles del laboratorio"
+      : "Ver detalles de la sesión";
+  };
+
   return (
     <div className={`content-agenda ${espacio}`}>
       <div id="agenda" className={`agenda ${espacio}`}>
         {eventos.map((item, index) => {
-          const tags = Array.isArray(item.tematicas)
-            ? item.tematicas
-            : item.tematica
-              ? [item.tematica]
-              : [];
+          const tags = getItemTopics(item);
+          const itemKey = item.id || `${item.nombre}-${item.hora_inicio}-${index}`;
+          const abierto = itemAbierto === itemKey;
+          const tieneDetalles = Boolean(item.descripcion);
 
           return (
-            <div
-              className="evento"
-              key={item.id || `${item.nombre}-${item.hora_inicio}-${index}`}
-            >
+            <div className="evento" key={itemKey}>
               <div className="hora">{item.hora_inicio}</div>
 
               <div className="info">
                 <h3 className="nombre">{item.nombre}</h3>
 
-                {item.descripcion && (
+                {tieneDetalles && (
                   <div className="descripcion">
-                    <button>
-                      Ver detalles de la sesión
-                      <svg className="icono-flecha">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setItemAbierto((actual) =>
+                          actual === itemKey ? null : itemKey,
+                        )
+                      }
+                      aria-expanded={abierto}
+                      className={abierto ? "active" : ""}
+                    >
+                      {getTextoBoton(item, abierto)}
+                      <svg className={`icono-flecha ${abierto ? "active" : ""}`}>
                         <use href="#icon-arrow" />
                       </svg>
                     </button>
-                    <p className="descripcion-info">{item.descripcion}</p>
+
+                    <div
+                      className={`descripcion-info ${abierto ? "active" : ""}`}
+                    >
+                      <p>{item.descripcion}</p>
+                    </div>
                   </div>
                 )}
 

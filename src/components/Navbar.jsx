@@ -1,12 +1,6 @@
-// src/components/Navbar.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
-const MENU_ITEMS = [
-  { label: "Salones temáticos", path: "/salones" },
-  { label: "Charlas técnicas", path: "/charlas" },
-  { label: "Laboratorios de entrenamiento", path: "/laboratorios" },
-];
+import { MENU_ITEMS } from "../config/agenda.js";
 
 export default function Navbar({ title, espacio }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,9 +32,9 @@ export default function Navbar({ title, espacio }) {
 
         {menuOpen && (
           <div className="menu-dropdown">
-            {MENU_ITEMS.map((item, index) => (
+            {MENU_ITEMS.map((item) => (
               <Link
-                key={index}
+                key={item.path}
                 to={item.path}
                 onClick={closeMenu}
                 className={`menu-item ${item.label === title ? "selected" : ""}`}
