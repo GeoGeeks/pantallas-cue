@@ -1,5 +1,19 @@
-export function getUniqueDays(agendaData) {
-  const uniqueDates = [...new Set(agendaData.map((item) => item.fecha))]
+export function getUniqueDays(
+  agendaData,
+  activityType,
+  activeFilters = [],
+) {
+  const uniqueDates = [
+    ...new Set(
+      agendaData
+        .filter(
+          (item) =>
+            matchesActivityType(item, activityType) &&
+            matchesFilters(item, activeFilters),
+        )
+        .map((item) => item.fecha),
+    ),
+  ]
     .filter(Boolean)
     .sort((a, b) => parseDate(a) - parseDate(b));
 
@@ -15,8 +29,22 @@ export function getUniqueDays(agendaData) {
   });
 }
 
-export function getFilterGroups(agenda, activityType, activeFilters = []) {
-  const baseItems = agenda.filter((item) => matchesActivityType(item, activityType));
+export function getFilterGroups(
+  agenda,
+  activityType,
+  activeFilters = [],
+  selectedDay = "",
+  searchQuery = "",
+) {
+  const normalizedQuery = normalizeText(searchQuery);
+  const baseItems = agenda.filter(
+    (item) =>
+      matchesActivityType(item, activityType) &&
+      (!selectedDay || item.fecha === selectedDay) &&
+      (!normalizedQuery ||
+        normalizeText(item.nombre).includes(normalizedQuery) ||
+        normalizeText(item.lugar).includes(normalizedQuery)),
+  );
 
   const optionGroups = [
     {

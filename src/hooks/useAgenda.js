@@ -39,7 +39,10 @@ export function useAgenda({ espacio, activityType }) {
     return () => controller.abort();
   }, [espacio]);
 
-  const days = useMemo(() => getUniqueDays(agenda), [agenda]);
+  const days = useMemo(
+    () => getUniqueDays(agenda, activityType, activeFilters),
+    [agenda, activityType, activeFilters],
+  );
 
   useEffect(() => {
     if (days.length === 0) {
@@ -53,8 +56,15 @@ export function useAgenda({ espacio, activityType }) {
   }, [days, selectedDay]);
 
   const filterGroups = useMemo(
-    () => getFilterGroups(agenda, activityType, activeFilters),
-    [agenda, activityType, activeFilters],
+    () =>
+      getFilterGroups(
+        agenda,
+        activityType,
+        activeFilters,
+        selectedDay,
+        searchQuery,
+      ),
+    [agenda, activityType, activeFilters, selectedDay, searchQuery],
   );
 
   const events = useMemo(
@@ -74,7 +84,7 @@ export function useAgenda({ espacio, activityType }) {
       const nextFilters = currentFilters.filter(
         (filter) => filter.grupoId !== newFilter.grupoId,
       );
-a
+
       return [...nextFilters, newFilter];
     });
   };

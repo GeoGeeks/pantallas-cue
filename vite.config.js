@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const proxySecure = env.VITE_API_PROXY_SECURE !== "false";
 
   return {
     plugins: [react()],
@@ -10,11 +11,14 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api/agenda": {
-          target: "https://geoapps.esri.co",
+          target: env.VITE_API_PROXY_TARGET || "https://geoapps.esri.co",
           changeOrigin: true,
-          secure: true,
+          secure: proxySecure,
           rewrite: (path) =>
-            path.replace(/^\/api\/agenda/, "/agenda-cue-2026/rest/v1"),
+            path.replace(
+              /^\/api\/agenda/,
+              env.VITE_API_PROXY_PATH || "/agenda-cue-2026/rest/v1/ecuador",
+            ),
           configure: (proxy) => {
             proxy.on("proxyReq", (proxyReq) => {
               const existingAuth = proxyReq.getHeader("Authorization");

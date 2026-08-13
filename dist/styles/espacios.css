@@ -8,8 +8,8 @@
   --color-espacio-ligth: #7d00fe80;
 }
 .laboratorios {
-  --color-espacio-dark: #ff9600;
-  --color-espacio-ligth: #ff960080;
+  --color-espacio-dark: #004081;
+  --color-espacio-ligth: #00418180;
 }
 
 /* CONTENEDOR PRINCIPAL */
@@ -19,6 +19,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  gap: 2dvw;
 }
 
 .estado-container {
@@ -130,8 +131,8 @@
   margin: 0;
 }
 .header-nav .menu-button {
-  width: 3.5dvw;
-  height: 3.5dvw;
+  width: 4dvw;
+  height: 4dvw;
   color: var(--color-espacio-dark);
   display: flex;
   justify-content: center;
@@ -206,7 +207,7 @@
 /* UTILITIES */
 .utilities-bar {
   width: 100%;
-  padding: var(--border-padding);
+  padding: 0 var(--border-padding);
   box-sizing: border-box;
   background-color: transparent;
 }
@@ -266,15 +267,15 @@
 }
 .filter-badge {
   position: absolute;
-  top: -0.35rem;
-  right: -0.35rem;
-  min-width: 1.6rem;
-  height: 1.6rem;
-  padding: 0 0.4rem;
+  top: -1.5dvw;
+  right: -1.5dvw;
+  width: 2.2dvw;
+  aspect-ratio: 1;
+  padding: 0 1dvw;
   border-radius: 999px;
-  background: #7d00fe;
+  background: var(--color-espacio-dark);
   color: #ffffff;
-  font-size: 0.75rem;
+  font-size: 1dvw;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
@@ -334,18 +335,13 @@
 /* FILTROS */
 .filters-panel-container {
   width: 100%;
-  padding: 0 2dvw 1dvh 2dvw;
+  padding: 0 var(--border-padding);
 }
 .filters-panel-card {
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-espacio-dark);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(24px);
-  padding: 2dvw;
   gap: 2dvw;
 }
 .filters-panel-header {
@@ -359,7 +355,7 @@
 .filters-title {
   color: var(--color-espacio-dark);
   font-size: 2dvw;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
   letter-spacing: 0.08em;
 }
@@ -374,20 +370,17 @@
   border: none;
   color: var(--color-espacio-dark);
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
 }
-.limpiar-filtros:hover,
-.btn-limpiar:hover {
-  text-decoration: underline;
-}
 .filters-panel-body {
-  display: grid;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 2dvw;
-  grid-template-columns: repeat(3, minmax(240px, 1fr));
 }
 .filters-panel-collapsed {
-  padding: 0 2dvw 1dvh 2dvw;
+  padding: 0 var(--border-padding);
 }
 .filters-panel-collapsed-card {
   width: 100%;
@@ -404,29 +397,32 @@
 .filters-panel-collapsed-card .filter-chip-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 2dvw;
   align-items: center;
   flex: 1 1 auto;
 }
 .filter-chip-active.filter-chip-collapsed {
   background-color: var(--color-espacio-dark);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.2);
-  padding: 0.95rem 1.3rem;
+  border: 1px solid var(--color-espacio-dark);
+  border-radius: 20px;
+  padding: 1dvw 2dvw;
+  font-size: 1.2dvw;
+  display: flex;
+  justify-content: center;
 }
-.filter-chip-active.filter-chip-collapsed:hover {
-  background-color: var(--color-espacio-dark);
+.filter-chip-active.filter-chip-collapsed .chip-title {
+  font-weight: 600;
 }
 .filter-chip-active.filter-chip-collapsed .chip-remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.6rem;
-  height: 1.6rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  font-size: 0.9rem;
+  width: 1dvw;
+  aspect-ratio: 1;
+  margin-left: 1dvw;
 }
 .filter-row {
   display: grid;
@@ -443,6 +439,8 @@
   position: relative;
 }
 .btn-dropdown {
+  position: relative;
+  z-index: 201;
   width: 100%;
   text-align: left;
   background-color: white;
@@ -451,15 +449,14 @@
   padding: 1.2dvw 2dvw;
   border-radius: 20px;
   font-size: 1.4dvw;
+  gap: 3dvw;
   font-weight: normal;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
-}
+    background-color 0.1s ease;
+  }
 .btn-dropdown .arrow-icon {
   width: 1.2dvw;
   aspect-ratio: 1;
@@ -473,48 +470,33 @@
   border-color: var(--color-espacio-dark);
   color: #ffffff;
 }
-.btn-dropdown.active,
-.btn-dropdown:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 36px rgba(125, 0, 254, 0.12);
+.btn-dropdown[aria-expanded="true"] {
+  background-color: var(--color-espacio-dark);
+  color: white;
 }
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 0.75rem);
+  top: calc(100% - 1.5vw);
   left: 0;
   width: 100%;
   background-color: #ffffff;
-  border-radius: 24px;
+  border-radius: 0 0 24px 24px;
   border: 1px solid rgba(125, 0, 254, 0.15);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.1);
   list-style: none;
-  padding: 0.75rem 0;
+  padding-top: 1.5dvw;
   margin: 0;
   z-index: 200;
   overflow: hidden;
 }
-/* .dropdown-header {
-  padding: 1rem 1.4rem;
-  background-color: transparent;
-  color: var(--color-espacio-dark);
-  font-weight: 700;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-} */
 .dropdown-menu li button {
-  width: 90%;
+  width: 100%;
   text-align: left;
   background: transparent;
   border: none;
-  padding: 1.2dvw 2dvw;
+  padding: 1.5dvw 2dvw;
   color: var(--color-espacio-dark);
   font-size: 1.4dvw;
-  cursor: pointer;
   border-bottom: 1px solid var(--gris-3);
   transition:
     background-color 0.15s ease,
@@ -522,9 +504,6 @@
 }
 .dropdown-menu li button:last-child {
   border-bottom: 1px solid transparent;
-}
-.dropdown-menu li button:hover {
-  background-color: rgba(125, 0, 254, 0.08);
 }
 .dropdown-menu li:not(:last-child) button {
   border-bottom: 1px solid rgba(125, 0, 254, 0.1);
@@ -594,7 +573,7 @@
 }
 .evento .descripcion {
   color: black;
-  gap: 1dvh;
+  gap: 1dvw;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -607,12 +586,8 @@
   align-items: center;
   padding: 0;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1.3dvw;
-}
-
-.evento .descripcion button:hover {
-  text-decoration: underline;
+  font-weight: 500;
+  font-size: 1.4dvw;
 }
 
 .evento .descripcion .icono-flecha {
@@ -627,11 +602,10 @@
 }
 
 .evento .descripcion-info {
-  font-size: 1.3dvw;
+  font-size: 1.4dvw;
   color: black;
   display: none;
   width: 100%;
-  margin-top: 0.5dvh;
   line-height: 1.45;
 }
 .evento .descripcion-info.active {

@@ -19,7 +19,10 @@ export default function FiltersPanel({
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setDropdownOpenId(null);
       }
     }
@@ -42,15 +45,23 @@ export default function FiltersPanel({
         onClick={() => onRemoveFiltro(filter)}
         aria-label={`Eliminar filtro ${label}: ${filter.valor}`}
       >
-        <span>{label}: {filter.valor}</span>
-        <span className="chip-remove">×</span>
+        <div>
+          <span>{label}: </span>
+          <span className="chip-title">{filter.valor}</span>
+        </div>
+        <svg className="chip-remove">
+          <use href="#icon-close" />
+        </svg>
       </button>
     );
   });
 
   if (!isPanelOpen && filtrosActivos.length > 0) {
     return (
-      <div className={`filters-panel-container ${espacio} filters-panel-collapsed`} ref={containerRef}>
+      <div
+        className={`filters-panel-container ${espacio} filters-panel-collapsed`}
+        ref={containerRef}
+      >
         <div className="filters-panel-collapsed-card">
           <div className="filter-chip-list">{activeFilterChips}</div>
           <button
@@ -118,20 +129,21 @@ export default function FiltersPanel({
                     aria-expanded={isOpen}
                   >
                     <span>{labelText}</span>
-                    <svg className={`arrow-icon ${isOpen ? "active" : ""}`} aria-hidden="true">
+                    <svg
+                      className={`arrow-icon ${isOpen ? "active" : ""}`}
+                      aria-hidden="true"
+                    >
                       <use href="#icon-arrow" xlinkHref="#icon-arrow" />
                     </svg>
                   </button>
 
                   {isOpen && (
                     <ul className="dropdown-menu">
-                      {/* <li className="dropdown-header" onClick={() => setDropdownOpenId(null)}>
-                        <span>{grupo.label}</span>
-                        <span className="arrow">⌃</span>
-                      </li> */}
                       {uniqueOptions.length === 0 ? (
                         <li>
-                          <div className="dropdown-empty">No hay opciones disponibles</div>
+                          <div className="dropdown-empty">
+                            No hay opciones disponibles
+                          </div>
                         </li>
                       ) : (
                         uniqueOptions.map((opcion) => (
@@ -139,7 +151,10 @@ export default function FiltersPanel({
                             <button
                               type="button"
                               onClick={() => {
-                                onAddFiltro({ grupoId: grupo.id, valor: opcion });
+                                onAddFiltro({
+                                  grupoId: grupo.id,
+                                  valor: opcion,
+                                });
                                 setDropdownOpenId(null);
                               }}
                             >
