@@ -1,7 +1,4 @@
-export function getUniqueDays(
-  agendaData,
-  activityType,
-) {
+export function getUniqueDays(agendaData, activityType) {
   const uniqueDates = new Set();
   for (const item of agendaData) {
     if (matchesActivityType(item, activityType) && item.fecha) {
@@ -60,12 +57,14 @@ export function getFilterGroups(
     {
       id: "dirigidoA",
       label: "Dirigido a",
-      extractOptions: (item) => getValueList(item.audiencias || item.targetAudiences),
+      extractOptions: (item) =>
+        getValueList(item.audiencias || item.targetAudiences),
     },
     {
       id: "producto",
       label: "Producto",
-      extractOptions: (item) => getValueList(item.producto_esri || item.esriProducts),
+      extractOptions: (item) =>
+        getValueList(item.producto_esri || item.esriProducts),
     },
     {
       id: "nivelSesion",
@@ -144,28 +143,17 @@ export function getItemTopics(item) {
 }
 
 function matchesActivityType(item, expectedType) {
-  const activityType = item.tipo_actividad || "";
+  const activityType = normalizeText(item.tipo_actividad);
+  const normalizedExpectedType = normalizeText(expectedType);
   const aliases = {
-    "Salones temáticos": ["Salones temáticos", "Salón temático"],
-    "Charlas técnicas": [
-      "Charlas técnicas",
-      "Plenaria",
-      "Conferencia",
-      "Conversatorio",
-      "Mesa redonda",
-      "Taller",
-      "Seminario",
-      "Actividad Social",
-    ],
-    "Laboratorios de entrenamiento": [
-      "Laboratorios de entrenamiento",
-      "Laboratorio de entrenamiento",
-      "Laboratorio",
-      "Laboratorios",
-    ],
+    "salon tematico": ["salon tematico"],
+    "charla tecnica": ["charla tecnica"],
+    "laboratorios de entrenamiento": ["laboratorios de entrenamiento"],
   };
 
-  return (aliases[expectedType] || [expectedType]).includes(activityType);
+  return (aliases[normalizedExpectedType] || [normalizedExpectedType]).includes(
+    activityType,
+  );
 }
 
 function matchesFilters(item, activeFilters) {
@@ -185,16 +173,22 @@ function matchesFilters(item, activeFilters) {
       return values.includes(item.lugar);
     }
     if (groupId === "dirigidoA") {
-      return values.some((value) => getValueList(item.audiencias || item.targetAudiences).includes(value));
+      return values.some((value) =>
+        getValueList(item.audiencias || item.targetAudiences).includes(value),
+      );
     }
     if (groupId === "producto") {
-      return values.some((value) => getValueList(item.producto_esri || item.esriProducts).includes(value));
+      return values.some((value) =>
+        getValueList(item.producto_esri || item.esriProducts).includes(value),
+      );
     }
     if (groupId === "nivelSesion") {
       return values.includes(item.nivel || item.sessionLevel);
     }
     if (groupId === "industria") {
-      return values.some((value) => getValueList(item.industria || item.industry).includes(value));
+      return values.some((value) =>
+        getValueList(item.industria || item.industry).includes(value),
+      );
     }
     return true;
   });
@@ -206,7 +200,9 @@ function getValueList(value) {
       .map((entry) => {
         if (typeof entry === "string") return entry;
         if (entry && typeof entry === "object") {
-          return entry.value || entry.name || entry.title || entry.objective || "";
+          return (
+            entry.value || entry.name || entry.title || entry.objective || ""
+          );
         }
         return "";
       })
@@ -234,7 +230,13 @@ function mergeRepeatedLaboratoryEvents(events) {
   const eventsByKey = new Map();
 
   for (const item of events) {
-    const key = [item.nombre, item.lugar, item.fecha].map((part) => String(part || "").trim().toLowerCase()).join("::");
+    const key = [item.nombre, item.lugar, item.fecha]
+      .map((part) =>
+        String(part || "")
+          .trim()
+          .toLowerCase(),
+      )
+      .join("::");
     const current = eventsByKey.get(key);
 
     if (!current) {
@@ -316,7 +318,9 @@ function toLocalDate(value) {
 }
 
 function parseTime(value) {
-  const match = String(value || "").match(/^(\d{1,2}):(\d{2})\s*(a\.m\.|p\.m\.)?/i);
+  const match = String(value || "").match(
+    /^(\d{1,2}):(\d{2})\s*(a\.m\.|p\.m\.)?/i,
+  );
   if (!match) return Number.MAX_SAFE_INTEGER;
 
   let hours = Number(match[1]);

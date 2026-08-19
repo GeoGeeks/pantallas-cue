@@ -20,7 +20,7 @@ const FALLBACK_AGENDA = {
       esriProducts: ["GeoAI", "ArcGIS Pro"],
       targetAudiences: ["Nivel intermedio"],
       industry: ["Tecnología", "Geoespacial"],
-      tipo_actividad: "Plenaria",
+      tipo_actividad: "Charla Técnica",
     },
     {
       name: "Mapas y análisis espacial",
@@ -49,7 +49,7 @@ const FALLBACK_AGENDA = {
       esriProducts: ["ArcGIS Pro"],
       targetAudiences: ["Profesionales"],
       industry: ["Tecnología", "Innovación"],
-      tipo_actividad: "Plenaria",
+      tipo_actividad: "Charla Técnica",
     },
   ],
   salones: [
@@ -203,28 +203,7 @@ function normalizeTopics(topics) {
 
 function resolveTipoActividad(item, fallback) {
   const rawValue = item.tipo_actividad || item.activityType || "";
-
-  const value = String(rawValue).trim();
-
-  const salonKeywords = ["Salón temático"];
-
-  const charlaKeywords = ["Plenaria", "Actividad Social", "Charla técnica"];
-
-  const laboratorioKeywords = ["Laboratorios de entrenamiento"];
-
-  if (salonKeywords.includes(value)) {
-    return "Salones temáticos";
-  }
-
-  if (charlaKeywords.includes(value)) {
-    return "Charlas técnicas";
-  }
-
-  if (laboratorioKeywords.includes(value)) {
-    return "Laboratorios de entrenamiento";
-  }
-
-  return fallback || "";
+  return String(rawValue).trim() || fallback || "";
 }
 
 function normalizeItem(item, tipoActividad) {
@@ -235,11 +214,17 @@ function normalizeItem(item, tipoActividad) {
     item.startTime || item.start_time || item.hora_inicio || item.timeStart,
   );
   const horaFin = normalizeTime(
-    item.endTime || item.end_time || item.hora_fin || item.finishTime || item.timeEnd,
+    item.endTime ||
+      item.end_time ||
+      item.hora_fin ||
+      item.finishTime ||
+      item.timeEnd,
   );
   const lugar = item.location;
   const nivel = item.sessionLevel;
-  const industria = normalizeList(item.industry || item.industries || item.industria);
+  const industria = normalizeList(
+    item.industry || item.industries || item.industria,
+  );
   const tematicas = normalizeTopics(item.topics);
   const productos = normalizeList(item.esriProducts);
   const audiencias = normalizeList(item.targetAudiences);
@@ -333,8 +318,8 @@ function getFallbackAgenda(espacio) {
     espacio === "laboratorios"
       ? "Laboratorios de entrenamiento"
       : espacio === "salones"
-        ? "Salones temáticos"
-        : "Charlas técnicas";
+        ? "Salón temático"
+        : "Charla técnica";
 
   return fallback.map((item) => normalizeItem(item, tipoActividad));
 }
@@ -370,7 +355,11 @@ export async function fetchAgendaData(espacio, options = {}) {
     const errorBody = await response.text();
     const message = buildApiErrorMessage(response.status, errorBody);
 
-    if (isAuthErrorStatus(response.status) || response.status === 404 || response.status >= 500) {
+    if (
+      isAuthErrorStatus(response.status) ||
+      response.status === 404 ||
+      response.status >= 500
+    ) {
       console.warn(
         "API no disponible para agenda remota, usando agenda local de respaldo.",
         {

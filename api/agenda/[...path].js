@@ -1,5 +1,5 @@
-const API_TARGET = process.env.API_TARGET || "https://geoapps.esri.co";
-const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/agenda-cue-2026/rest/v1/ecuador";
+const API_TARGET = process.env.API_TARGET || "https://cue.esri.ec";
+const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/rest/v1/ecuador";
 
 export default async function handler(request, response) {
   if (request.method !== "GET") {

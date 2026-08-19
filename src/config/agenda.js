@@ -3,11 +3,11 @@ export const BASE_URL = import.meta.env.BASE_URL;
 export const AGENDA_SECTIONS = {
   salones: {
     title: "Salones temáticos",
-    activityType: "Salones temáticos",
+    activityType: "Salón temático",
   },
   charlas: {
     title: "Charlas técnicas",
-    activityType: "Charlas técnicas",
+    activityType: "Charla técnica",
   },
   laboratorios: {
     title: "Laboratorios de entrenamiento",

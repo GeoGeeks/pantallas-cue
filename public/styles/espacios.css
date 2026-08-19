@@ -472,8 +472,8 @@
   width: 100%;
   text-align: left;
   background-color: white;
-  border: 1px solid var(--gris-5);
-  color: var(--gris-6);
+  border: 1px solid var(--gris-4);
+  color: var(--gris-5);
   padding: var(--pill-padding);
   border-radius: var(--border-raidus);
   font-size: 1.2dvw;
@@ -736,7 +736,7 @@
 .floor-map-modal {
   width: min(92dvw, 7var(--border-raidus));
   max-height: 92dvh;
-  background: var(--color-espacio-ligth);
+  background: var(--gris-1);
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -754,7 +754,7 @@
 }
 
 .floor-map-header h2 {
-  color: white;
+  color: var(--color-espacio-dark);
   font-size: 3dvw;
   font-weight: 600;
   margin: 0;
@@ -766,7 +766,7 @@
   top: 1dvw;
   border: none;
   background: transparent;
-  color: white;
+  color: var(--color-espacio-dark);
   width: 2dvw;
   aspect-ratio: 1;
   display: inline-flex;
@@ -791,7 +791,7 @@
 .floor-map-empty {
   padding: 1rem 1.5rem 1.5rem;
   margin: 0;
-  color: var(--gris-3);
+  color: var(--color-espacio-ligth);
   font-size: 1rem;
   text-align: center;
 }

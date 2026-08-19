@@ -11,13 +11,13 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api/agenda": {
-          target: env.VITE_API_PROXY_TARGET || "https://geoapps.esri.co",
+          target: env.VITE_API_PROXY_TARGET || "https://cue.esri.ec",
           changeOrigin: true,
           secure: proxySecure,
           rewrite: (path) =>
             path.replace(
               /^\/api\/agenda/,
-              env.VITE_API_PROXY_PATH || "/agenda-cue-2026/rest/v1/ecuador",
+              env.VITE_API_PROXY_PATH || "/rest/v1/ecuador",
             ),
           configure: (proxy) => {
             proxy.on("proxyReq", (proxyReq) => {
