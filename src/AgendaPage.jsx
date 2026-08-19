@@ -68,9 +68,12 @@ export default function AgendaPage({ espacio, title, activityType }) {
           Personalice su agenda y planee su ruta desde nuestra aplicación móvil.
         </p>
 
-        <svg className="logo-cue">
-          <use href="#logo-cue" />
-        </svg>
+
+        <a href="/" aria-label="Ir a la página de inicio">
+          <svg className="logo-cue">
+            <use href="#logo-cue" />
+          </svg>
+        </a>
       </div>
     </main>
   );

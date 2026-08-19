@@ -14,19 +14,18 @@
   --negro: #000000;
   --blanco: #ffffff;
 
+  /* Tamños iconos */
+  --size-xl: 2.4dvw;
+  --size-m: 1.8dvw;
+  --size-sm: 1.5dvw;
+  --size-ss: 1.2dvw;
+
   /* Tamaños de fuente */
-  --font--3: clamp(0.75rem, 1vw + 0.5rem, 0.875rem);
-  --font--2: clamp(0.875rem, 1.2vw + 0.5rem, 1rem);
-  --font--1: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
-  --font-0: clamp(1.125rem, 1.8vw + 0.5rem, 1.375rem);
-  --font-1: clamp(1.25rem, 2vw + 0.5rem, 1.625rem);
-  --font-2: clamp(1.5rem, 2.5vw + 0.5rem, 2rem);
-  --font-3: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
-  --font-4: clamp(2rem, 3.5vw + 0.5rem, 3rem);
-  --font-5: clamp(2.5rem, 4.5vw + 0.5rem, 3.75rem);
-  --font-6: clamp(3rem, 5.5vw + 0.5rem, 4.5rem);
-  --font-7: clamp(3.5rem, 6.5vw + 0.5rem, 5.25rem);
-  --font-8: clamp(4rem, 8vw + 0.5rem, 6.5rem);
+  --font-xxl: 3dvw;
+  --font-xl: 2.5dvw;
+  --font-m: 2dvw;
+  --font-sm: 1.8dvw;
+  --font-filters: 1.2dvw;
 
   /* Border Radius */
   --border-raidus: 2dvw;

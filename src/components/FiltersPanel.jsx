@@ -101,7 +101,9 @@ export default function FiltersPanel({
                 onClick={onClose}
                 aria-label="Cerrar filtros"
               >
-                ×
+                <svg className="close-panel-icon" aria-hidden="true">
+                  <use href="#icon-close" xlinkHref="#icon-close" />
+                </svg>
               </button>
             )}
           </div>
