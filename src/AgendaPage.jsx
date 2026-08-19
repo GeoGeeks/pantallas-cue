@@ -1,4 +1,3 @@
-// src/AgendaPage.jsx
 import { useAgenda } from "./hooks/useAgenda.js";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 import Actividades from "./components/Actividades.jsx";
@@ -65,15 +64,9 @@ export default function AgendaPage({ espacio, title, activityType }) {
       )}
 
       <div className="footer-section">
-        <div className="scan-qr">
-          <p>
-            Personalice su agenda y planee su ruta desde nuestra aplicación
-            móvil.
-          </p>
-          <svg className="icono-qr">
-            <use href="#icon-qr" />
-          </svg>
-        </div>
+        <p>
+          Personalice su agenda y planee su ruta desde nuestra aplicación móvil.
+        </p>
 
         <svg className="logo-cue">
           <use href="#logo-cue" />

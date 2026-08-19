@@ -13,6 +13,7 @@
 }
 .fr-inicio {
   width: 48dvw;
+  height: 48dvw;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -60,7 +61,7 @@
   font-size: 2dvw;
   font-weight: 300;
   color: white;
-  width: max-content;
+  width: 25ch;
   padding: 3dvw;
   cursor: default;
   -webkit-mask-repeat: no-repeat;
@@ -100,4 +101,5 @@
 }
 .awp img {
   width: 30dvw;
+  height: auto;
 }

@@ -3,7 +3,7 @@
 :root {
   --fucsia: #f9047d;
   --morado: #7d00fe;
-  --naranja: #0070C0;
+  --naranja: #0070c0;
 
   --gris-1: #f7f7f7;
   --gris-2: #ededed;
@@ -28,13 +28,20 @@
   --font-7: clamp(3.5rem, 6.5vw + 0.5rem, 5.25rem);
   --font-8: clamp(4rem, 8vw + 0.5rem, 6.5rem);
 
+  /* Border Radius */
+  --border-raidus: 2dvw;
+
   /* Epaciados */
   --border-padding: 3dvw;
+  --pill-padding: 1dvw 2dvw;
 }
 
 @font-face {
   font-family: "AvenirNextLTPro";
-  src: url("../fonts/AvenirNextLTPro-Regular.ttf") format("truetype");
+  src:
+    local("Avenir Next LT Pro"),
+    local("AvenirNextLTPro-Regular"),
+    url("../fonts/avenir-next-lt-pro.woff2") format("woff2");
   font-display: swap;
 }
 

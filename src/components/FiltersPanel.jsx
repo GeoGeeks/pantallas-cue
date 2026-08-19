@@ -119,7 +119,10 @@ export default function FiltersPanel({
               : `Seleccionar ${grupo.label.toLowerCase()}`;
 
             return (
-              <div key={grupo.id} className="filter-row">
+              <div
+                key={grupo.id}
+                className={`filter-row ${isOpen ? "is-open" : ""}`}
+              >
                 <div className="filter-row-label">{grupo.label}</div>
                 <div className="filter-row-control">
                   <button
@@ -146,22 +149,39 @@ export default function FiltersPanel({
                           </div>
                         </li>
                       ) : (
-                        uniqueOptions.map((opcion) => (
-                          <li key={opcion}>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                onAddFiltro({
-                                  grupoId: grupo.id,
-                                  valor: opcion,
-                                });
-                                setDropdownOpenId(null);
-                              }}
-                            >
-                              {opcion}
-                            </button>
-                          </li>
-                        ))
+                        uniqueOptions.map((opcion) => {
+                          const isSelected = activeValue === opcion;
+
+                          return (
+                            <li key={opcion}>
+                              <button
+                                type="button"
+                                className={isSelected ? "option-selected" : ""}
+                                onClick={() => {
+                                  if (isSelected) {
+                                    onRemoveFiltro({
+                                      grupoId: grupo.id,
+                                      valor: opcion,
+                                    });
+                                  } else {
+                                    onAddFiltro({
+                                      grupoId: grupo.id,
+                                      valor: opcion,
+                                    });
+                                  }
+                                  setDropdownOpenId(null);
+                                }}
+                              >
+                                <span>{opcion}</span>
+                                {isSelected && (
+                                  <svg className="option-clear" aria-hidden="true">
+                                    <use href="#icon-close" xlinkHref="#icon-close" />
+                                  </svg>
+                                )}
+                              </button>
+                            </li>
+                          );
+                        })
                       )}
                     </ul>
                   )}

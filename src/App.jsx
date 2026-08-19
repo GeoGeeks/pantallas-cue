@@ -1,7 +1,7 @@
-// src/App.jsx
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { AGENDA_SECTIONS, BASE_URL, withBase } from "./config/agenda.js";
 import { usePageTitle } from "./hooks/usePageTitle.js";
+import { useIdleRedirect } from "./hooks/useIdleRedirect.js";
 import SvgSprites from "./components/SvgSprites.jsx";
 import AgendaPage from "./AgendaPage.jsx";
 
@@ -20,6 +20,9 @@ function HomePage() {
         alt="Temáticas CUE"
         fetchPriority="high"
         loading="eager"
+        decoding="async"
+        width={1200}
+        height={1200}
       />
 
       <div className="content">
@@ -47,6 +50,9 @@ function HomePage() {
             src={withBase("images/app-qr.avif")}
             alt="app-qr"
             loading="lazy"
+            decoding="async"
+            width={200}
+            height={200}
           />
           <p>
             Personalice su agenda y planee su ruta
@@ -59,21 +65,29 @@ function HomePage() {
   );
 }
 
+function AppRoutes() {
+  useIdleRedirect();
+
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      {Object.entries(AGENDA_SECTIONS).map(([espacio, section]) => (
+        <Route
+          key={espacio}
+          path={espacio}
+          element={<AgendaPage key={espacio} espacio={espacio} {...section} />}
+        />
+      ))}
+    </Routes>
+  );
+}
+
 export default function App() {
   return (
     <>
       <SvgSprites />
       <BrowserRouter basename={BASE_URL}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          {Object.entries(AGENDA_SECTIONS).map(([espacio, section]) => (
-            <Route
-              key={espacio}
-              path={espacio}
-              element={<AgendaPage espacio={espacio} {...section} />}
-            />
-          ))}
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>
     </>
   );

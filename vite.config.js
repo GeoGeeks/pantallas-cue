@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: "/pantallas-cue/",
+    base: process.env.VERCEL ? "/" : "/pantallas-cue/",
     server: {
       proxy: {
         "/api/agenda": {
@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
                 return;
               }
 
-              const token = env.VITE_API_TOKEN || env.VITE_AUTH_TOKEN || "";
+              const token = env.API_TOKEN || env.AUTH_TOKEN || "";
               if (token) {
                 proxyReq.setHeader("Authorization", `Bearer ${token}`);
               }

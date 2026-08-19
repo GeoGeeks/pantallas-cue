@@ -1,26 +1,22 @@
 export function getUniqueDays(
   agendaData,
   activityType,
-  activeFilters = [],
 ) {
-  const uniqueDates = [
-    ...new Set(
-      agendaData
-        .filter(
-          (item) =>
-            matchesActivityType(item, activityType) &&
-            matchesFilters(item, activeFilters),
-        )
-        .map((item) => item.fecha),
-    ),
-  ]
-    .filter(Boolean)
-    .sort((a, b) => parseDate(a) - parseDate(b));
+  const uniqueDates = new Set();
+  for (const item of agendaData) {
+    if (matchesActivityType(item, activityType) && item.fecha) {
+      uniqueDates.add(item.fecha);
+    }
+  }
+
+  const sortedDates = [...uniqueDates].sort(
+    (a, b) => parseDate(a) - parseDate(b),
+  );
 
   const weekdayFormat = new Intl.DateTimeFormat("es-ES", { weekday: "long" });
   const monthFormat = new Intl.DateTimeFormat("es-ES", { month: "long" });
 
-  return uniqueDates.map((dateValue) => {
+  return sortedDates.map((dateValue) => {
     const date = toLocalDate(dateValue);
     const weekday = capitalize(weekdayFormat.format(date));
     const month = capitalize(monthFormat.format(date));
@@ -48,19 +44,38 @@ export function getFilterGroups(
 
   const optionGroups = [
     {
-      id: "tematica",
-      label: "Temática",
-      extractOptions: (item) => getItemTopics(item),
-    },
-    {
-      id: "tipo",
-      label: "Tipo de actividad",
-      extractOptions: (item) => [item.tipo_actividad],
-    },
-    {
       id: "lugar",
-      label: "Piso - Lugar",
+      label: "Lugar - Piso",
       extractOptions: (item) => [item.lugar],
+    },
+    ...(activityType === "Laboratorios de entrenamiento"
+      ? []
+      : [
+          {
+            id: "tematica",
+            label: "Temática",
+            extractOptions: (item) => getItemTopics(item),
+          },
+        ]),
+    {
+      id: "dirigidoA",
+      label: "Dirigido a",
+      extractOptions: (item) => getValueList(item.audiencias || item.targetAudiences),
+    },
+    {
+      id: "producto",
+      label: "Producto",
+      extractOptions: (item) => getValueList(item.producto_esri || item.esriProducts),
+    },
+    {
+      id: "nivelSesion",
+      label: "Nivel de sesión",
+      extractOptions: (item) => [item.nivel || item.sessionLevel],
+    },
+    {
+      id: "industria",
+      label: "Industria",
+      extractOptions: (item) => getValueList(item.industria || item.industry),
     },
   ];
 
@@ -100,7 +115,7 @@ export function getVisibleEvents({
 }) {
   const normalizedQuery = normalizeText(searchQuery);
 
-  return agenda
+  const visibleEvents = agenda
     .filter((item) => {
       const matchesDay = item.fecha === selectedDay;
       const matchesSearch =
@@ -115,6 +130,12 @@ export function getVisibleEvents({
       );
     })
     .sort(compareEvents);
+
+  if (activityType === "Laboratorios de entrenamiento") {
+    return mergeRepeatedLaboratoryEvents(visibleEvents);
+  }
+
+  return visibleEvents;
 }
 
 export function getItemTopics(item) {
@@ -160,17 +181,43 @@ function matchesFilters(item, activeFilters) {
     if (groupId === "tematica") {
       return values.some((value) => getItemTopics(item).includes(value));
     }
-    if (groupId === "tipo") {
-      return values.includes(item.tipo_actividad);
-    }
     if (groupId === "lugar") {
       return values.includes(item.lugar);
     }
-    if (groupId === "nivel") {
-      return values.includes(item.nivel);
+    if (groupId === "dirigidoA") {
+      return values.some((value) => getValueList(item.audiencias || item.targetAudiences).includes(value));
+    }
+    if (groupId === "producto") {
+      return values.some((value) => getValueList(item.producto_esri || item.esriProducts).includes(value));
+    }
+    if (groupId === "nivelSesion") {
+      return values.includes(item.nivel || item.sessionLevel);
+    }
+    if (groupId === "industria") {
+      return values.some((value) => getValueList(item.industria || item.industry).includes(value));
     }
     return true;
   });
+}
+
+function getValueList(value) {
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => {
+        if (typeof entry === "string") return entry;
+        if (entry && typeof entry === "object") {
+          return entry.value || entry.name || entry.title || entry.objective || "";
+        }
+        return "";
+      })
+      .filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    return [value];
+  }
+
+  return [];
 }
 
 function compareEvents(a, b) {
@@ -181,6 +228,70 @@ function compareEvents(a, b) {
   if (timeDiff !== 0) return timeDiff;
 
   return (a.nombre || "").localeCompare(b.nombre || "", "es");
+}
+
+function mergeRepeatedLaboratoryEvents(events) {
+  const eventsByKey = new Map();
+
+  for (const item of events) {
+    const key = [item.nombre, item.lugar, item.fecha].map((part) => String(part || "").trim().toLowerCase()).join("::");
+    const current = eventsByKey.get(key);
+
+    if (!current) {
+      eventsByKey.set(key, { ...item });
+      continue;
+    }
+
+    const mergedStart = pickEarlierTime(current.hora_inicio, item.hora_inicio);
+    const currentEndCandidate = current.hora_fin || current.hora_inicio;
+    const itemEndCandidate = item.hora_fin || item.hora_inicio;
+    const mergedEnd = pickLaterTime(currentEndCandidate, itemEndCandidate);
+
+    eventsByKey.set(key, {
+      ...current,
+      hora_inicio: mergedStart,
+      hora_fin: mergedEnd && mergedEnd !== mergedStart ? mergedEnd : "",
+      tematicas: mergeUniqueList(current.tematicas, item.tematicas),
+      producto_esri: mergeUniqueList(current.producto_esri, item.producto_esri),
+      audiencias: mergeUniqueList(current.audiencias, item.audiencias),
+      industria: mergeUniqueList(current.industria, item.industria),
+    });
+  }
+
+  return [...eventsByKey.values()].sort(compareEvents);
+}
+
+function pickEarlierTime(first, second) {
+  if (!first) return second || "";
+  if (!second) return first;
+
+  const firstMinutes = parseTime(first);
+  const secondMinutes = parseTime(second);
+
+  if (firstMinutes === Number.MAX_SAFE_INTEGER) return second;
+  if (secondMinutes === Number.MAX_SAFE_INTEGER) return first;
+
+  return firstMinutes <= secondMinutes ? first : second;
+}
+
+function pickLaterTime(first, second) {
+  if (!first) return second || "";
+  if (!second) return first;
+
+  const firstMinutes = parseTime(first);
+  const secondMinutes = parseTime(second);
+
+  if (firstMinutes === Number.MAX_SAFE_INTEGER) return second;
+  if (secondMinutes === Number.MAX_SAFE_INTEGER) return first;
+
+  return firstMinutes >= secondMinutes ? first : second;
+}
+
+function mergeUniqueList(first, second) {
+  const firstList = Array.isArray(first) ? first : [];
+  const secondList = Array.isArray(second) ? second : [];
+
+  return [...new Set([...firstList, ...secondList].filter(Boolean))];
 }
 
 function parseDate(value) {

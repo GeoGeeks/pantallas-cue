@@ -17,6 +17,14 @@ export default function Utilities({
     setSearchOpen(false);
   };
 
+  const getDayParts = (dia) => {
+    const [weekday, ...restParts] = String(dia.label || "").split(" ");
+    return {
+      weekday,
+      restLabel: restParts.join(" "),
+    };
+  };
+
   return (
     <div className={`utilities-bar ${espacio}`}>
       {searchOpen ? (
@@ -59,18 +67,25 @@ export default function Utilities({
       ) : (
         <div className="days-bar-container">
           <div className="days-tabs">
-            {dias.map((dia) => (
-              <button
-                key={dia.id}
-                type="button"
-                className={`tab-btn ${
-                  diaSeleccionado === dia.id ? "active" : ""
-                }`}
-                onClick={() => onSelectDia(dia.id)}
-              >
-                {dia.label}
-              </button>
-            ))}
+            {dias.map((dia) => {
+              const { weekday, restLabel } = getDayParts(dia);
+
+              return (
+                <button
+                  key={dia.id}
+                  type="button"
+                  className={`tab-btn ${
+                    diaSeleccionado === dia.id ? "active" : ""
+                  }`}
+                  onClick={() => onSelectDia(dia.id)}
+                >
+                  <span className="tab-btn-weekday">{weekday}</span>
+                  {restLabel && (
+                    <span className="tab-btn-rest">{restLabel}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           <div className="actions-right">

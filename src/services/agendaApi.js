@@ -13,11 +13,13 @@ const FALLBACK_AGENDA = {
       description: "Ver detalles de la sesión",
       date: "2026-10-02",
       startTime: "2026-10-02T12:00:00",
+      endTime: "2026-10-02T13:00:00",
       location: "Salón K - Piso 3",
       sessionLevel: "Intermedio",
       topics: ["Trabajo en campo", "GeoAI"],
       esriProducts: ["GeoAI", "ArcGIS Pro"],
       targetAudiences: ["Nivel intermedio"],
+      industry: ["Tecnología", "Geoespacial"],
       tipo_actividad: "Plenaria",
     },
     {
@@ -25,11 +27,13 @@ const FALLBACK_AGENDA = {
       description: "Ver detalles de la sesión",
       date: "2026-10-02",
       startTime: "2026-10-02T14:00:00",
+      endTime: "2026-10-02T15:00:00",
       location: "Salón A",
       sessionLevel: "Básico",
       topics: ["Cartografía", "Analítica espacial"],
       esriProducts: ["ArcGIS Online"],
       targetAudiences: ["Público general"],
+      industry: ["Educación", "Gobierno"],
       tipo_actividad: "Charla técnica",
     },
     {
@@ -38,11 +42,13 @@ const FALLBACK_AGENDA = {
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde perferendis officiis magnam totam corrupti similique quas pariatur in, eaque nihil quia quae, soluta dolores voluptatibus amet autem sint quidem perspiciatis.",
       date: "2026-10-03",
       startTime: "2026-10-03T09:30:00",
+      endTime: "2026-10-03T10:30:00",
       location: "Salón B",
       sessionLevel: "Avanzado",
       topics: ["IA", "Data science"],
       esriProducts: ["ArcGIS Pro"],
       targetAudiences: ["Profesionales"],
+      industry: ["Tecnología", "Innovación"],
       tipo_actividad: "Plenaria",
     },
   ],
@@ -52,11 +58,13 @@ const FALLBACK_AGENDA = {
       description: "Ver detalles de la sesión",
       date: "2026-10-02",
       startTime: "2026-10-02T10:30:00",
+      endTime: "2026-10-02T11:30:00",
       location: "Salón A",
       sessionLevel: "Intermedio",
       topics: ["Innovación", "Trabajo en campo"],
       esriProducts: ["ArcGIS Pro"],
       targetAudiences: ["Nivel intermedio"],
+      industry: ["Gobierno", "Servicios"],
       tipo_actividad: "Salón temático",
     },
   ],
@@ -66,11 +74,13 @@ const FALLBACK_AGENDA = {
       description: "Ver detalles de la sesión",
       date: "2026-10-02",
       startTime: "2026-10-02T11:00:00",
+      endTime: "2026-10-02T12:30:00",
       location: "Laboratorio 1",
       sessionLevel: "Intermedio",
       topics: ["Laboratorio", "GeoAI"],
       esriProducts: ["ArcGIS Pro"],
       targetAudiences: ["Nivel intermedio"],
+      industry: ["Tecnología", "Ciencia"],
       tipo_actividad: "Laboratorios de entrenamiento",
     },
   ],
@@ -105,14 +115,6 @@ class NetworkError extends AgendaApiError {
     super(message, "NETWORK_ERROR", null, details);
     this.name = "NetworkError";
   }
-}
-
-function getToken() {
-  return (
-    import.meta.env.VITE_API_TOKEN ||
-    import.meta.env.VITE_AUTH_TOKEN ||
-    ""
-  ).trim();
 }
 
 function normalizeDate(value) {
@@ -222,28 +224,42 @@ function resolveTipoActividad(item, fallback) {
     return "Laboratorios de entrenamiento";
   }
 
-  return "";
+  return fallback || "";
 }
 
-function normalizeItem(item, index, tipoActividad) {
+function normalizeItem(item, tipoActividad) {
   const nombre = item.name;
   const descripcion = item.description;
   const fecha = normalizeDate(item.date);
-  const horaInicio = normalizeTime(item.startTime);
+  const horaInicio = normalizeTime(
+    item.startTime || item.start_time || item.hora_inicio || item.timeStart,
+  );
+  const horaFin = normalizeTime(
+    item.endTime || item.end_time || item.hora_fin || item.finishTime || item.timeEnd,
+  );
   const lugar = item.location;
   const nivel = item.sessionLevel;
+  const industria = normalizeList(item.industry || item.industries || item.industria);
   const tematicas = normalizeTopics(item.topics);
   const productos = normalizeList(item.esriProducts);
   const audiencias = normalizeList(item.targetAudiences);
+  const id =
+    item.id ||
+    [tipoActividad, nombre, fecha, horaInicio, horaFin, lugar]
+      .map((value) => String(value || "").trim())
+      .join("::");
 
   return {
     ...item,
+    id,
     nombre,
     descripcion,
     hora_inicio: horaInicio,
+    hora_fin: horaFin,
     fecha,
     tipo_actividad: resolveTipoActividad(item, tipoActividad),
     lugar,
+    industria,
     tematicas,
     nivel,
     producto_esri: productos,
@@ -320,22 +336,16 @@ function getFallbackAgenda(espacio) {
         ? "Salones temáticos"
         : "Charlas técnicas";
 
-  return fallback.map((item, index) =>
-    normalizeItem(item, index, tipoActividad),
-  );
+  return fallback.map((item) => normalizeItem(item, tipoActividad));
 }
 
-export async function fetchAgendaData(espacio) {
+export async function fetchAgendaData(espacio, options = {}) {
+  const { signal } = options;
   const endpoint = ENDPOINTS[espacio] || ENDPOINTS.charlas;
-  const token = getToken();
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
 
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
 
@@ -345,8 +355,13 @@ export async function fetchAgendaData(espacio) {
       method: "GET",
       headers,
       mode: "cors",
+      signal,
     });
   } catch (error) {
+    if (error?.name === "AbortError") {
+      throw error;
+    }
+
     console.warn("API no disponible, usando agenda local de respaldo.", error);
     return getFallbackAgenda(espacio);
   }
@@ -355,13 +370,9 @@ export async function fetchAgendaData(espacio) {
     const errorBody = await response.text();
     const message = buildApiErrorMessage(response.status, errorBody);
 
-    if (isAuthErrorStatus(response.status)) {
-      throw new TokenError(message, response.status, errorBody);
-    }
-
-    if (response.status >= 500) {
+    if (isAuthErrorStatus(response.status) || response.status === 404 || response.status >= 500) {
       console.warn(
-        "API con error del servidor, usando agenda local de respaldo.",
+        "API no disponible para agenda remota, usando agenda local de respaldo.",
         {
           espacio,
           status: response.status,
@@ -384,7 +395,13 @@ export async function fetchAgendaData(espacio) {
         ? "Salones temáticos"
         : "Charlas técnicas";
 
-  return rawItems.map((item, index) =>
-    normalizeItem(item, index, tipoActividad),
-  );
+  if (rawItems.length === 0) {
+    console.warn("API sin items de agenda, usando agenda local de respaldo.", {
+      espacio,
+      payload,
+    });
+    return getFallbackAgenda(espacio);
+  }
+
+  return rawItems.map((item) => normalizeItem(item, tipoActividad));
 }

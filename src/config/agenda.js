@@ -2,17 +2,14 @@ export const BASE_URL = import.meta.env.BASE_URL;
 
 export const AGENDA_SECTIONS = {
   salones: {
-    icono: "easel",
     title: "Salones temáticos",
     activityType: "Salones temáticos",
   },
   charlas: {
-    icono: "mic",
     title: "Charlas técnicas",
     activityType: "Charlas técnicas",
   },
   laboratorios: {
-    icono: "flask",
     title: "Laboratorios de entrenamiento",
     activityType: "Laboratorios de entrenamiento",
   },

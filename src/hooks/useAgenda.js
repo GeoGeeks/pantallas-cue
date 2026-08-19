@@ -13,7 +13,8 @@ export function useAgenda({ espacio, activityType }) {
   const [selectedDay, setSelectedDay] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [activeFilters, setActiveFilters] = useState([]);
+  const [filtersByDay, setFiltersByDay] = useState({});
+  const activeFilters = filtersByDay[selectedDay] || [];
 
   useEffect(() => {
     const controller = new AbortController();
@@ -40,8 +41,8 @@ export function useAgenda({ espacio, activityType }) {
   }, [espacio]);
 
   const days = useMemo(
-    () => getUniqueDays(agenda, activityType, activeFilters),
-    [agenda, activityType, activeFilters],
+    () => getUniqueDays(agenda, activityType),
+    [agenda, activityType],
   );
 
   useEffect(() => {
@@ -80,31 +81,48 @@ export function useAgenda({ espacio, activityType }) {
   );
 
   const addFilter = (newFilter) => {
-    setActiveFilters((currentFilters) => {
+    setFiltersByDay((currentFiltersByDay) => {
+      const dayKey = selectedDay || "sin-dia";
+      const currentFilters = currentFiltersByDay[dayKey] || [];
       const nextFilters = currentFilters.filter(
         (filter) => filter.grupoId !== newFilter.grupoId,
       );
 
-      return [...nextFilters, newFilter];
+      return {
+        ...currentFiltersByDay,
+        [dayKey]: [...nextFilters, newFilter],
+      };
     });
   };
 
   const removeFilter = (filterToRemove) => {
-    setActiveFilters((currentFilters) =>
-      currentFilters.filter(
-        (filter) =>
-          !(
-            filter.grupoId === filterToRemove.grupoId &&
-            filter.valor === filterToRemove.valor
-          ),
-      ),
-    );
+    setFiltersByDay((currentFiltersByDay) => {
+      const dayKey = selectedDay || "sin-dia";
+      const currentFilters = currentFiltersByDay[dayKey] || [];
+
+      return {
+        ...currentFiltersByDay,
+        [dayKey]: currentFilters.filter(
+          (filter) =>
+            !(
+              filter.grupoId === filterToRemove.grupoId &&
+              filter.valor === filterToRemove.valor
+            ),
+        ),
+      };
+    });
   };
 
   return {
     activeFilters,
     addFilter,
-    clearFilters: () => setActiveFilters([]),
+    clearFilters: () => {
+      const dayKey = selectedDay || "sin-dia";
+      setFiltersByDay((currentFiltersByDay) => ({
+        ...currentFiltersByDay,
+        [dayKey]: [],
+      }));
+    },
     days,
     error,
     events,
