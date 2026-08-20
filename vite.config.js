@@ -7,7 +7,8 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: process.env.VERCEL ? "/" : "/pantallas-cue/",
+    // Sitio publicado como aplicación IIS bajo https://geoapps.esri.co/cue-2026-agenda/
+    base: env.VITE_BASE_PATH || "/cue-2026-agenda/",
     server: {
       proxy: {
         "/api/agenda": {
