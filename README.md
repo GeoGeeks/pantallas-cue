@@ -51,7 +51,7 @@ Registrar el servicio con NSSM:
 ```powershell
 nssm install CueAgendaProxy "C:\Program Files\nodejs\node.exe" "C:\ruta\a\cue-2026-agenda\server\index.js"
 nssm set CueAgendaProxy AppDirectory "C:\ruta\a\cue-2026-agenda\server"
-nssm set CueAgendaProxy AppEnvironmentExtra API_TARGET=https://cue.esri.ec API_PATH_PREFIX=/rest/v1/ecuador API_TOKEN=<token real> PORT=3001
+nssm set CueAgendaProxy AppEnvironmentExtra API_TARGET=https://cue.esri.ec API_PATH_PREFIX=/rest/v1/ecuador API_TOKEN=TU_TOKEN_AQUI PORT=3001
 nssm set CueAgendaProxy AppStdout "C:\ruta\a\cue-2026-agenda\server\logs\out.log"
 nssm set CueAgendaProxy AppStderr "C:\ruta\a\cue-2026-agenda\server\logs\err.log"
 nssm set CueAgendaProxy Start SERVICE_AUTO_START
