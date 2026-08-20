@@ -1,0 +1,16 @@
+{
+  "name": "cue-agenda-proxy",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proxy standalone hacia la API de agenda (cue.esri.ec). Corre como servicio de Windows (NSSM) detrás de IIS/ARR.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
