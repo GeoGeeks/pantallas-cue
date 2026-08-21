@@ -69,7 +69,7 @@ export default function AgendaPage({ espacio, title, activityType }) {
         </p>
 
 
-        <a href="/" aria-label="Ir a la página de inicio">
+        <a href="/cue-2026-agenda/" aria-label="Ir a la página de inicio">
           <svg className="logo-cue">
             <use href="#logo-cue" />
           </svg>
