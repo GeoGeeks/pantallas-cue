@@ -1,4 +1,6 @@
-﻿const API_BASE_URL = "/api/agenda";
+﻿import { withBase } from "../config/agenda";
+
+const API_BASE_URL = withBase("/api/agenda");
 
 const ENDPOINTS = {
   salones: "/charlas/",
