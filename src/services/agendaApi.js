@@ -254,6 +254,23 @@ function normalizeItem(item, tipoActividad) {
   };
 }
 
+/**
+ * Las charlas privadas (`visibility: "privada"`) son asignaciones que el panel
+ * hace usuario por usuario: no son agenda pública y no deben verse en las
+ * pantallas del evento. El backend ya las oculta a los asistentes, pero estas
+ * pantallas consultan la API con un token de panel, que las recibe todas.
+ *
+ * Se descarta cualquier visibilidad declarada que no sea "publica", no solo
+ * "privada": si el catálogo gana un valor nuevo, esto lo deja fuera en vez de
+ * mostrarlo por omisión. Los items SIN el campo se conservan — los
+ * laboratorios no tienen el concepto de visibilidad y se quedarían todos fuera.
+ */
+function isPublicItem(item) {
+  const visibility = item?.visibility;
+  if (!visibility) return true;
+  return String(visibility).trim().toLowerCase() === "publica";
+}
+
 function extractItems(payload) {
   if (Array.isArray(payload)) {
     return payload;
@@ -394,5 +411,10 @@ export async function fetchAgendaData(espacio, options = {}) {
     return getFallbackAgenda(espacio);
   }
 
-  return rawItems.map((item) => normalizeItem(item, tipoActividad));
+  // Se filtra DESPUÉS de comprobar que la API trajo algo: quedarse sin items
+  // por descartar los privados es una respuesta legítima (un día que solo
+  // tiene agenda privada se ve vacío), no un fallo que justifique el respaldo.
+  return rawItems
+    .filter(isPublicItem)
+    .map((item) => normalizeItem(item, tipoActividad));
 }

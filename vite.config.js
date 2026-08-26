@@ -5,19 +5,32 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const proxySecure = env.VITE_API_PROXY_SECURE !== "false";
 
+  // Sitio publicado como aplicación IIS bajo https://geoapps.esri.co/cue-2026-agenda/
+  const basePath = env.VITE_BASE_PATH || "/cue-2026-agenda/";
+
+  // 🔴 La clave del proxy se DERIVA del base, no se escribe a mano. El cliente
+  // pide `withBase("/api/agenda")` — es decir, CON el base delante—, así que
+  // una clave fija "/api/agenda" no casa nunca y el dev server responde 404 a
+  // la agenda. Eso no se ve como un fallo: `fetchAgendaData` trata el 404 como
+  // "API caída" y cae al respaldo hardcodeado, así que en local se navega
+  // sobre una agenda de ejemplo creyendo que es la real.
+  const apiProxyPath = `${basePath}/api/agenda`.replace(/\/{2,}/g, "/");
+  const apiProxyPattern = new RegExp(
+    `^${apiProxyPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`,
+  );
+
   return {
     plugins: [react()],
-    // Sitio publicado como aplicación IIS bajo https://geoapps.esri.co/cue-2026-agenda/
-    base: env.VITE_BASE_PATH || "/cue-2026-agenda/",
+    base: basePath,
     server: {
       proxy: {
-        "/api/agenda": {
+        [apiProxyPath]: {
           target: env.VITE_API_PROXY_TARGET || "https://cue.esri.ec",
           changeOrigin: true,
           secure: proxySecure,
           rewrite: (path) =>
             path.replace(
-              /^\/api\/agenda/,
+              apiProxyPattern,
               env.VITE_API_PROXY_PATH || "/rest/v1/ecuador",
             ),
           configure: (proxy) => {
