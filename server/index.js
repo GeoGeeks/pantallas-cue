@@ -8,15 +8,15 @@
 //
 // Variables de entorno (configurarlas en el servicio de NSSM, no hardcodear):
 //   PORT              puerto local donde escucha (default 3001)
-//   API_TARGET        host upstream (default https://cue.esri.ec)
-//   API_PATH_PREFIX   prefijo de ruta upstream (default /rest/v1/ecuador)
+//   API_TARGET        host upstream (default https://cue.esri.pa)
+//   API_PATH_PREFIX   prefijo de ruta upstream (default /rest/v1/panama)
 //   API_TOKEN         bearer token para el upstream (o AUTH_TOKEN)
 
 import express from "express";
 
 const PORT = Number(process.env.PORT) || 3001;
-const API_TARGET = process.env.API_TARGET || "https://cue.esri.ec";
-const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/rest/v1/ecuador";
+const API_TARGET = process.env.API_TARGET || "https://cue.esri.pa";
+const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/rest/v1/panama";
 const API_TOKEN = (process.env.API_TOKEN || process.env.AUTH_TOKEN || "").trim();
 
 const app = express();
