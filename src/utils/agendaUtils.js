@@ -46,7 +46,8 @@ export function getFilterGroups(
       extractOptions: (item) => [item.lugar],
     },
     // Los laboratorios no llevan los filtros de temática y producto. Se detecta
-    // por `incluir`, que es la forma que sólo usa esa sección (Salones excluye).
+    // por `incluir`, que es la forma que sólo usa esa sección (Salones va por
+    // prefijo).
     ...(filtroTipo?.incluir
       ? []
       : [
@@ -156,12 +157,15 @@ export function getItemTopics(item) {
  * todos: medido contra producción, dos de las tres pantallas salían vacías.
  *
  * Ahora la sección declara qué **incluye** (lista cerrada, para Laboratorios) o
- * qué **excluye** (todo lo demás, para Salones). Un tipo nuevo entra solo.
+ * por qué **prefijo** entra (para Salones). Un salón nuevo entra solo.
  */
 function matchesActivityType(item, filtroTipo) {
   const tipo = normalizeText(item.tipo_actividad);
   if (filtroTipo?.incluir) {
     return filtroTipo.incluir.map(normalizeText).includes(tipo);
+  }
+  if (filtroTipo?.prefijo) {
+    return tipo.startsWith(normalizeText(filtroTipo.prefijo));
   }
   if (filtroTipo?.excluir) {
     return !filtroTipo.excluir.map(normalizeText).includes(tipo);

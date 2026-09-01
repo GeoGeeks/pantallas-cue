@@ -17,19 +17,22 @@ export const TIPOS_LABORATORIO = ["Laboratorios de entrenamiento"];
  * dos botones encontraban **0 y 0** de 62 charlas: dos de las tres pantallas
  * salían en blanco.
  *
- * Ahora Salones es **todo lo que no es laboratorio**. Con una lista, cada tipo
- * nuevo nace invisible y nadie se entera; invertida, aparece solo. Es el mismo
- * arreglo que en la PWA y, antes, el de la lista de nginx en Biodont.
+ * Ahora Salones se define por **prefijo**: cualquier tipo que empiece por
+ * «Salón». Así los once salones de Panamá entran solos, y los que se creen
+ * mañana también, sin tocar código.
  *
- * ⚠️ El precio, dicho en voz alta: entran también los tipos que no empiezan por
- * «Salón» —en producción, 4 «Actividad social» y 2 «Plenaria»—. Se prefiere eso
- * a esconderlos: una pantalla de agenda que omite el almuerzo o la plenaria
- * miente por defecto, y el fallo se ve, que es lo que no pasaba antes.
+ * ⚠️ Decisión del dueño (2026-09-01), y tiene un precio que conviene ver: lo que
+ * NO empieza por «Salón» **no se muestra en esta aplicación** —en producción, 4
+ * «Actividad social» y 2 «Plenaria»—. Se acepta porque **estas pantallas sólo
+ * consumen Salones y Laboratorios**; la agenda completa vive en la PWA, que sí
+ * los pinta. Si algún día se crea una categoría con otro nombre («Track: …»,
+ * «Sala: …»), aquí no aparecerá: es el riesgo asumido a cambio de que el rótulo
+ * de la pantalla sea cierto.
  */
 export const AGENDA_SECTIONS = {
   salones: {
     title: "Salones temáticos",
-    filtroTipo: { excluir: TIPOS_LABORATORIO },
+    filtroTipo: { prefijo: "Salón" },
   },
   laboratorios: {
     title: "Laboratorios de entrenamiento",
