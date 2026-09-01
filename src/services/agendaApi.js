@@ -333,12 +333,14 @@ function buildApiErrorMessage(status, errorBody) {
 
 function getFallbackAgenda(espacio) {
   const fallback = FALLBACK_AGENDA[espacio] || FALLBACK_AGENDA.charlas;
+  // ⚠️ Respaldo cableado, y NO dice en pantalla que no son datos en vivo: si el
+  // token caduca o el upstream responde 404, la pantalla del evento muestra
+  // esta agenda de ejemplo como si fuera la real. Queda declarado aquí;
+  // retirarlo o rotularlo es decisión del dueño.
   const tipoActividad =
     espacio === "laboratorios"
       ? "Laboratorios de entrenamiento"
-      : espacio === "salones"
-        ? "Salón temático"
-        : "Charla técnica";
+      : "Salón temático";
 
   return fallback.map((item) => normalizeItem(item, tipoActividad));
 }

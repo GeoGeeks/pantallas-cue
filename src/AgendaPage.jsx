@@ -5,10 +5,10 @@ import FiltersPanel from "./components/FiltersPanel.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Utilities from "./components/Utilities.jsx";
 
-export default function AgendaPage({ espacio, title, activityType }) {
+export default function AgendaPage({ espacio, title, filtroTipo }) {
   usePageTitle();
 
-  const agenda = useAgenda({ espacio, activityType });
+  const agenda = useAgenda({ espacio, filtroTipo });
   const hasError = Boolean(agenda.error);
   const showFilters =
     !agenda.loading &&

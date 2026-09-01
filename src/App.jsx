@@ -36,9 +36,6 @@ function HomePage() {
             <Link to="salones" className="btn btn-salones">
               Salones temáticos
             </Link>
-            <Link to="charlas" className="btn btn-charlas">
-              Charlas técnicas
-            </Link>
             <Link to="laboratorios" className="btn btn-labs">
               Labs. Entrenamiento
             </Link>

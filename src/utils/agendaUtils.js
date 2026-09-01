@@ -1,7 +1,7 @@
-export function getUniqueDays(agendaData, activityType) {
+export function getUniqueDays(agendaData, filtroTipo) {
   const uniqueDates = new Set();
   for (const item of agendaData) {
-    if (matchesActivityType(item, activityType) && item.fecha) {
+    if (matchesActivityType(item, filtroTipo) && item.fecha) {
       uniqueDates.add(item.fecha);
     }
   }
@@ -24,7 +24,7 @@ export function getUniqueDays(agendaData, activityType) {
 
 export function getFilterGroups(
   agenda,
-  activityType,
+  filtroTipo,
   activeFilters = [],
   selectedDay = "",
   searchQuery = "",
@@ -32,7 +32,7 @@ export function getFilterGroups(
   const normalizedQuery = normalizeText(searchQuery);
   const baseItems = agenda.filter(
     (item) =>
-      matchesActivityType(item, activityType) &&
+      matchesActivityType(item, filtroTipo) &&
       (!selectedDay || item.fecha === selectedDay) &&
       (!normalizedQuery ||
         normalizeText(item.nombre).includes(normalizedQuery) ||
@@ -45,7 +45,9 @@ export function getFilterGroups(
       label: "Lugar - Piso",
       extractOptions: (item) => [item.lugar],
     },
-    ...(activityType === "Laboratorios de entrenamiento"
+    // Los laboratorios no llevan los filtros de temática y producto. Se detecta
+    // por `incluir`, que es la forma que sólo usa esa sección (Salones excluye).
+    ...(filtroTipo?.incluir
       ? []
       : [
           {
@@ -107,7 +109,7 @@ export function getFilterGroups(
 
 export function getVisibleEvents({
   agenda,
-  activityType,
+  filtroTipo,
   selectedDay,
   searchQuery,
   activeFilters,
@@ -122,7 +124,7 @@ export function getVisibleEvents({
         normalizeText(item.lugar).includes(normalizedQuery);
 
       return (
-        matchesActivityType(item, activityType) &&
+        matchesActivityType(item, filtroTipo) &&
         matchesDay &&
         matchesSearch &&
         matchesFilters(item, activeFilters)
@@ -130,7 +132,10 @@ export function getVisibleEvents({
     })
     .sort(compareEvents);
 
-  if (activityType === "Laboratorios de entrenamiento") {
+  // Sólo los laboratorios se agrupan por tema (uno se dicta en varias franjas).
+  // Misma detección que en `getFilterGroups`: `incluir` es la forma de esa
+  // sección; Salones usa `excluir`.
+  if (filtroTipo?.incluir) {
     return mergeRepeatedLaboratoryEvents(visibleEvents);
   }
 
@@ -142,18 +147,26 @@ export function getItemTopics(item) {
   return item.tematica ? [item.tematica] : [];
 }
 
-function matchesActivityType(item, expectedType) {
-  const activityType = normalizeText(item.tipo_actividad);
-  const normalizedExpectedType = normalizeText(expectedType);
-  const aliases = {
-    "salon tematico": ["salon tematico"],
-    "charla tecnica": ["charla tecnica"],
-    "laboratorios de entrenamiento": ["laboratorios de entrenamiento"],
-  };
-
-  return (aliases[normalizedExpectedType] || [normalizedExpectedType]).includes(
-    activityType,
-  );
+/**
+ * ¿Esta actividad va en esta sección?
+ *
+ * 🔴 Antes cada sección declaraba UNA cadena exacta y se comparaba contra una
+ * tabla de alias. Los datos de Panamá pasaron a usar un tipo por salón —«Salón:
+ * GET 5.0», once creados desde el panel— y el emparejado devolvía false para
+ * todos: medido contra producción, dos de las tres pantallas salían vacías.
+ *
+ * Ahora la sección declara qué **incluye** (lista cerrada, para Laboratorios) o
+ * qué **excluye** (todo lo demás, para Salones). Un tipo nuevo entra solo.
+ */
+function matchesActivityType(item, filtroTipo) {
+  const tipo = normalizeText(item.tipo_actividad);
+  if (filtroTipo?.incluir) {
+    return filtroTipo.incluir.map(normalizeText).includes(tipo);
+  }
+  if (filtroTipo?.excluir) {
+    return !filtroTipo.excluir.map(normalizeText).includes(tipo);
+  }
+  return true;
 }
 
 function matchesFilters(item, activeFilters) {
