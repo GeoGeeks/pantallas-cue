@@ -3,20 +3,26 @@
   --color-espacio-dark: #f9047d;
   --color-espacio-ligth: #f9047d80;
 }
-.charlas {
-  --color-espacio-dark: #7d00fe;
-  --color-espacio-ligth: #7d00fe80;
-}
+/* Figma de Panamá (vistas/CSS/agenda_buscador.css): Verde-Oscuro #007F4E.
+   Estaba en #004081, que en el diseño es el color de CHARLAS, no de labs. */
 .laboratorios {
-  --color-espacio-dark: #004081;
-  --color-espacio-ligth: #00418180;
+  --color-espacio-dark: #007f4e;
+  --color-espacio-ligth: #007f4e80;
 }
 
 /* CONTENEDOR PRINCIPAL */
+/* Mismo criterio que en Inicio: el fondo se pinta en una capa fija del tamaño
+   de la ventana visible, no en la columna 9:16 donde vive el contenido. */
+.espacios::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("../images/bg-agenda-pa.webp") no-repeat center center / cover;
+}
 .espacios {
-  background: url("../images/bg-agenda.avif") no-repeat center center / cover;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -27,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2dvw;
+  padding: calc(2 * var(--u));
 }
 
 .estado-error {
@@ -125,13 +131,16 @@
 }
 .header-nav h1 {
   color: var(--color-espacio-dark);
+  /* 600 = Demi, el peso de EC prod. Llegó a subirse a 800 el 01-09 y se revirtió:
+     con las caras reales cargadas, Demi ya se distingue del 500 y del 400 sin
+     necesidad de más. */
   font-weight: 600;
   font-size: var(--font-xl);
   margin: 0;
 }
 .header-nav .menu-button {
-  width: 4dvw;
-  height: 4dvw;
+  width: calc(4 * var(--u));
+  height: calc(4 * var(--u));
   color: var(--color-espacio-dark);
   display: flex;
   justify-content: center;
@@ -147,7 +156,7 @@
 .header-nav .menu-button.open {
   background-color: transparent;
   color: var(--color-espacio-dark);
-  padding: 0.9dvw;
+  padding: calc(0.9 * var(--u));
 }
 
 /* MENÚ ESPACIOS */
@@ -155,8 +164,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1100;
   backdrop-filter: blur(1px);
@@ -178,7 +187,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2dvw;
+  padding: calc(2 * var(--u));
   color: #000000;
   font-weight: 500;
   background-color: #ffffff;
@@ -190,16 +199,25 @@
   background-color: var(--color-espacio-dark);
   color: white;
 }
+/* Figma (agenda_menu.svg): las flechas «›» van en el color de la vista —fucsia en
+   Salones, verde en Laboratorios— y en BLANCO sobre la fila seleccionada. Antes
+   heredaban el `currentColor` del `.menu-item`, que es #000: salían negras. */
 .menu-item .arrow-icon {
-  width: 1.5dvw;
+  width: calc(1.5 * var(--u));
   aspect-ratio: 1;
   transform: rotate(-90deg);
+  color: var(--color-espacio-dark);
+}
+/* Especificidad 0,3,0 — gana a la regla de arriba (0,2,0), así que la fila activa
+   conserva su flecha blanca sobre el fondo del acento. */
+.menu-item.selected .arrow-icon {
+  color: #ffffff;
 }
 .menu-footer {
   align-self: flex-end;
-  width: 15dvw;
+  width: calc(15 * var(--u));
   aspect-ratio: 5/2;
-  padding: 0 2dvw;
+  padding: 0 calc(2 * var(--u));
   color: var(--color-espacio-dark);
 }
 
@@ -220,15 +238,20 @@
 .days-tabs {
   display: flex;
 }
+/* El día va partido: el nombre del día en negrita y el día del mes fino. Lo
+   traía ya EC prod (600 / 400) y coincide con el PNG del Figma de PA, que lo
+   dibuja partido aunque su Copy-as-CSS declare un único 700 — ver
+   [[feedback_figma_css_vs_png]]. Del Figma de PA se conserva solo el color del
+   inactivo, #737373 en vez de gris-5. */
 .days-tabs .tab-btn {
   background: transparent;
   border: none;
   font-size: var(--font-m);
   font-weight: 400;
-  color: var(--gris-5);
+  color: #737373;
   position: relative;
   transition: color 0.2s ease;
-  padding: 0 2dvw;
+  padding: 0 calc(2 * var(--u));
 }
 .days-tabs .tab-btn .tab-btn-weekday {
   font-weight: 600;
@@ -273,11 +296,11 @@
 }
 .filter-badge {
   position: absolute;
-  top: -1.5dvw;
-  right: -1.5dvw;
-  width: 2.2dvw;
+  top: calc(-1.5 * var(--u));
+  right: calc(-1.5 * var(--u));
+  width: calc(2.2 * var(--u));
   aspect-ratio: 1;
-  padding: 0 1dvw;
+  padding: 0 calc(1 * var(--u));
   border-radius: 999px;
   background: var(--color-espacio-dark);
   color: #ffffff;
@@ -295,7 +318,7 @@
   padding-bottom: 4px;
 }
 .search-icon {
-  width: 2dvw;
+  width: calc(2 * var(--u));
   aspect-ratio: 1;
   color: var(--color-espacio-dark);
   margin-right: 8px;
@@ -305,13 +328,18 @@
   background: transparent;
   border: none;
   outline: none;
-  font-size: 1.5dvw;
+  /* 🔴 Aquí quedó `1.5dvw` al copiar EC VERBATIM en la alineación del 01-09 — con
+     la unidad incluida, que es justo el bug que se estaba evitando: `dvw` mide la
+     VENTANA, no la columna 9:16. En el kiosco da igual (16,2 px las dos), pero en
+     un monitor 1920×1080 son 28,8 px en vez de 9,1: el buscador salía al TRIPLE.
+     Fue la única regla del archivo que se escapó; las demás van por token. */
+  font-size: calc(1.6852 * var(--u));
   color: #333333;
   padding-right: 1rem;
 }
 .search-input::placeholder {
-  color: var(--color-espacio-dark);
-  opacity: 0.7;
+  /* Figma PA: el placeholder va en el acento aclarado (#FE93C7 en Salones). */
+  color: var(--color-espacio-ligth);
   font-size: var(--font-sm);
 }
 .search-actions {
@@ -323,7 +351,10 @@
   background: transparent;
   border: none;
   color: var(--color-espacio-dark);
-  font-size: var(--size-m);
+  /* Era `var(--size-m)`, un token de tamaño de ICONO usado como tamaño de texto:
+     coincidía en valor con `--font-sm` (1.8 en EC) por casualidad, así que al subir
+     la escala tipográfica este texto se quedaba atrás. Pasa al token de texto. */
+  font-size: var(--font-sm);
 }
 .btn-close-search {
   background: transparent;
@@ -332,7 +363,7 @@
   align-items: center;
 }
 .close-icon {
-  width: 2dvw;
+  width: calc(2 * var(--u));
   aspect-ratio: 1;
   padding: 0.2rem;
   color: var(--color-espacio-dark);
@@ -341,14 +372,14 @@
 /* FILTROS */
 .filters-panel-container {
   width: 100%;
-  padding: 2dvw var(--border-padding);
+  padding: calc(2 * var(--u)) var(--border-padding);
 }
 .filters-panel-card {
   width: 100%;
   display: flex;
   flex-direction: column;
   border-radius: var(--border-raidus);
-  gap: 1dvw;
+  gap: calc(1 * var(--u));
 }
 .filters-panel-header {
   display: flex;
@@ -361,6 +392,7 @@
 .filters-title {
   color: var(--color-espacio-dark);
   font-size: var(--font-m);
+  /* EC prod: 600. El Figma de PA lo pedía en 400. */
   font-weight: 600;
   margin: 0;
 }
@@ -377,9 +409,10 @@
   border-radius: var(--border-raidus);
   color: var(--color-espacio-dark);
   font-size: var(--font-filters);
+  /* EC prod: 600. El Figma de PA lo pedía en 400. */
   font-weight: 600;
   letter-spacing: 0.01em;
-  padding: 0.54dvw 1dvw;
+  padding: calc(0.54 * var(--u)) calc(1 * var(--u));
   cursor: pointer;
   box-shadow: none;
   transition: opacity 0.15s ease;
@@ -392,7 +425,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 2dvw;
+  gap: calc(2 * var(--u));
 }
 .filters-panel-collapsed {
   padding: 0 var(--border-padding);
@@ -404,8 +437,8 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 0.75rem;
-  padding: 2dvw 0;
-  padding-right: 16dvw;
+  padding: calc(2 * var(--u)) 0;
+  padding-right: calc(16 * var(--u));
   border: none;
   background: transparent;
   box-shadow: none;
@@ -414,13 +447,13 @@
 .filters-panel-collapsed-card .filter-chip-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 2dvw;
+  gap: calc(2 * var(--u));
   align-items: center;
   flex: 1 1 100%;
 }
 .filters-panel-collapsed-card .limpiar-filtros {
   position: absolute;
-  top: 2dvw;
+  top: calc(2 * var(--u));
   right: 0;
   margin: 0;
   white-space: nowrap;
@@ -444,24 +477,27 @@
   justify-content: center;
   border-radius: 50%;
   color: #ffffff;
-  width: 1dvw;
+  width: calc(1 * var(--u));
   aspect-ratio: 1;
-  margin-left: 1dvw;
+  margin-left: calc(1 * var(--u));
 }
 .filter-row {
   display: grid;
-  gap: 0.3dvw;
+  gap: calc(0.3 * var(--u));
   position: relative;
   z-index: 1;
 }
 .filter-row.is-open {
   z-index: 40;
 }
+/* EC prod: 600. El Figma de PA lo pedía en 400. El COLOR sí sigue siendo el
+   del Figma de PA —el de la sección, no gris-6—: aquí solo se alinean tamaño
+   y peso. */
 .filter-row-label {
   font-size: var(--font-filters);
   letter-spacing: 0.05rem;
   text-transform: uppercase;
-  color: var(--gris-6);
+  color: var(--color-espacio-dark);
   font-weight: 600;
 }
 .filter-row-control {
@@ -478,7 +514,7 @@
   padding: var(--pill-padding);
   border-radius: var(--border-raidus);
   font-size: var(--font-filters);
-  gap: 3dvw;
+  gap: calc(3 * var(--u));
   font-weight: normal;
   display: flex;
   align-items: center;
@@ -486,7 +522,7 @@
   transition: background-color 0.1s ease;
 }
 .btn-dropdown .arrow-icon {
-  width: 1.2dvw;
+  width: calc(1.2 * var(--u));
   aspect-ratio: 1;
   transition: 0.2ms;
   color: var(--color-espacio-dark);
@@ -510,7 +546,7 @@
 }
 .dropdown-menu {
   position: absolute;
-  top: calc(100% - 1.5dvw);
+  top: calc(100% - calc(1.5 * var(--u)));
   left: 0;
   width: 100%;
   background-color: #ffffff;
@@ -518,7 +554,7 @@
   border: 1px solid var(--gris-4);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.1);
   list-style: none;
-  padding-top: 1.5dvw;
+  padding-top: calc(1.5 * var(--u));
   margin: 0;
   z-index: 2;
   overflow: hidden;
@@ -545,8 +581,8 @@
 .dropdown-menu li:not(:last-child)::after {
   content: "";
   position: absolute;
-  left: 1.5dvw;
-  right: 1.5dvw;
+  left: calc(1.5 * var(--u));
+  right: calc(1.5 * var(--u));
   bottom: 0;
   height: 0.8px;
   background-color: var(--gris-4);
@@ -556,8 +592,8 @@
   font-weight: 600;
 }
 .dropdown-menu .option-clear {
-  width: 1dvw;
-  height: 1dvw;
+  width: calc(1 * var(--u));
+  height: calc(1 * var(--u));
   color: var(--color-espacio-dark);
   flex-shrink: 0;
 }
@@ -571,12 +607,13 @@
   display: flex;
   align-items: center;
   padding: 0;
-  font-size: 3dvw;
+  /* `--font-xxl` vale 3.1852 = el 3 de EC más los 2 px del encargo. Es el único uso
+     del token, que EC declara y no usa. */
+  font-size: var(--font-xxl);
   color: var(--color-espacio-dark);
   line-height: 1;
 }
 .close-panel-icon {
- 
   width: var(--size-sm);
   aspect-ratio: 1;
   color: var(--color-espacio-dark);
@@ -610,6 +647,8 @@
   width: 100%;
   text-align: left;
   font-size: var(--font-xl);
+  /* EC prod: 300 y --font-xl (27px del lienzo). El Figma de PA pedía 400 / 20px.
+     ⚠️ 300 y 400 se DIBUJAN igual aquí: la fuente solo trae un archivo. */
   font-weight: 300;
   align-self: flex-start;
   align-items: center;
@@ -621,18 +660,20 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 1.3dvh;
-  padding-right: 5dvw;
+  padding-right: calc(5 * var(--u));
 }
 .evento .nombre {
   width: 100%;
   max-width: 65ch;
   font-size: var(--font-xl);
+  /* EC prod: 600 y --font-xl (27px). El Figma de PA pedía 700 / 18px: es el
+     salto de tamaño más grande de esta alineación (+50 %). */
   font-weight: 600;
   letter-spacing: 0.04em;
 }
 .evento .descripcion {
   color: black;
-  gap: 1dvw;
+  gap: calc(1 * var(--u));
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -645,12 +686,15 @@
   align-items: center;
   padding: 0;
   cursor: pointer;
+  /* EC prod: 500, redonda y --font-sm (19,4px del lienzo). El Figma de PA lo
+     pedía en 300 y en CURSIVA; la itálica se retira porque EC no la tiene —era
+     el único texto en cursiva de la pantalla, junto con «Ocultar información». */
   font-weight: 500;
   font-size: var(--font-sm);
 }
 
 .evento .descripcion .icono-flecha {
-  width: 1dvw;
+  width: calc(1 * var(--u));
   aspect-ratio: 1;
   margin-left: 1rem;
   transition: transform 0.2s ease;
@@ -677,7 +721,10 @@
   align-content: center;
   align-items: center;
   font-size: var(--font-sm);
-  gap: 2dvw;
+  /* EC prod no declara peso aquí (hereda 400); el Figma de PA pedía 300, que se
+     dibuja igual. El negro sí viene del Figma de PA. */
+  color: #000000;
+  gap: calc(2 * var(--u));
 }
 .box-detalles {
   display: flex;
@@ -700,12 +747,12 @@
   border-bottom: 1px solid var(--color-espacio-ligth);
 }
 .evento .detalles .icono-detalles {
-  width: 1.8dvw;
-  height: 1.8dvw;
+  width: calc(1.8 * var(--u));
+  height: calc(1.8 * var(--u));
   display: inline-block;
   vertical-align: middle;
   color: var(--color-espacio-dark);
-  margin-right: 0.5dvw;
+  margin-right: calc(0.5 * var(--u));
   overflow: visible;
 }
 
@@ -718,13 +765,18 @@
 .evento .tematicas {
   display: flex;
   flex-direction: row;
-  gap: 1dvw;
+  gap: calc(1 * var(--u));
 }
+/* Del Figma de PA se conservan los COLORES: píldora clara, fondo gris3 #DFDFDF
+   y texto gris5 #9A9A9A (EC prod los tiene invertidos, fondo gris6 sobre texto
+   gris3). El TAMAÑO pasa a --font-sm como EC: era --font-10 (10px del lienzo),
+   el salto más grande de la alineación (+94 %).
+   ⚠️ Sigue pendiente de decisión el contraste de ese par: 2,0:1. */
 .evento .tematicas p {
   font-size: var(--font-sm);
-  background-color: var(--gris-6);
+  background-color: var(--gris-3);
   padding: var(--pill-padding);
-  color: var(--gris-3);
+  color: var(--gris-5);
   border-radius: var(--border-raidus);
   font-weight: 500;
 }
@@ -737,13 +789,28 @@
   align-items: center;
   justify-content: center;
   z-index: 2500;
-  padding: 2dvw;
+  padding: calc(2 * var(--u));
 }
 
 .floor-map-modal {
-  width: min(92dvw, 7var (--border-raidus));
+  /* 🔴 Aquí había CSS INVÁLIDO: `min(calc(92 * var(--u)), 7var (--border-raidus))`
+     — `7var (...)` no es un valor, así que el navegador DESCARTABA la declaración
+     entera y el modal se quedaba sin ancho: lo fijaba el contenido y ocupaba casi
+     toda la columna. Eso es lo que se veía como «consume casi todo el ancho».
+
+     Ahora: arranca en un mínimo legible (280 px), crece **con la columna** y está
+     TOPADO en 61,11 % — que es el ancho del Figma (660 de 1080), así que en el
+     kiosco cae exacto en el diseño y nunca se acerca al ancho total.
+       kiosco 1080 → 660 px (Figma exacto)   ·  escritorio (columna 608) → 371,6
+       móvil 390   → 280 px (suelo)          ·  tope duro 88 % en cualquier caso */
+  width: clamp(280px, calc(61.11 * var(--u)), 88%);
   max-height: 92dvh;
-  background: var(--gris-1);
+  /* Figma (agenda_mapa.css, bloque «Mapa»): `background: #E6FFF0`. Se aplica
+     LITERAL en las dos vistas por decisión del dueño (01-09).
+     ⚠️ El propio Figma lo rotula «Verde pastel 🇪🇨» —paleta de Ecuador— y este
+     frame es el de Salones, que es fucsia: el diseño es incoherente consigo mismo
+     en este punto. Se deja el valor del archivo, no una interpretación. */
+  background: #e6fff0;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -763,6 +830,7 @@
 .floor-map-header h2 {
   color: var(--color-espacio-dark);
   font-size: var(--font-m);
+  /* EC prod: 600 y --font-m (21,6px). El Figma de PA pedía 700 / 24px. */
   font-weight: 600;
   margin: 0;
 }
@@ -770,11 +838,11 @@
 .floor-map-close {
   position: absolute;
   right: 0;
-  top: 1dvw;
+  top: calc(1 * var(--u));
   border: none;
   background: transparent;
   color: var(--color-espacio-dark);
-  width: 2dvw;
+  width: calc(2 * var(--u));
   aspect-ratio: 1;
   display: inline-flex;
   align-items: center;
@@ -817,7 +885,7 @@
   font-size: var(--font-sm);
 }
 .footer-section .logo-cue {
-  width: 7dvw;
+  width: calc(7 * var(--u));
   color: black;
 }
 

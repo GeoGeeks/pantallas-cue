@@ -1,9 +1,22 @@
 /* --- global.css --- */
 
 :root {
+  /* Paleta de Panamá, tomada del Copy-as-CSS del Figma (vistas/CSS/inicio.css):
+     Rosa-Fucsia #F9047D · Verde-Oscuro #007F4E · Azul-oscuro #004081.
+     ⚠️ `--naranja` no era naranja: valía #0070c0, un azul. Se renombra a
+     `--verde` con el valor del diseño; era el color del botón de laboratorios. */
   --fucsia: #f9047d;
-  --morado: #7d00fe;
-  --naranja: #0070c0;
+  --verde: #007f4e;
+  --azul-oscuro: #004081;
+
+  /* 🔴 1 unidad = 1 % del ANCHO ÚTIL, no del ancho de la ventana.
+     `main` se encajona en una columna 9:16 (`max-width: calc(100dvh * 9/16)`),
+     así que en un monitor apaisado 1920x1080 la columna mide 608 px mientras
+     `calc(1 * var(--u))` seguía valiendo 19,2 px: el texto salía al triple de su tamaño y
+     «2:00 p.m.» se partía en dos líneas. `--u` mide la COLUMNA.
+     En una pantalla 9:16 vale exactamente lo mismo que calc(1 * var(--u)), así que el
+     kiosco vertical —el caso del evento— no se mueve ni un píxel. */
+  --u: calc(min(100dvw, 100dvh * (9 / 16)) / 100);
 
   --gris-1: #f7f7f7;
   --gris-2: #ededed;
@@ -15,34 +28,99 @@
   --blanco: #ffffff;
 
   /* Tamños iconos */
-  --size-xl: 2.4dvw;
-  --size-m: 1.8dvw;
-  --size-sm: 1.5dvw;
-  --size-ss: 1.2dvw;
+  --size-xl: calc(2.4 * var(--u));
+  --size-m: calc(1.8 * var(--u));
+  --size-sm: calc(1.5 * var(--u));
+  --size-ss: calc(1.2 * var(--u));
 
-  /* Tamaños de fuente */
-  --font-xxl: 3dvw;
-  --font-xl: 2.5dvw;
-  --font-m: 2dvw;
-  --font-sm: 1.8dvw;
-  --font-filters: 1.2dvw;
+  /* Escala tipográfica de EC PRODUCCIÓN (decisión del dueño, 2026-09-01).
+     Son los cinco pasos de `geoapps.esri.co/cue-2026-agenda/styles/global.css`
+     —3 · 2.5 · 2 · 1.8 · 1.2— copiados tal cual, con los mismos nombres, para
+     que un diff contra EC siga siendo directo.
+
+     🔴 Lo ÚNICO que cambia es la UNIDAD, y no es cosmético: en EC los pasos van
+     en `dvw`, que mide la VENTANA, y aquí van en `--u`, que mide el ancho ÚTIL
+     de la columna 9:16 donde vive el contenido. En una pantalla 9:16 —el kiosco
+     del evento— las dos unidades valen exactamente lo mismo, así que esto
+     reproduce EC píxel a píxel. En un monitor apaisado no: medido en 1920x1080,
+     EC pinta la hora a 48 px dentro de una columna de 608 y «10:30 a.m.» se
+     parte en dos líneas. Copiar `dvw` reintroduciría ese defecto.
+
+     ⚠️ Sustituye a la escala del Figma de Panamá (--font-35 … --font-10), que
+     era más pequeña en la lista de la agenda (nombre del evento 18 px frente a
+     27) y más grande en filtros, buscador e Inicio.
+
+     📌 2026-09-01: los cinco pasos llevan **+2 px** sobre los de EC, por encargo.
+     Como `--u` vale 10,8 px en el kiosco de 1080, 2 px son +0,1852 unidades; de
+     ahí los decimales (2.5 → 2.6852 = 27 → 29 px). Se suben los TOKENS y no cada
+     regla, que es lo que hace que «todo el texto» crezca igual y de una sola vez.
+
+     ⚠️ Los PESOS son los de EC y NO se tocan. Se subieron +1 paso ese mismo día y se
+     revirtieron: la diferenciación ya existía en el CSS, pero **no se veía** porque
+     el proyecto cargaba una sola cara de fuente — así que el ajuste se hizo a ojo
+     sobre algo que no estaba midiéndose, y con las caras reales salió demasiado
+     oscuro. Lo que faltaba eran las caras, no más peso. */
+  --font-xxl: calc(3.1852 * var(--u)); /* declarado en EC, sin uso */
+  --font-xl: calc(2.6852 * var(--u)); /* h1 · hora · nombre · Inicio */
+  --font-m: calc(
+    2.1852 * var(--u)
+  ); /* pestañas · menú · Filtros · mapa del piso */
+  --font-sm: calc(1.9852 * var(--u)); /* detalles · chips · descripción · pie */
+  --font-filters: calc(1.3852 * var(--u)); /* panel de filtros y desplegables */
 
   /* Border Radius */
-  --border-raidus: 2dvw;
+  --border-raidus: calc(2 * var(--u));
 
   /* Epaciados */
-  --border-padding: 3dvw;
-  --pill-padding: 1dvw 2dvw;
+  --border-padding: calc(3 * var(--u));
+  --pill-padding: calc(1 * var(--u)) calc(2 * var(--u));
 }
 
+/* 🔴 CINCO CARAS REALES, y no es cosmética: antes había UNA sola y sin descriptor
+   `font-weight`, así que el navegador la usaba para todos los pesos y sintetizaba
+   la negrita. Medido con el mismo texto a 40 px: 300·400·500 daban una tinta
+   IDÉNTICA (889.660) y 600·700·800 otra idéntica (984.248), con el MISMO avance
+   (609,73 px en los seis). O sea: seis pesos declarados, **dos trazos**. Cualquier
+   cambio que no cruzara el umbral 500→600 era un no-op visual.
+   ⚠️ `document.fonts.check()` devolvía `true` para los cinco pesos: no sirve para
+   detectar esto. Ver [[feedback_figma_css_vs_png]].
+
+   🔴 NO se carga Light (300), y es decisión: lo piden `.evento .hora` y el `.btn`
+   de Inicio, y sin cara para 300 el navegador usa la más cercana (Regular) —
+   exactamente lo que se veía antes. Cargar Light los dejaría MÁS finos de lo que han
+   estado nunca. Si algún día se quiere ese contraste, es añadir un @font-face: el
+   archivo está en `CUE_PA/public/assets/fonts/AvenirNextLTPro-Light.otf`.
+   ⚠️ Y el `local()` genérico («Avenir Next LT Pro», sin peso) se retira: podía
+   resolver a la familia instalada en el sistema y saltarse la cara concreta. */
 @font-face {
   font-family: "AvenirNextLTPro";
+  font-weight: 400;
   src:
-    local("Avenir Next LT Pro"),
     local("AvenirNextLTPro-Regular"),
     url("../fonts/avenir-next-lt-pro.woff2") format("woff2");
   font-display: swap;
 }
+@font-face {
+  font-family: "AvenirNextLTPro";
+  font-weight: 500;
+  src: url("../fonts/AvenirNextLTPro-Medium.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "AvenirNextLTPro";
+  font-weight: 600;
+  src: url("../fonts/AvenirNextLTPro-Demi.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "AvenirNextLTPro";
+  font-weight: 700;
+  src: url("../fonts/AvenirNextLTPro-Bold.otf") format("opentype");
+  font-display: swap;
+}
+/* Heavy (800) se retiró el 01-09: al revertir los pesos al estado anterior dejó de
+   pedirlo ninguna regla, y una cara que nadie usa son 67 KB que el kiosco descarga
+   para nada. Si vuelve a hacer falta, el archivo está en `sentiment-cue`. */
 
 *,
 *::before,
@@ -81,6 +159,20 @@ main {
   margin: 0 auto;
   overflow: hidden;
   position: relative;
+}
+
+/* 🔴 `button`, `input`, `select` y `textarea` NO heredan `font-family`: caen a la
+   pila del sistema. Medido antes de esto, había SEIS textos visibles en Arial
+   —la pestaña del día, «Ver detalles de la sesión», el enlace del lugar y los
+   desplegables del filtro—, mezclados con el resto en Avenir. Con una sola cara
+   apenas se notaba; al cargar las cinco reales, la mezcla salta a la vista.
+   ⚠️ Efecto lateral conocido: la pestaña del día dejaba ver su partido 600/400
+   porque Arial SÍ tiene negrita real. Ahora lo sostiene Demi frente a Regular. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 input,
