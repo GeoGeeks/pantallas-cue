@@ -46,7 +46,7 @@ export default function Navbar({ title, espacio }) {
               </Link>
             ))}
             <svg className="menu-footer">
-              <use href="#logo-esri-ecuador" />
+              <use href="#logo-esri-panama" />
             </svg>
           </div>
         )}

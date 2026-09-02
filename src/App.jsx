@@ -11,19 +11,8 @@ function HomePage() {
   return (
     <main className="main-page">
       <svg className="logo-esri">
-        <use href="#logo-esri-ecuador" />
+        <use href="#logo-esri-panama" />
       </svg>
-
-      <img
-        className="fr-inicio"
-        src={withBase("images/fr-inicio.avif")}
-        alt="Temáticas CUE"
-        fetchPriority="high"
-        loading="eager"
-        decoding="async"
-        width={1200}
-        height={1200}
-      />
 
       <div className="content">
         <svg className="logo-cue">
@@ -31,20 +20,20 @@ function HomePage() {
         </svg>
 
         <div className="espacios-inicio">
-          <h2>Consulte la agenda del evento y planee su día</h2>
+          <h2>Consulte la agenda de eventos y planee su día</h2>
           <div className="espacios-btn">
             <Link to="salones" className="btn btn-salones">
               Salones temáticos
             </Link>
             <Link to="laboratorios" className="btn btn-labs">
-              Labs. Entrenamiento
+              Labs. entrenamiento
             </Link>
           </div>
         </div>
 
         <div className="awp">
           <img
-            src={withBase("images/app-qr.avif")}
+            src={withBase("images/app-qr.webp")}
             alt="app-qr"
             loading="lazy"
             decoding="async"
@@ -52,7 +41,7 @@ function HomePage() {
             height={200}
           />
           <p>
-            Personalice su agenda y planee su ruta
+            Personalice su agende y planee su ruta
             <br />
             desde nuestra aplicación móvil.
           </p>

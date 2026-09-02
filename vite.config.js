@@ -25,13 +25,13 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         [apiProxyPath]: {
-          target: env.VITE_API_PROXY_TARGET || "https://cue.esri.ec",
+          target: env.VITE_API_PROXY_TARGET || "https://cue.esri.pa",
           changeOrigin: true,
           secure: proxySecure,
           rewrite: (path) =>
             path.replace(
               apiProxyPattern,
-              env.VITE_API_PROXY_PATH || "/rest/v1/ecuador",
+              env.VITE_API_PROXY_PATH || "/rest/v1/panama",
             ),
           configure: (proxy) => {
             proxy.on("proxyReq", (proxyReq) => {
