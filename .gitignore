@@ -21,3 +21,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Activos retirados de public/ que NO se versionan (decisión del dueño, 2026-09-01).
+# ⚠️ `_activos-sin-usar/lugar.svg` es la ÚNICA copia del activo del pin que dio el
+# diseñador: su geometría está inlineada en SvgSprites.jsx, pero el archivo no tiene
+# respaldo en ninguna parte. Si se borra la carpeta, se pierde.
+_activos-sin-usar/

@@ -1,4 +1,11 @@
-// Proxy standalone hacia la API de agenda (cue.esri.ec).
+// Proxy standalone hacia la API de agenda.
+//
+// ⚠️ El destino real NO está aquí: lo fijan las variables de entorno del
+// servicio NSSM, y los valores de abajo son solo los POR DEFECTO. Medido el
+// 2026-09-01 contra producción, el servicio desplegado apunta a **Ecuador**
+// (`https://geoapps.esri.co/cue-2026-agenda/api/agenda/charlas/` responde 401
+// con `"path":"/v1/ecuador/charlas/"`), mientras estos defaults y el README ya
+// dicen Panamá. Para cambiarlo se reconfigura el servicio, no este archivo.
 //
 // Reemplaza a la antigua Vercel Function (api/agenda/[...path].js). Corre
 // como un servicio de Windows independiente (gestionado con NSSM) escuchando
