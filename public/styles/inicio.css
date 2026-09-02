@@ -1,22 +1,33 @@
-/* Fondo */
-.main-page {
-  background: url("../images/bg-inicio.avif") no-repeat center center / cover;
+/* Fondo — va en una capa FIJA del tamaño de la ventana, no en `.main-page`.
+   `main` se encajona en una columna 9:16, así que pintar ahí el fondo dejaba
+   bandas blancas a los lados en cualquier pantalla que no fuera 9:16 (medido:
+   608 px de columna sobre 1920 de monitor). Con `position: fixed` la caja de
+   pintado es la ventana visible, y `cover` la llena de ancho y de alto. */
+.main-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("../images/bg-inicio.webp") no-repeat center center / cover;
 }
 
 /* Logos */
+/* 🔴 Sin `aspect-ratio` el `<svg>` caía al alto por defecto de los elementos
+   reemplazados —150 px— y el dibujo (48,1 px de alto) quedaba CENTRADO dentro,
+   con **50,9 px de hueco muerto arriba**: medido, la caja empezaba en 19,2 px y
+   la tinta en 70,1. Por eso `top` no describía lo que se veía.
+   Con la razón real del símbolo (286×51) la caja abraza el dibujo, y entonces
+   `top` sí es la posición del logo.
+   📌 `top: 4.64u` = 50,1 px en el kiosco: los **20 px más arriba** pedidos
+   (70,1 − 20). De paso queda a 3 px del `top: 47px` del Figma, o sea que el
+   encargo y el diseño apuntaban al mismo sitio. */
 .logo-esri {
   position: fixed;
-  color: white;
-  width: 25dvw;
-  top: 1dvh;
-  right: 4dvw;
-}
-.fr-inicio {
-  width: 48dvw;
-  height: 48dvw;
-  position: fixed;
-  bottom: 0;
-  right: 0;
+  color: var(--azul-oscuro);
+  width: calc(25 * var(--u));
+  aspect-ratio: 286 / 51;
+  top: calc(4.64 * var(--u));
+  right: calc(4 * var(--u));
 }
 
 /* espacios-inicio*/
@@ -30,9 +41,9 @@
   gap: 5dvh;
 }
 .logo-cue {
-  width: 40dvw;
+  width: calc(40 * var(--u));
   aspect-ratio: 16/9;
-  color: white;
+  color: var(--azul-oscuro);
 }
 .espacios-inicio {
   width: 100%;
@@ -41,10 +52,12 @@
   align-items: center;
   gap: 2dvh;
 }
+/* Encargo 01-09: +2 px (por `--font-xl`, 27 → 29). El peso se queda en el 500 de EC
+   prod: llegó a subirse a 800 y se revirtió. (El Figma de PA pedía 700 / 35 px.) */
 .espacios-inicio h2 {
   font-size: var(--font-xl);
   font-weight: 500;
-  color: var(--blanco);
+  color: var(--azul-oscuro);
 }
 .espacios-btn {
   display: flex;
@@ -59,10 +72,18 @@
   text-align: center;
   text-decoration: none;
   font-size: var(--font-xl);
+  /* EC prod: 300, y se mantiene — el encargo del 01-09 toca el ANCHO del botón, no
+     su peso. ⚠️ No se carga cara Light, así que 300 lo dibuja Regular: idéntico a
+     como se veía antes de cargar las cinco caras. */
   font-weight: 300;
   color: white;
-  width: 25ch;
-  padding: 3dvw;
+  /* 🔴 Ancho EXPLÍCITO, antes `25ch`. `ch` depende del tamaño de fuente, así que al
+     subir el texto a 29 px el botón se habría ido solo de 391,5 a 415,8 px — +24,3
+     donde lo pedido eran **+2**. Medido: 36.44u = 393,5 px = 391,5 + 2.
+     Cabe de sobra: el texto más largo («Labs. entrenamiento») mide 270,2 px a 29 px
+     y el padding suma 64,8 → 335 de los 393,5 disponibles. */
+  width: calc(36.44 * var(--u));
+  padding: calc(3 * var(--u));
   cursor: default;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
@@ -79,11 +100,8 @@
 .btn-salones {
   background-color: var(--fucsia);
 }
-.btn-charlas {
-  background-color: var(--morado);
-}
 .btn-labs {
-  background-color: var(--naranja);
+  background-color: var(--verde);
 }
 
 /* QR */
@@ -94,12 +112,20 @@
   text-align: center;
   gap: 2dvh;
 }
+/* EC prod: 400 y --font-sm (19,4px). El Figma de PA pedía 500 / 28px, más
+   grande que los botones; con EC vuelve a ser el texto más pequeño de la
+   pantalla. El color azul-oscuro sí es del Figma de PA (EC lo tenía blanco). */
 .awp p {
   font-size: var(--font-sm);
-  color: var(--blanco);
+  color: var(--azul-oscuro);
   font-weight: 400;
 }
+/* Figma: el QR mide 200 px sobre el lienzo de 1080 → 18,5 % del ancho útil.
+   Estaba en 15 %, casi una cuarta parte más pequeño de lo dibujado. */
 .awp img {
-  width: 15dvw;
+  /* Encargo 01-09: +2 px de ancho y alto → 18.685u = 201,8 px. El alto sigue en
+     `auto` porque el QR es cuadrado: al crecer el ancho crece igual, y fijarlo a
+     mano abriría la puerta a deformarlo. */
+  width: calc(18.685 * var(--u));
   height: auto;
 }

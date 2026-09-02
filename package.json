@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "verificar:token": "node scripts/verificar-token.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.1.2",

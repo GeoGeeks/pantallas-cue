@@ -1,4 +1,11 @@
-// Proxy standalone hacia la API de agenda (cue.esri.ec).
+// Proxy standalone hacia la API de agenda.
+//
+// ⚠️ El destino real NO está aquí: lo fijan las variables de entorno del
+// servicio NSSM, y los valores de abajo son solo los POR DEFECTO. Medido el
+// 2026-09-01 contra producción, el servicio desplegado apunta a **Ecuador**
+// (`https://geoapps.esri.co/cue-2026-agenda/api/agenda/charlas/` responde 401
+// con `"path":"/v1/ecuador/charlas/"`), mientras estos defaults y el README ya
+// dicen Panamá. Para cambiarlo se reconfigura el servicio, no este archivo.
 //
 // Reemplaza a la antigua Vercel Function (api/agenda/[...path].js). Corre
 // como un servicio de Windows independiente (gestionado con NSSM) escuchando
@@ -8,15 +15,15 @@
 //
 // Variables de entorno (configurarlas en el servicio de NSSM, no hardcodear):
 //   PORT              puerto local donde escucha (default 3001)
-//   API_TARGET        host upstream (default https://cue.esri.ec)
-//   API_PATH_PREFIX   prefijo de ruta upstream (default /rest/v1/ecuador)
+//   API_TARGET        host upstream (default https://cue.esri.pa)
+//   API_PATH_PREFIX   prefijo de ruta upstream (default /rest/v1/panama)
 //   API_TOKEN         bearer token para el upstream (o AUTH_TOKEN)
 
 import express from "express";
 
 const PORT = Number(process.env.PORT) || 3001;
-const API_TARGET = process.env.API_TARGET || "https://cue.esri.ec";
-const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/rest/v1/ecuador";
+const API_TARGET = process.env.API_TARGET || "https://cue.esri.pa";
+const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/rest/v1/panama";
 const API_TOKEN = (process.env.API_TOKEN || process.env.AUTH_TOKEN || "").trim();
 
 const app = express();

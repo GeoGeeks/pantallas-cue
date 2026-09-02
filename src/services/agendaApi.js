@@ -2,58 +2,36 @@
 
 const API_BASE_URL = withBase("/api/agenda");
 
+/**
+ * ⚠️ `salones` apunta a `/charlas/` y no es un error: así se llama el endpoint
+ * de la API. La sección se resuelve después, por el tipo de actividad
+ * (`AGENDA_SECTIONS.salones.filtroTipo`), no por la URL.
+ *
+ * La clave `charlas` se retiró el 2026-09-01 con la sección de charlas técnicas
+ * (Panamá no las tiene). Solo la usaban los dos valores por defecto de este
+ * archivo, y ninguna ruta la pedía.
+ */
 const ENDPOINTS = {
   salones: "/charlas/",
-  charlas: "/charlas/",
   laboratorios: "/laboratorios/",
 };
 
+/**
+ * Respaldo cableado de la agenda. ⚠️ Los lugares y las fechas son de EJEMPLO
+ * («Salón A», «Laboratorio 1»): no existen en Panamá, y eso es lo único que
+ * hoy delata en pantalla que estos datos no son reales.
+ *
+ * 🔴 NO rellenarlo con los salones y las fechas de verdad. Sería peor: dejaría
+ * el respaldo indistinguible de la agenda real para quien mire el kiosco. Si
+ * hace falta agenda de verdad sin backend, va por el proxy contra la API, no
+ * por aquí.
+ *
+ * El bloque `charlas` (3 sesiones «Charla Técnica», con «Lorem ipsum» y «Salón
+ * K - Piso 3») se retiró el 2026-09-01 junto con esa sección: sus items no
+ * pasaban el filtro de ninguna de las dos secciones que quedan, así que la rama
+ * que caía ahí solo podía producir una pantalla vacía.
+ */
 const FALLBACK_AGENDA = {
-  charlas: [
-    {
-      name: "Apertura de evento",
-      description: "Ver detalles de la sesión",
-      date: "2026-10-02",
-      startTime: "2026-10-02T12:00:00",
-      endTime: "2026-10-02T13:00:00",
-      location: "Salón K - Piso 3",
-      sessionLevel: "Intermedio",
-      topics: ["Trabajo en campo", "GeoAI"],
-      esriProducts: ["GeoAI", "ArcGIS Pro"],
-      targetAudiences: ["Nivel intermedio"],
-      industry: ["Tecnología", "Geoespacial"],
-      tipo_actividad: "Charla Técnica",
-    },
-    {
-      name: "Mapas y análisis espacial",
-      description: "Ver detalles de la sesión",
-      date: "2026-10-02",
-      startTime: "2026-10-02T14:00:00",
-      endTime: "2026-10-02T15:00:00",
-      location: "Salón A",
-      sessionLevel: "Básico",
-      topics: ["Cartografía", "Analítica espacial"],
-      esriProducts: ["ArcGIS Online"],
-      targetAudiences: ["Público general"],
-      industry: ["Educación", "Gobierno"],
-      tipo_actividad: "Charla técnica",
-    },
-    {
-      name: "Tendencias de IA en GIS",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde perferendis officiis magnam totam corrupti similique quas pariatur in, eaque nihil quia quae, soluta dolores voluptatibus amet autem sint quidem perspiciatis.",
-      date: "2026-10-03",
-      startTime: "2026-10-03T09:30:00",
-      endTime: "2026-10-03T10:30:00",
-      location: "Salón B",
-      sessionLevel: "Avanzado",
-      topics: ["IA", "Data science"],
-      esriProducts: ["ArcGIS Pro"],
-      targetAudiences: ["Profesionales"],
-      industry: ["Tecnología", "Innovación"],
-      tipo_actividad: "Charla Técnica",
-    },
-  ],
   salones: [
     {
       name: "Experiencias de innovación",
@@ -332,20 +310,40 @@ function buildApiErrorMessage(status, errorBody) {
 }
 
 function getFallbackAgenda(espacio) {
-  const fallback = FALLBACK_AGENDA[espacio] || FALLBACK_AGENDA.charlas;
+  const fallback = FALLBACK_AGENDA[espacio] || FALLBACK_AGENDA.salones;
+  // 🔴 El respaldo se sirve SIN decir en pantalla que no son datos en vivo, y
+  // eso es una DECISIÓN del dueño (2026-09-01), no un descuido: se prefiere que
+  // el kiosco muestre algo antes que quedarse con un mensaje de error.
+  //
+  // El precio, medido ese mismo día: `geoapps.esri.co/cue-2026-agenda` estaba
+  // respondiendo 401 «token expirado» y llevaba sirviendo esta agenda de
+  // ejemplo —«Viernes 2 Octubre», «Experiencias de innovación», «Salón A»— como
+  // si fuera la del evento. La única señal está en la consola del navegador.
+  //
+  // ⚠️ Se dispara en SEIS casos, y el último es el que más sorprende:
+  //   error de red · 401 · 403 · 404 · ≥500 · y `rawItems.length === 0`.
+  // O sea que un día sin sesiones —o el día siguiente al evento— no se ve
+  // vacío: se ve con estas sesiones inventadas.
+  //
+  // ⚠️ Y el mensaje que `buildApiErrorMessage` ya redacta («Token inválido o
+  // expirado», «Error de servidor») se descarta en esta rama. La maquinaria
+  // para mostrarlo existe y funciona (`useAgenda` hace `setError`, y
+  // `.estado-error` está en el CSS): lo único que falta es no llamar aquí.
+  //
+  // Si algún día se revisa, las dos salidas planteadas fueron: (a) usar el
+  // respaldo solo en desarrollo y dejar que producción muestre el error real,
+  // o (b) conservarlo con una banda visible de «datos de ejemplo».
   const tipoActividad =
     espacio === "laboratorios"
       ? "Laboratorios de entrenamiento"
-      : espacio === "salones"
-        ? "Salón temático"
-        : "Charla técnica";
+      : "Salón temático";
 
   return fallback.map((item) => normalizeItem(item, tipoActividad));
 }
 
 export async function fetchAgendaData(espacio, options = {}) {
   const { signal } = options;
-  const endpoint = ENDPOINTS[espacio] || ENDPOINTS.charlas;
+  const endpoint = ENDPOINTS[espacio] || ENDPOINTS.salones;
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -396,12 +394,14 @@ export async function fetchAgendaData(espacio, options = {}) {
   const payload = await response.json();
   const rawItems = extractItems(payload);
 
+  // Tipo por defecto para los items que llegan SIN `tipo_actividad` ni
+  // `activityType`. La rama `"Charlas técnicas"` se retiró con la sección
+  // (2026-09-01). ⚠️ «Salones temáticos» pasa el filtro de prefijo «Salón»
+  // porque `matchesActivityType` compara sin tildes (comprobado).
   const tipoActividad =
     espacio === "laboratorios"
       ? "Laboratorios de entrenamiento"
-      : espacio === "salones"
-        ? "Salones temáticos"
-        : "Charlas técnicas";
+      : "Salones temáticos";
 
   if (rawItems.length === 0) {
     console.warn("API sin items de agenda, usando agenda local de respaldo.", {

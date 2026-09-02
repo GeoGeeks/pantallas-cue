@@ -6,7 +6,7 @@ import {
 } from "../utils/agendaUtils.js";
 import { fetchAgendaData } from "../services/agendaApi.js";
 
-export function useAgenda({ espacio, activityType }) {
+export function useAgenda({ espacio, filtroTipo }) {
   const [agenda, setAgenda] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -41,8 +41,8 @@ export function useAgenda({ espacio, activityType }) {
   }, [espacio]);
 
   const days = useMemo(
-    () => getUniqueDays(agenda, activityType),
-    [agenda, activityType],
+    () => getUniqueDays(agenda, filtroTipo),
+    [agenda, filtroTipo],
   );
 
   useEffect(() => {
@@ -60,24 +60,24 @@ export function useAgenda({ espacio, activityType }) {
     () =>
       getFilterGroups(
         agenda,
-        activityType,
+        filtroTipo,
         activeFilters,
         selectedDay,
         searchQuery,
       ),
-    [agenda, activityType, activeFilters, selectedDay, searchQuery],
+    [agenda, filtroTipo, activeFilters, selectedDay, searchQuery],
   );
 
   const events = useMemo(
     () =>
       getVisibleEvents({
         agenda,
-        activityType,
+        filtroTipo,
         selectedDay,
         searchQuery,
         activeFilters,
       }),
-    [agenda, activityType, selectedDay, searchQuery, activeFilters],
+    [agenda, filtroTipo, selectedDay, searchQuery, activeFilters],
   );
 
   const addFilter = (newFilter) => {
