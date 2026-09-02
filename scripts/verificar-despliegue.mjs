@@ -24,6 +24,11 @@
 const base = (
   process.argv[2] || "https://geoapps.esri.co/cue-2026-agenda"
 ).replace(/\/$/, "");
+// 🔴 El origen se DERIVA del base. Estaba cableado a geoapps.esri.co, así que el
+// script solo servía contra producción: apuntado al `npm run preview` local daba
+// dos falsos rojos (pedía el JS y el CSS al host remoto, que no los tiene con ese
+// hash). Un verificador que no se puede correr ANTES de desplegar llega tarde.
+const origen = new URL(base).origin;
 let fallos = 0;
 const ok = (s) => console.log(`  ✅ ${s}`);
 const mal = (s) => {
@@ -99,7 +104,7 @@ const cssUrls = [];
 for (const ref of refs) {
   const u = ref.startsWith("http")
     ? ref
-    : `https://geoapps.esri.co${ref.startsWith("/") ? "" : "/"}${ref}`;
+    : `${origen}${ref.startsWith("/") ? "" : "/"}${ref}`;
   const r = await clasificar(u);
   const esp = esperado(u);
   if (r.tipo === esp) ok(`${ref.split("/").pop()} — ${r.tipo}, ${r.bytes} B`);
@@ -127,7 +132,7 @@ for (const cssUrl of cssUrls) {
     if (u.startsWith("data:")) continue;
     const abs = u.startsWith("http")
       ? u
-      : `https://geoapps.esri.co${u.startsWith("/") ? "" : "/"}${u}`;
+      : `${origen}${u.startsWith("/") ? "" : "/"}${u}`;
     const r = await clasificar(abs);
     const esp = esperado(abs);
     const nom = decodeURIComponent(abs.split("/").pop());
@@ -141,6 +146,54 @@ for (const cssUrl of cssUrls) {
         `${nom} — NO existe en el servidor: cayó en el fallback del SPA (HTTP ${r.estado})`,
       );
     else mal(`${nom} — esperaba ${esp} y llegó ${r.tipo} (HTTP ${r.estado})`);
+  }
+}
+
+// 3.b TODO lo que vive en public/ y se sirve sin hash
+//
+// 🔴 Este bloque nació de un falso negativo: la versión anterior solo miraba el
+// index y las `url()` del CSS, así que daba VERDE en `images/app-qr.webp` —el QR
+// de Inicio, que es un <img> del JSX— mientras en producción estaba roto por el
+// mismo mimeMap ausente. Reportaba 2 problemas donde había 3.
+//
+// Parsear el bundle para encontrar esas rutas es frágil (el JS está minificado y
+// los mapas de piso se construyen en runtime: `images/Piso-Salon/${nombre}.${ext}`).
+// Así que se recorre `public/` del repo: lo que hay ahí se sirve TAL CUAL, sin
+// hash, en la misma ruta. Cubre el QR, los mapas de piso y el favicon.
+const publicos = [];
+{
+  const { readdirSync, statSync, existsSync } = await import("node:fs");
+  const raiz = new URL("../public/", import.meta.url).pathname;
+  if (existsSync(raiz)) {
+    const anda = (dir, rel = "") => {
+      for (const e of readdirSync(dir)) {
+        const abs = `${dir}${e}`;
+        if (statSync(abs).isDirectory()) anda(`${abs}/`, `${rel}${e}/`);
+        // `styles/` y `web.config` no se sirven crudos en producción (el CSS va
+        // empaquetado con hash; el web.config lo consume IIS, no el navegador).
+        else if (!rel.startsWith("styles/") && e !== "web.config")
+          publicos.push(`${rel}${e}`);
+      }
+    };
+    anda(raiz);
+  }
+}
+if (publicos.length) {
+  console.log(
+    `\n  ${publicos.length} assets de public/ (sin hash, ruta directa):`,
+  );
+  for (const rel of publicos) {
+    const abs = `${base}/${rel.split("/").map(encodeURIComponent).join("/")}`;
+    const r = await clasificar(abs);
+    const esp = esperado(abs);
+    if (r.tipo === esp) ok(`${rel} — ${r.tipo}, ${r.bytes} B`);
+    else if (r.tipo === "404-de-esri")
+      mal(
+        `${rel} — EXISTE pero IIS no lo sirve: falta su mimeMap en web.config`,
+      );
+    else if (r.tipo === "index-del-spa")
+      mal(`${rel} — NO existe en el servidor (cayó en el fallback del SPA)`);
+    else mal(`${rel} — esperaba ${esp} y llegó ${r.tipo} (HTTP ${r.estado})`);
   }
 }
 
