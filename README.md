@@ -215,6 +215,57 @@ Esta aplicación sirve el evento de **Panamá**. Lo que eso implica y no es obvi
   `.espacios::before`), no en el elemento: si no, en cualquier pantalla que no sea
   9:16 quedaban bandas en blanco a los lados de la columna.
 
+## Colombia (2026-09-23, noche) — auditoría e2e: datos, funcionalidad y diseño
+
+🧭 Auditoría completa contra el PR #4 ya abierto (dev server real, no solo lectura de código):
+cruce de los 72 charlas + 6 laboratorios reales contra lo que pinta cada pantalla, recorrido en
+navegador de las 3 secciones × 2 días, filtros, buscador, menú y los 16 mapas de piso — 0
+errores de consola en toda la sesión.
+
+🔴 **HALLAZGO PRINCIPAL, sin decidir a propósito — elevado, no implementado:** los 6
+laboratorios reales traen `disponibilidad[]` con **8 franjas horarias reales cada uno** (3 el
+jueves 14:00-17:00 + 5 el viernes 07:00-12:00) y `cupo` (60), pero el contrato real NO trae
+`fecha`/`horaInicio`/`horaFin` a nivel de laboratorio — esos tres campos llegan `null`. El
+adaptador (`adaptRealApiItem`, `agendaApi.js`) los pasa tal cual, y en pantalla el resultado es:
+**ningún laboratorio muestra hora, ni pestañas de día, ni cupo** — solo un ícono de reloj sin
+texto antes del piso. Verificado en el DOM (`Ocultar detalles del laboratorio` expandido): ni la
+descripción larga ni la tarjeta muestran `objetivos[]`, `cupo` ni `disponibilidad` en ningún
+lugar. El campo `dia` (`"Jueves"` fijo en los 6, no confiable: un laboratorio real ocurre en
+jueves Y viernes) tampoco se lee en ningún sitio del código — confirmado con `grep`.
+
+Esto es distinto de lo que decía la nota anterior de este mismo README (*"dato real disponible
+y sin usar... no es un defecto"*): no es que falte pintar un dato decorativo, es que **un
+laboratorio con 8 franjas reales en 2 días se muestra como si ocurriera una sola vez, sin hora**
+— en un kiosco físico cuyo propósito es decirle a alguien cuándo y dónde ir. Sin arreglar a
+propósito: mostrar las 8 franjas bien (agrupadas por día, con su cupo) es una decisión de
+diseño/alcance, no un fix de una línea — necesita el panel real (o al dueño) para confirmar
+cómo debe leerse `disponibilidad` antes de tocar código.
+
+🟡 **El buscador queda atado al día activo, en silencio.** Reproducido: en la pestaña "Jueves"
+de Charlas, buscar *"Data Pipelines"* (una charla real que solo existe el viernes) da **0
+resultados** sin ningún aviso de que el filtro de día sigue aplicado — y las pestañas
+Jueves/Viernes **desaparecen** de la vista mientras se busca, reemplazadas por la caja de
+búsqueda. Hay una forma de volver (un icono pequeño junto a "Limpiar", poco visible) que
+restaura las pestañas; sin conocerlo, la ruta más corta es borrar la búsqueda entera. Mismo
+término, en la pestaña "Viernes", sí encuentra la charla. No es un defecto de datos —es el
+mismo patrón en Salones y Laboratorios— y no se corrigió porque cambiar el comportamiento
+(¿buscar en los dos días a la vez? ¿mantener visibles las pestañas?) es una decisión de UX, no
+solo de código.
+
+✅ **Todo lo demás, verificado y sin hallazgos:**
+- Categorización Salones/Charlas/fuera-de-agenda: 38/30/4 sobre 72 charlas reales de hoy (creció
+  1 desde el 22-09 — dato vivo, normal), conteos en pantalla **idénticos** por día
+  (Salones Jueves 25 · Viernes 13 · Charlas Jueves 12 · Viernes 18 · Laboratorios 6),
+  medido con `document.querySelectorAll('.evento').length` contra cada pestaña.
+- Los 16 mapas de piso responden **200** contra los 16 `lugar` reales (charlas + laboratorios),
+  probado con `fetch` directo, no solo mirando la pantalla.
+- Filtros (Lugar, Temática, Dirigido a, Producto, Nivel de sesión) aplican y acotan la lista
+  correctamente; probado con "Lugar - Piso = Piso 3 - Salón K" en Viernes → las 3 charlas
+  correctas, badge de conteo correcto, "Limpiar filtros" visible.
+- Menú "Espacios" resalta la sección activa con su color correcto y navega bien entre las tres.
+- Sin campos críticos vacíos, sin `horaInicio >= horaFin`, sin inconsistencia `fecha`/`dia`, sin
+  registros con `isDeleted`/`deletedAt`, en ninguna de las 72 charlas.
+
 ## Colombia (2026-09-23, tarde) — los 3 lugares sin mapa: producción YA los corrigió, y los 16 mapas reales ya cubren el catálogo completo
 
 ✅ **Verificado contra la API real** (`GET /api/admin/eventos/CUE_26_CO/{charlas,laboratorios}`,
