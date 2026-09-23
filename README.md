@@ -53,7 +53,7 @@ Registrar el servicio con NSSM:
 ```powershell
 nssm install CueAgendaProxy "C:\Program Files\nodejs\node.exe" "C:\ruta\a\cue-2026-agenda\server\index.js"
 nssm set CueAgendaProxy AppDirectory "C:\ruta\a\cue-2026-agenda\server"
-nssm set CueAgendaProxy AppEnvironmentExtra API_TARGET=https://cue.esri.pa API_PATH_PREFIX=/rest/v1/panama API_TOKEN=TU_TOKEN_AQUI PORT=3001
+nssm set CueAgendaProxy AppEnvironmentExtra API_TARGET=https://appmovilapi.esri.co API_PATH_PREFIX=/api PORT=3001
 nssm set CueAgendaProxy AppStdout "C:\ruta\a\cue-2026-agenda\server\logs\out.log"
 nssm set CueAgendaProxy AppStderr "C:\ruta\a\cue-2026-agenda\server\logs\err.log"
 nssm set CueAgendaProxy Start SERVICE_AUTO_START
@@ -78,19 +78,81 @@ no hace falta tocar nada más en IIS Manager para el ruteo.
 
 ### 4. Variables de entorno del proxy
 
-| Variable | Descripción | Ejemplo |
+🔴 **Vigente hoy (Colombia, `appmovilapi.esri.co`): NO hace falta ningún
+`API_TOKEN`.** Verificado en vivo el 2026-09-23, con control negativo — los
+tres endpoints reales que consume esta app responden **200 sin
+Authorization**, y **también 200 mandando un Bearer inválido** (no hay
+validación de token en estas rutas):
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://appmovilapi.esri.co/api/admin/eventos/CUE_26_CO
+curl -s -o /dev/null -w "%{http_code}\n" https://appmovilapi.esri.co/api/admin/eventos/CUE_26_CO/charlas
+curl -s -o /dev/null -w "%{http_code}\n" https://appmovilapi.esri.co/api/admin/eventos/CUE_26_CO/laboratorios
+# los tres → 200, con o sin -H "Authorization: Bearer lo-que-sea"
+```
+
+Como contraste, la ruta paralela de ASISTENTE (sin `/admin`, la que usa la PWA
+real) sí lo exige: `GET /api/eventos/CUE_26_CO/charlas` → **401** sin token.
+Esto confirma que lo abierto es el hueco ya documentado en las rutas admin
+(`EntraIdGuard` sin aplicar ahí), no que todo el backend esté sin protección.
+
+| Variable | Descripción | Valor para Colombia hoy |
 |---|---|---|
-| `API_TARGET` | Host upstream | `https://cue.esri.pa` |
-| `API_PATH_PREFIX` | Prefijo de ruta upstream | `/rest/v1/panama` |
-| `API_TOKEN` (o `AUTH_TOKEN`) | Bearer token del upstream | — |
+| `API_TARGET` | Host upstream | `https://appmovilapi.esri.co` |
+| `API_PATH_PREFIX` | Prefijo de ruta upstream | `/api` |
+| `API_TOKEN` (o `AUTH_TOKEN`) | Bearer token del upstream | **no se declara** — no hace falta ninguno hoy |
 | `PORT` | Puerto local del proxy | `3001` |
 
-Si `API_TOKEN` no está configurado y el upstream requiere autenticación, el
-frontend cae de forma silenciosa a una agenda de ejemplo hardcodeada
-(`src/services/agendaApi.js`, `FALLBACK_AGENDA`) en vez de mostrar error —
-confirmar el token antes de dar el deploy por bueno.
+`API_TARGET`/`API_PATH_PREFIX` son también los defaults ya escritos en
+`server/index.js` y `vite.config.js` — así que en rigor, para Colombia, **el
+servicio NSSM ni necesitaría declararlas**. Pero si el servicio de Windows
+**ya existe de un país anterior** (Panamá: `API_TARGET=https://cue.esri.pa`,
+`API_PATH_PREFIX=/rest/v1/panama`, con un `API_TOKEN` puesto), esas variables
+explícitas GANAN sobre el default del código — no se limpian solas. Hay que
+correr `nssm set` de nuevo con los valores de arriba (o `nssm unset
+CueAgendaProxy AppEnvironmentExtra` para borrarlas y que caiga en el
+default) y reiniciar el servicio. **Si esto no se hace, el proxy sigue
+hablándole al backend viejo (o con un token vencido) y el síntoma es
+silencioso**: `getFallbackAgenda()` en `agendaApi.js` hace que cualquier
+error de red, 401/403/404/5xx, o incluso 0 resultados, muestre una agenda de
+EJEMPLO hardcodeada («Experiencias de innovación», «Salón A») **sin ningún
+aviso en pantalla** — la única señal es la consola del navegador, que nadie
+mira en un kiosco.
 
-### 4.1 El token caduca — cómo se obtiene y cómo se renueva
+### 4.0 `.env` de DESARROLLO local (`pnpm dev`)
+
+Esto es aparte del proxy de producción — Vite lee su propio `.env` (raíz del
+repo, sin versionar) para el proxy de `pnpm dev`. Vigente hoy:
+
+```bash
+# .env
+VITE_API_PROXY_TARGET=https://appmovilapi.esri.co
+VITE_API_PROXY_PATH=/api
+VITE_ID_EVENTO=CUE_26_CO
+```
+
+Sin `API_TOKEN`/`AUTH_TOKEN`: por lo de arriba, no hace falta ninguno, y
+`vite.config.js` ya NO tiene el mecanismo que los inyectaba (se quitó
+2026-09-22 junto con la conexión al backend real — si el backend pide un
+token de servicio más adelante, hay que reponerlo ahí, no alcanza con
+declarar la variable).
+
+`.env.development` (también sin versionar) solo trae una bandera de TLS, sin
+relación con autenticación:
+
+```bash
+# .env.development
+VITE_API_PROXY_SECURE=false
+```
+
+### 4.1 (histórico, NO aplica al backend real de Colombia) El token caduca — cómo se obtiene y cómo se renueva
+
+⚠️ Todo este apartado describe el mecanismo de `/rest/v1/{pais}` de EC/PA
+(`rest_pwa_ec_2026`/`rest_pwa_pa_2026`) — un backend y un login DISTINTOS al
+de Colombia. Se conserva por si el backend de Colombia agrega autenticación a
+estas rutas admin más adelante, pero **hoy no hay ningún token que pedir ni
+que renovar**; seguir estos pasos contra `cue.esri.pa` no tiene efecto sobre
+el proxy de Colombia.
 
 `API_TOKEN` es un **JWT de servicio**, no una API key: nace con fecha de
 caducidad dentro y **el proxy no lo renueva** (lo lee una vez de la variable de
@@ -144,10 +206,17 @@ caducando el mismo día.
 curl -s https://geoapps.esri.co/cue-2026-agenda/api/agenda/charlas/ | head -c 200
 ```
 
-- **200 con una lista** → correcto.
-- **401** con `"path":"/v1/ecuador/..."` → el proxy apunta a Ecuador
-  (`API_PATH_PREFIX`) **y** el token está vencido: eso es lo que había el
-  2026-09-01.
+- **200 con `nombre`/`lugar`/`tipoActividad` reales del evento de Colombia**
+  (ej. `"nombre":"Plenaria"`, `"lugar":"Piso 5"`) → correcto, el proxy ya
+  apunta a `appmovilapi.esri.co`.
+- **200 con un JSON que se parece a `name`/`location`/`activityType` en vez de
+  `nombre`/`lugar`/`tipoActividad`**, o con salones de Panamá («Salón
+  Contadora»…) → el servicio NSSM sigue con las variables del país anterior
+  (§4). El front lo trataría igual como datos reales, sin avisar — es el caso
+  más peligroso porque **no da error**.
+- **Error de red, 401, 403, 404 o 5xx** → cae al respaldo de ejemplo
+  (`FALLBACK_AGENDA`), también sin avisar en pantalla. Revisar `API_TARGET`/
+  `API_PATH_PREFIX` del servicio NSSM.
 - ⚠️ **No sirve mirar solo el código HTTP** de un asset o una ruta: IIS responde
   **200 con el HTML del SPA** a todo lo que no existe. Hay que mirar el cuerpo.
 
