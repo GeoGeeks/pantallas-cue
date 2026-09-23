@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-// Una entrada por sección de AGENDA_SECTIONS. La de `charlas` se retira
-// junto con su ruta: sin ruta nunca casaba, y dejarla sugiere que existe.
+// Una entrada por sección de AGENDA_SECTIONS.
 const espacios = {
-  salones: "Salón temático | Esri Panamá",
-  laboratorios: "Laboratorios de entrenamiento | Esri Panamá",
+  salones: "Salón temático | Esri Colombia",
+  charlas: "Charla técnica | Esri Colombia",
+  laboratorios: "Laboratorios de entrenamiento | Esri Colombia",
 };
 
 export function usePageTitle() {
@@ -13,7 +13,7 @@ export function usePageTitle() {
 
   useEffect(() => {
     const path = location.pathname.replace(/\/$/, "").split("/").pop();
-    const title = espacios[path] || "Agenda CUE26 | Esri Panamá";
+    const title = espacios[path] || "Agenda CUE26 | Esri Colombia";
     document.title = title;
   }, [location]);
 }

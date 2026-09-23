@@ -11,7 +11,7 @@ function HomePage() {
   return (
     <main className="main-page">
       <svg className="logo-esri">
-        <use href="#logo-esri-panama" />
+        <use href="#logo-esri-colombia" />
       </svg>
 
       <div className="content">
@@ -25,6 +25,9 @@ function HomePage() {
             <Link to="salones" className="btn btn-salones">
               Salones temáticos
             </Link>
+            <Link to="charlas" className="btn btn-charlas">
+              Charlas técnicas
+            </Link>
             <Link to="laboratorios" className="btn btn-labs">
               Labs. entrenamiento
             </Link>
@@ -32,19 +35,47 @@ function HomePage() {
         </div>
 
         <div className="awp">
-          <img
-            src={withBase("images/app-qr.webp")}
-            alt="app-qr"
-            loading="lazy"
-            decoding="async"
-            width={200}
-            height={200}
-          />
           <p>
             Personalice su agende y planee su ruta
             <br />
             desde nuestra aplicación móvil.
           </p>
+          <div className="qr-row">
+            <div className="qr-item">
+              <img
+                src={withBase("images/qr-android.webp")}
+                alt="Código QR para descargar la app en Google Play"
+                loading="lazy"
+                decoding="async"
+                width={200}
+                height={200}
+              />
+              <img
+                className="store-badge"
+                src={withBase("images/badge-google-play.webp")}
+                alt="Disponible en Google Play"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="qr-item">
+              <img
+                src={withBase("images/qr-ios.webp")}
+                alt="Código QR para descargar la app en App Store"
+                loading="lazy"
+                decoding="async"
+                width={200}
+                height={200}
+              />
+              <img
+                className="store-badge"
+                src={withBase("images/badge-app-store.webp")}
+                alt="Disponible en App Store"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </main>

@@ -1,13 +1,29 @@
 /* --- global.css --- */
 
 :root {
-  /* Paleta de Panamá, tomada del Copy-as-CSS del Figma (vistas/CSS/inicio.css):
-     Rosa-Fucsia #F9047D · Verde-Oscuro #007F4E · Azul-oscuro #004081.
-     ⚠️ `--naranja` no era naranja: valía #0070c0, un azul. Se renombra a
-     `--verde` con el valor del diseño; era el color del botón de laboratorios. */
-  --fucsia: #f9047d;
-  --verde: #007f4e;
-  --azul-oscuro: #004081;
+  /* Paleta de Colombia. 🔴 Corregida 2026-09-22: se había sacado A PIPETA de
+     `Colombia.png` (Vino #921754 → Salones · Azul marino #00304D → Charlas ·
+     Violeta #7D00FE → Laboratorios) y el mapeo estaba MAL — verificado leyendo
+     el color real del título de cada pantalla en el panel de Figma (vía
+     extensión de Chrome): Violeta es de SALONES, no de Laboratorios; el azul
+     de Charlas es #004081, no #00304D; y "Vino" no existe en ningún título
+     real del diseño — se retira. Ver la nota completa en `espacios.css`.
+     `--morado-oscuro` es el texto/logo de Inicio, que en el diseño de
+     Colombia va sobre un fondo OSCURO (antes era azul y el fondo era claro). */
+  --azul-marino: #004081;
+  --violeta: #7d00fe;
+  --morado-oscuro: #473d93;
+  /* 🔴 Corregido 2026-09-22 (ronda de fidelidad, MCP de Figma vía extensión de
+     Chrome — no a pipeta): el fondo de "Charlas técnicas" es `--lila`
+     (#CCACFD, estilo real "Lila 2-Claro") y el de "Labs. entrenamiento" es
+     `--rosa-fucsia` (#F9047D, estilo real "Rosa-Fucsia"), NO al revés como
+     estaba. `--lavanda` (#EEE3FF, estilo real "Lila - Fondo") no es fondo de
+     ningún botón: es el color de TEXTO del título "Consulte la agenda…", del
+     texto bajo el QR y de la etiqueta de "Labs. entrenamiento" (el único de
+     los tres botones con texto claro; los otros dos usan `--morado-oscuro`). */
+  --lavanda: #eee3ff;
+  --lila: #ccacfd;
+  --rosa-fucsia: #f9047d;
 
   /* 🔴 1 unidad = 1 % del ANCHO ÚTIL, no del ancho de la ventana.
      `main` se encajona en una columna 9:16 (`max-width: calc(100dvh * 9/16)`),
@@ -50,23 +66,69 @@
      era más pequeña en la lista de la agenda (nombre del evento 18 px frente a
      27) y más grande en filtros, buscador e Inicio.
 
-     📌 2026-09-01: los cinco pasos llevan **+2 px** sobre los de EC, por encargo.
-     Como `--u` vale 10,8 px en el kiosco de 1080, 2 px son +0,1852 unidades; de
-     ahí los decimales (2.5 → 2.6852 = 27 → 29 px). Se suben los TOKENS y no cada
-     regla, que es lo que hace que «todo el texto» crezca igual y de una sola vez.
+     📌 Tres encargos la subieron +2 px cada vez (01-09 y dos veces el 02-09), y el
+     tercero destapó el problema: **sumar una cantidad FIJA a una escala
+     PROPORCIONAL la aplasta**. Medido, los +6 px no subían todo por igual — el
+     paso más grande crecía +18,5 % y el más pequeño **+46,3 %**, y el contraste
+     entre los extremos caía −16,5 % (2,08× → 1,74×). En pantalla eso se veía como
+     un nombre de sesión (31 px) y su descripción (25,4) separados por 1,22×: los
+     distinguía el peso, casi no el tamaño.
+
+     🔴 Corregido el 02-09 **multiplicando en vez de sumar**, y SIN que nada crezca:
+     se deja `--font-xl` donde el encargo lo dejó —33 px, el techo— y los demás
+     pasos se recalculan con las PROPORCIONES de EC, o sea EC × k con
+     k = 3.0556 / 2.5 = **1,22224**. Así la escala vuelve a ser la de EC, solo que
+     22 % más grande, y el contraste entre extremos regresa a 2,08×.
+
+     ⚠️ Es conservador y eso está medido, no dicho: **ningún paso queda por debajo
+     del tamaño que ya estaba en pantalla el 01-09** (m 26,4 > 23,6 · sm 23,8 >
+     21,4 · filtros 15,8 > 15,0). No se vuelve atrás, se reordena.
+
+     📌 `--font-xxl` es la ÚNICA excepción y se queda quieta: con las proporciones
+     de EC le tocaría 39,6 px y hoy vale 38,4 — subirla contradiría el encargo de
+     no aumentar nada. Su único uso es el glifo de un botón, no texto que compita
+     en la jerarquía.
+     ⚠️ El sumando va en la UNIDAD `--u`, así que los +4 px son exactos en el
+     kiosco de 1080 y proporcionales en cualquier otra pantalla — que es lo que
+     se quiere: en una columna más estrecha, +4 px fijos serían un salto mayor.
 
      ⚠️ Los PESOS son los de EC y NO se tocan. Se subieron +1 paso ese mismo día y se
      revirtieron: la diferenciación ya existía en el CSS, pero **no se veía** porque
      el proyecto cargaba una sola cara de fuente — así que el ajuste se hizo a ojo
      sobre algo que no estaba midiéndose, y con las caras reales salió demasiado
      oscuro. Lo que faltaba eran las caras, no más peso. */
-  --font-xxl: calc(3.1852 * var(--u)); /* declarado en EC, sin uso */
-  --font-xl: calc(2.6852 * var(--u)); /* h1 · hora · nombre · Inicio */
+  --font-xxl: calc(3.5556 * var(--u)); /* EC lo declara sin usar; aquí, el glifo de cerrar */
+  --font-xl: calc(3.0556 * var(--u)); /* h1 y titular de Inicio · techo de la escala */
   --font-m: calc(
-    2.1852 * var(--u)
+    2.4445 * var(--u)
   ); /* pestañas · menú · Filtros · mapa del piso */
-  --font-sm: calc(1.9852 * var(--u)); /* detalles · chips · descripción · pie */
-  --font-filters: calc(1.3852 * var(--u)); /* panel de filtros y desplegables */
+  --font-sm: calc(2.2 * var(--u)); /* detalles · chips · descripción · pie */
+  --font-filters: calc(1.4667 * var(--u)); /* panel de filtros y desplegables */
+
+  /* 🔴 DOS EXCEPCIONES a la escala, del encargo del 2026-09-02 (segunda tanda).
+     `--font-xl` alimenta CINCO sitios —h1 · hora · nombre · botones de Inicio ·
+     el titular «Consulte la agenda…»— y el encargo los manda en tres
+     direcciones: subir 2 px «el resto», dejar QUIETO el nombre del registro y
+     BAJAR 2 px los dos botones de Inicio. Por eso no se puede resolver en el
+     token: hacen falta dos derivados.
+
+     Van restando sobre `--font-xl`, no con un número suelto, para que la
+     DISTANCIA entre ellos sea lo que se conserve: el día que la escala vuelva a
+     subir, estos dos suben con ella y el encargo sigue cumpliéndose. Si algún
+     día se quieren fijos, hay que escribirlos en unidades absolutas y decirlo. */
+  /* 🔴 Es el par HORA + NOMBRE de la fila del evento, no solo el nombre — de ahí
+     que se llame `--font-evento`. En EC los dos van al MISMO tamaño y se
+     distinguen por el peso (300 la hora, 600 el nombre). Al anclar el nombre en
+     31 px mientras `--font-xl` subía a 33 se rompió ese par y la hora pasó a ser
+     **más grande que el título de la sesión** — la información secundaria
+     mandando sobre la principal. Se restaura la igualdad bajando la hora, que es
+     una reducción y respeta el encargo de no aumentar nada. */
+  --font-evento: calc(
+    var(--font-xl) - 0.1852 * var(--u)
+  ); /* hora y nombre del registro: los 31 px del 02-09 */
+  --font-btn-inicio: calc(
+    var(--font-xl) - 0.3704 * var(--u)
+  ); /* botones de Inicio: 31 → 29 px */
 
   /* Border Radius */
   --border-raidus: calc(2 * var(--u));

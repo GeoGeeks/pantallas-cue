@@ -1,13 +1,26 @@
-/* --- COLORES POR SEGMENTO --- */
+/* --- COLORES POR SEGMENTO ---
+   🔴 Corregidos 2026-09-22: los tres se habían sacado A PIPETA de
+   `Colombia.png` (Vino/Azul marino/Violeta, en ese orden) y el mapeo estaba
+   MAL — verificado con el panel real de Figma (vía extensión de Chrome, sin
+   cuota MCP) leyendo el color del título de cada pantalla de ejemplo:
+   "Salones temáticos" es Violeta-Base (#7D00FE, no Vino) · "Charlas técnicas"
+   es Azul-oscuro (#004081, no #00304D) · "Laboratorios entrenamiento" es
+   Rosa-Fucsia (#F9047D — el mismo tono del botón de Labs. en Inicio, no
+   Violeta). "Vino" (#921754) no aparece en ningún título real: era una lectura
+   errónea del PNG. Cada clase solo declara sus dos variables; todo lo demás en
+   este archivo las consume por `var(...)`, así que una sección nueva no toca
+   ninguna otra regla. */
 .salones {
-  --color-espacio-dark: #f9047d;
-  --color-espacio-ligth: #f9047d80;
+  --color-espacio-dark: var(--violeta);
+  --color-espacio-ligth: #7d00fe80;
 }
-/* Figma de Panamá (vistas/CSS/agenda_buscador.css): Verde-Oscuro #007F4E.
-   Estaba en #004081, que en el diseño es el color de CHARLAS, no de labs. */
+.charlas {
+  --color-espacio-dark: var(--azul-marino);
+  --color-espacio-ligth: #00408180;
+}
 .laboratorios {
-  --color-espacio-dark: #007f4e;
-  --color-espacio-ligth: #007f4e80;
+  --color-espacio-dark: var(--rosa-fucsia);
+  --color-espacio-ligth: #f9047d80;
 }
 
 /* CONTENEDOR PRINCIPAL */
@@ -18,7 +31,7 @@
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: url("../images/bg-agenda-pa.webp") no-repeat center center / cover;
+  background: url("../images/bg-agenda.webp") no-repeat center center / cover;
 }
 .espacios {
   width: 100%;
@@ -333,7 +346,7 @@
      VENTANA, no la columna 9:16. En el kiosco da igual (16,2 px las dos), pero en
      un monitor 1920×1080 son 28,8 px en vez de 9,1: el buscador salía al TRIPLE.
      Fue la única regla del archivo que se escapó; las demás van por token. */
-  font-size: calc(1.6852 * var(--u));
+  font-size: calc(1.8334 * var(--u));
   color: #333333;
   padding-right: 1rem;
 }
@@ -646,7 +659,10 @@
 .evento .hora {
   width: 100%;
   text-align: left;
-  font-size: var(--font-xl);
+  /* Va al MISMO tamaño que el nombre (`--font-evento`), que es como está diseñado:
+     los separa el peso, no el tamaño. Estuvo en `--font-xl` y con el encargo del
+     02-09 eso la dejó 2 px POR ENCIMA del título de la sesión. */
+  font-size: var(--font-evento);
   /* EC prod: 300 y --font-xl (27px del lienzo). El Figma de PA pedía 400 / 20px.
      ⚠️ 300 y 400 se DIBUJAN igual aquí: la fuente solo trae un archivo. */
   font-weight: 300;
@@ -665,7 +681,9 @@
 .evento .nombre {
   width: 100%;
   max-width: 65ch;
-  font-size: var(--font-xl);
+  /* Encargo 02-09 (segunda tanda): el título del registro no sube con el resto de
+     la escala. Comparte token con la hora — ver `--font-evento` en global.css. */
+  font-size: var(--font-evento);
   /* EC prod: 600 y --font-xl (27px). El Figma de PA pedía 700 / 18px: es el
      salto de tamaño más grande de esta alineación (+50 %). */
   font-weight: 600;
@@ -798,25 +816,51 @@
      entera y el modal se quedaba sin ancho: lo fijaba el contenido y ocupaba casi
      toda la columna. Eso es lo que se veía como «consume casi todo el ancho».
 
-     Ahora: arranca en un mínimo legible (280 px), crece **con la columna** y está
-     TOPADO en 61,11 % — que es el ancho del Figma (660 de 1080), así que en el
-     kiosco cae exacto en el diseño y nunca se acerca al ancho total.
-       kiosco 1080 → 660 px (Figma exacto)   ·  escritorio (columna 608) → 371,6
-       móvil 390   → 280 px (suelo)          ·  tope duro 88 % en cualquier caso */
-  width: clamp(280px, calc(61.11 * var(--u)), 88%);
+     🔴 Y después estuvo en `--u` (61,11 unidades = el 660 de 1080 del Figma), que
+     mide la COLUMNA 9:16. Pero este modal NO vive en la columna: su overlay es
+     `position: fixed; inset: 0` y cubre la VENTANA. Así que en un monitor
+     1920×1080 —donde la columna mide 608— el plano salía a 371 px, y aun en el
+     kiosco vertical se quedaba a media altura de una pantalla que se lee de pie.
+
+     Ahora el mapa CRECE hasta llenar el espacio disponible, topado por los dos
+     lados: por el ancho (92dvw) y por el alto útil (92dvh menos el cabezote y
+     los rellenos), pasado a ancho con la proporción REAL de la imagen. Esa
+     proporción NO se cablea: la fija el `onLoad` del <img> desde
+     naturalWidth/naturalHeight (`--floor-aspect`), así que un mapa nuevo con
+     otra forma sigue cuadrando. El respaldo 1.6 es la de los cinco mapas de PA
+     (1375×856) y solo actúa el primer cuadro, antes de que la imagen cargue.
+       kiosco 1080×1920 → 993 px   ·   escritorio 1920×1080 → 1477 px
+       (antes: 660 y 371)
+
+     ⚠️ Esto SE APARTA del Figma a propósito —el diseño fija 660 de 1080, o sea
+     61,11 %—: decisión del dueño (2026-09-02), un plano que hay que leer de pie
+     manda sobre la medida del diseño. */
+  --floor-chrome: calc(1.4 * var(--font-m) + 3 * var(--border-padding));
+  width: min(
+    92dvw,
+    calc((92dvh - var(--floor-chrome)) * var(--floor-aspect, 1.6))
+  );
   max-height: 92dvh;
-  /* Figma (agenda_mapa.css, bloque «Mapa»): `background: #E6FFF0`. Se aplica
-     LITERAL en las dos vistas por decisión del dueño (01-09).
-     ⚠️ El propio Figma lo rotula «Verde pastel 🇪🇨» —paleta de Ecuador— y este
-     frame es el de Salones, que es fucsia: el diseño es incoherente consigo mismo
-     en este punto. Se deja el valor del archivo, no una interpretación. */
-  background: #e6fff0;
+  /* 🔴 Corregido 2026-09-22: ese `#E6FFF0` ("Verde pastel 🇪🇨") era el literal del
+     Figma de ECUADOR (agenda_mapa.css, 01-09), aplicado tal cual antes del swap
+     de marca. El Figma de Colombia pinta este modal en `--lavanda` (#EEE3FF,
+     estilo real "Lila - Fondo") — verificado con el panel de Figma sobre el
+     nodo "Mapa" (Bloque > Mapa). Mismo principio de antes (el literal del
+     Figma vigente, no una interpretación), con el valor que corresponde ahora. */
+  background: var(--lavanda);
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   padding: var(--border-padding);
   gap: var(--border-padding);
+}
+
+/* Sin imagen que escalar —el mapa no se encontró— el cálculo de arriba daría un
+   cartel de aviso del ancho de la pantalla. Ahí vuelve a mandar la medida del
+   Figma, que es la del texto. */
+.floor-map-modal--sin-imagen {
+  width: min(92dvw, calc(61.11 * var(--u)));
 }
 
 .floor-map-header {
@@ -828,7 +872,14 @@
 }
 
 .floor-map-header h2 {
-  color: var(--color-espacio-dark);
+  /* 🔴 Corregido 2026-09-23: era `var(--color-espacio-dark)` (el color DE LA
+     SECCIÓN — violeta en Salones, azul-marino en Charlas, rosa-fucsia en
+     Laboratorios), así que el título cambiaba de color según desde dónde se
+     abriera el mapa. Verificado con el panel real de Figma sobre el nodo
+     "Header" (Bloque > Mapa > Header > "Mapa del piso"): el fill es fijo,
+     "gris 6" (#2B2B2B) — el mapa de piso es el mismo componente en las tres
+     secciones y su encabezado NO cambia con la sección. */
+  color: var(--gris-6);
   font-size: var(--font-m);
   /* EC prod: 600 y --font-m (21,6px). El Figma de PA pedía 700 / 24px. */
   font-weight: 600;
@@ -841,7 +892,10 @@
   top: calc(1 * var(--u));
   border: none;
   background: transparent;
-  color: var(--color-espacio-dark);
+  /* 🔴 Corregido 2026-09-23, mismo motivo que `.floor-map-header h2` arriba:
+     el ícono de cerrar también es "gris 6" (#2B2B2B) fijo en Figma (nodo
+     "vector" dentro de Header), no el color de la sección. */
+  color: var(--gris-6);
   width: calc(2 * var(--u));
   aspect-ratio: 1;
   display: inline-flex;
@@ -857,10 +911,12 @@
 }
 
 .floor-map-image {
+  /* El ancho lo pone el modal, que ya está calculado contra la pantalla; la
+     imagen solo lo llena. `padding: top` —que estaba aquí— no es una declaración
+     válida y el navegador la descartaba. */
   width: 100%;
   height: auto;
   object-fit: contain;
-  padding: top;
 }
 
 .floor-map-empty {

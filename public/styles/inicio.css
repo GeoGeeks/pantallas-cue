@@ -18,16 +18,23 @@
    la tinta en 70,1. Por eso `top` no describía lo que se veía.
    Con la razón real del símbolo (286×51) la caja abraza el dibujo, y entonces
    `top` sí es la posición del logo.
-   📌 `top: 4.64u` = 50,1 px en el kiosco: los **20 px más arriba** pedidos
-   (70,1 − 20). De paso queda a 3 px del `top: 47px` del Figma, o sea que el
-   encargo y el diseño apuntaban al mismo sitio. */
+   📌 Verificado 2026-09-22 contra el nodo real "esri_col 1" del Figma de
+   Colombia (panel de propiedades, vía extensión de Chrome): frame 295×48 en
+   736,42 sobre un lienzo de 1080 → 27.31u de ancho, top 3.89u, right 4.54u.
+   Los valores previos (25u / 4.64u / 4u) se habían calculado por un encargo de
+   "20 px más arriba" cruzado contra un `top: 47px` que no era de este frame —
+   quedaban a ~9 px de ancho y ~8 px de alto de este dato real. */
 .logo-esri {
   position: fixed;
-  color: var(--azul-oscuro);
-  width: calc(25 * var(--u));
-  aspect-ratio: 286 / 51;
-  top: calc(4.64 * var(--u));
-  right: calc(4 * var(--u));
+  /* Colombia dibuja Inicio sobre el fondo OSCURO (`bg-inicio.webp`), así que el
+     logo va en blanco — en Panamá el fondo era claro y por eso iba oscuro. */
+  color: var(--blanco);
+  width: calc(27.31 * var(--u));
+  /* Razón real del símbolo `logo-esri-colombia` (276.94×45.25 en su viewBox,
+     el de `esri_col.svg`) — el de Panamá era 286×51, ligeramente distinto. */
+  aspect-ratio: 276.94 / 45.25;
+  top: calc(3.89 * var(--u));
+  right: calc(4.54 * var(--u));
 }
 
 /* espacios-inicio*/
@@ -40,10 +47,14 @@
   justify-content: center;
   gap: 5dvh;
 }
+/* Verificado 2026-09-22 contra el nodo real "Logo CUE" del Figma de Colombia:
+   frame 400×242 sobre un lienzo de 1080 → 37.04u, razón 400/242 (1,653), no
+   16/9 (1,778) — el script "Cue" quedaba ~8% más ancho y con otra proporción
+   que la del diseño. */
 .logo-cue {
-  width: calc(40 * var(--u));
-  aspect-ratio: 16/9;
-  color: var(--azul-oscuro);
+  width: calc(37.04 * var(--u));
+  aspect-ratio: 400 / 242;
+  color: var(--blanco);
 }
 .espacios-inicio {
   width: 100%;
@@ -53,11 +64,17 @@
   gap: 2dvh;
 }
 /* Encargo 01-09: +2 px (por `--font-xl`, 27 → 29). El peso se queda en el 500 de EC
-   prod: llegó a subirse a 800 y se revirtió. (El Figma de PA pedía 700 / 35 px.) */
+   prod: llegó a subirse a 800 y se revirtió. (El Figma de PA pedía 700 / 35 px, y el
+   de Colombia pide lo mismo — 35px/Demi — verificado 2026-09-22: se mantiene la
+   decisión de EC prod a propósito, ver global.css. `--font-xl` es 33px, el techo
+   ya fijado de la escala: 2px por debajo del Figma, aceptado.)
+   🔴 El COLOR sí era un defecto real, no una decisión: el título va en `--lavanda`
+   (#EEE3FF, estilo "Lila - Fondo" del Figma), no en blanco puro — verificado con
+   el panel de Figma. */
 .espacios-inicio h2 {
   font-size: var(--font-xl);
   font-weight: 500;
-  color: var(--azul-oscuro);
+  color: var(--lavanda);
 }
 .espacios-btn {
   display: flex;
@@ -71,12 +88,17 @@
   justify-content: center;
   text-align: center;
   text-decoration: none;
-  font-size: var(--font-xl);
-  /* EC prod: 300, y se mantiene — el encargo del 01-09 toca el ANCHO del botón, no
-     su peso. ⚠️ No se carga cara Light, así que 300 lo dibuja Regular: idéntico a
-     como se veía antes de cargar las cinco caras. */
-  font-weight: 300;
-  color: white;
+  /* Encargo 02-09 (segunda tanda): estos dos botones bajan 2 px mientras el resto
+     sube. Ver `--font-btn-inicio` en global.css — no es un número suelto, cuelga
+     de `--font-xl`. ⚠️ El ANCHO no se mueve: es explícito (36.44u) justo para que
+     el tamaño del texto no lo arrastre, así que el botón se ve igual y solo la
+     letra encoge. */
+  font-size: var(--font-btn-inicio);
+  /* Colombia invierte el contraste de PA: antes era texto blanco fino (300) sobre
+     una píldora de color; ahora es texto morado sobre una píldora clara, y en el
+     PNG del Figma se lee con el mismo peso que los demás títulos de la pantalla. */
+  font-weight: 600;
+  color: var(--morado-oscuro);
   /* 🔴 Ancho EXPLÍCITO, antes `25ch`. `ch` depende del tamaño de fuente, así que al
      subir el texto a 29 px el botón se habría ido solo de 391,5 a 415,8 px — +24,3
      donde lo pedido eran **+2**. Medido: 36.44u = 393,5 px = 391,5 + 2.
@@ -97,11 +119,24 @@
     transform 0.2s ease,
     opacity 0.2s ease;
 }
+/* Los tres botones son tonos del mismo morado —blanco, lila, rosa-fucsia—: no es
+   el color de cada sección (ese vive en `.salones`/`.charlas`/`.laboratorios`, en
+   espacios.css, y solo aplica una vez dentro de esa pantalla).
+   🔴 Corregido 2026-09-22: estaban a pipeta y CRUZADOS. Verificado con el panel
+   real de Figma (vía extensión de Chrome, cuenta sin cuota MCP): "Charlas
+   técnicas" es `--lila` (#CCACFD) y "Labs. entrenamiento" es `--rosa-fucsia`
+   (#F9047D) — al revés de como estaban. Y Labs. lleva texto CLARO (`--lavanda`),
+   no `--morado-oscuro` como los otros dos: es el único de los tres con ese
+   contraste invertido en el diseño real. */
 .btn-salones {
-  background-color: var(--fucsia);
+  background-color: var(--blanco);
+}
+.btn-charlas {
+  background-color: var(--lila);
 }
 .btn-labs {
-  background-color: var(--verde);
+  background-color: var(--rosa-fucsia);
+  color: var(--lavanda);
 }
 
 /* QR */
@@ -112,20 +147,41 @@
   text-align: center;
   gap: 2dvh;
 }
-/* EC prod: 400 y --font-sm (19,4px). El Figma de PA pedía 500 / 28px, más
-   grande que los botones; con EC vuelve a ser el texto más pequeño de la
-   pantalla. El color azul-oscuro sí es del Figma de PA (EC lo tenía blanco). */
 .awp p {
   font-size: var(--font-sm);
-  color: var(--azul-oscuro);
+  /* Verificado 2026-09-22: `--lavanda` (#EEE3FF), no blanco puro. */
+  color: var(--lavanda);
   font-weight: 400;
 }
-/* Figma: el QR mide 200 px sobre el lienzo de 1080 → 18,5 % del ancho útil.
-   Estaba en 15 %, casi una cuarta parte más pequeño de lo dibujado. */
-.awp img {
-  /* Encargo 01-09: +2 px de ancho y alto → 18.685u = 201,8 px. El alto sigue en
-     `auto` porque el QR es cuadrado: al crecer el ancho crece igual, y fijarlo a
-     mano abriría la puerta a deformarlo. */
-  width: calc(18.685 * var(--u));
+/* Colombia trae DOS códigos —Android y iOS— donde PA tenía uno solo. Van en
+   fila, cada uno con su distintivo de tienda debajo, tal como el PNG del
+   Figma (`Colombia.png`). */
+.qr-row {
+  display: flex;
+  flex-direction: row;
+  /* Verificado 2026-09-22 contra el nodo real ("Frame 53"): 48px sobre 1080 → 4.44u. */
+  gap: calc(4.44 * var(--u));
+}
+.qr-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(1 * var(--u));
+}
+/* 🔴 Corregido 2026-09-22: se había medido sobre el ancho del QR ÚNICO de PA
+   (18,685u) asumiendo que cada QR de Colombia ocupaba lo mismo — el nodo real
+   ("App IOS"/"App play store" en el Figma) mide 122,19×122,19 sobre un lienzo
+   de 1080, o sea 11,31u: los QR de Colombia son individualmente MÁS PEQUEÑOS
+   que el único de PA, no del mismo tamaño. Verificado con el panel de Figma. */
+.qr-item img {
+  width: calc(11.31 * var(--u));
   height: auto;
+}
+/* El distintivo de tienda (Google Play / App Store) es más ancho que alto
+   (3/1 en el archivo oficial); se limita por ALTO para que quede del mismo
+   tamaño relativo al QR que en el Figma, no estirado a lo ancho del QR.
+   Verificado 2026-09-22: nodo real 114,13×34,58 → 3,2u de alto (antes 3,4u). */
+.qr-item .store-badge {
+  width: auto;
+  height: calc(3.2 * var(--u));
 }

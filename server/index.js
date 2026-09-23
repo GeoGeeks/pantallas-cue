@@ -1,11 +1,17 @@
 // Proxy standalone hacia la API de agenda.
 //
 // ⚠️ El destino real NO está aquí: lo fijan las variables de entorno del
-// servicio NSSM, y los valores de abajo son solo los POR DEFECTO. Medido el
-// 2026-09-01 contra producción, el servicio desplegado apunta a **Ecuador**
-// (`https://geoapps.esri.co/cue-2026-agenda/api/agenda/charlas/` responde 401
-// con `"path":"/v1/ecuador/charlas/"`), mientras estos defaults y el README ya
-// dicen Panamá. Para cambiarlo se reconfigura el servicio, no este archivo.
+// servicio NSSM, y los valores de abajo son solo los POR DEFECTO — hay que
+// reconfigurar el servicio en el servidor para que apunten aquí de verdad.
+//
+// Conectado 2026-09-22 al backend real de Colombia (appmovilapi.esri.co,
+// NestJS + SQL Server — el mismo que usa el panel de administración de
+// CUE_CO). Verificado en vivo con `curl`: `/api/admin/eventos/{id}/charlas`
+// y `/laboratorios` responden 200 SIN Authorization — son las rutas ADMIN,
+// abiertas hoy por un hueco de seguridad ya documentado en el panel
+// (`EntraIdGuard` sin aplicar ahí), no una decisión a propósito del backend.
+// Si el equipo de backend lo cierra, esto empieza a dar 401 sin aviso — ver
+// el pendiente en README.md.
 //
 // Reemplaza a la antigua Vercel Function (api/agenda/[...path].js). Corre
 // como un servicio de Windows independiente (gestionado con NSSM) escuchando
@@ -15,15 +21,17 @@
 //
 // Variables de entorno (configurarlas en el servicio de NSSM, no hardcodear):
 //   PORT              puerto local donde escucha (default 3001)
-//   API_TARGET        host upstream (default https://cue.esri.pa)
-//   API_PATH_PREFIX   prefijo de ruta upstream (default /rest/v1/panama)
-//   API_TOKEN         bearer token para el upstream (o AUTH_TOKEN)
+//   API_TARGET        host upstream (default https://appmovilapi.esri.co)
+//   API_PATH_PREFIX   prefijo de ruta upstream (default /api)
+//   API_TOKEN         bearer token para el upstream (o AUTH_TOKEN) — hoy no
+//                      hace falta ninguno; se deja por si el backend pide
+//                      más adelante un token de servicio para estas rutas.
 
 import express from "express";
 
 const PORT = Number(process.env.PORT) || 3001;
-const API_TARGET = process.env.API_TARGET || "https://cue.esri.pa";
-const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/rest/v1/panama";
+const API_TARGET = process.env.API_TARGET || "https://appmovilapi.esri.co";
+const API_PATH_PREFIX = process.env.API_PATH_PREFIX || "/api";
 const API_TOKEN = (process.env.API_TOKEN || process.env.AUTH_TOKEN || "").trim();
 
 const app = express();
@@ -76,8 +84,8 @@ app.use((_req, res) => {
 app.listen(PORT, "127.0.0.1", () => {
   console.log(`Agenda proxy escuchando en http://127.0.0.1:${PORT}`);
   if (!API_TOKEN) {
-    console.warn(
-      "API_TOKEN no configurado: las peticiones upstream saldrán sin Authorization.",
+    console.log(
+      "API_TOKEN no configurado: las peticiones upstream salen sin Authorization (esperado contra appmovilapi.esri.co/admin — ver comentario arriba).",
     );
   }
 });
