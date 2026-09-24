@@ -489,14 +489,27 @@ corrigió el dato real.
 pena confirmar con el cliente si Charlas técnicas debe mostrarse públicamente
 para este evento o si ese módulo sigue sin activar a propósito.
 
-⚠️ **Las horas NO se convierten de zona horaria, a propósito.** El backend
-manda `horaInicio`/`horaFin` con sufijo `Z` (ej.
-`2026-10-01T08:00:00.000Z`), pero convertir de verdad (UTC−5) dejaría una
-Plenaria de apertura a las 3:00 a.m. — todo indica que el backend guarda la
-hora de pared de Bogotá marcada como si fuera UTC, el mismo síntoma ya
-documentado en `CUE_EC`. Se toman los dígitos tal cual (`normalizeTime`),
-sin verificarlo contra el cronograma real del evento — nadie con el
-cronograma en mano lo ha confirmado todavía.
+⚠️ **Las horas NO se convierten de zona horaria, a propósito — y desde el
+2026-09-22 esto ya NO es una suposición sin verificar.** El backend manda
+`horaInicio`/`horaFin` con sufijo `Z` (ej. `2026-10-01T08:00:00.000Z`), pero
+convertir de verdad (UTC−5) dejaría una Plenaria de apertura a las 3:00 a.m.
+— el mismo síntoma ya documentado en `CUE_EC`. Se toman los dígitos tal cual
+(`normalizeTime`), ignorando la `Z`.
+
+✅ **Confirmado por un proyecto hermano, contra el programa oficial del
+evento** (`apoyos/CUE_CO/Proyectos/admin-eventos/CLAUDE.md` §«EL HALLAZGO
+GRAVE… las charlas reales están 5 horas adelantadas»): comparando el dato
+crudo de `GET /admin/eventos/CUE_26_CO/charlas` contra el programa que pegó
+el dueño, título y salón coincidían exacto y la hora también — **en el
+sentido de que los DÍGITOS son la hora real de Bogotá**, marcados con una
+`Z` que no les corresponde. Probado también aislando la causa contra el
+backend en LOCAL: mandando el offset correcto (`-05:00`) el backend guarda y
+devuelve la conversión UTC perfecta — **el código de la API está bien; es un
+dato de PRODUCCIÓN cargado mal** (un import o carga manual anterior pegó la
+hora local con una `Z`), ajeno a este repo y sin decidirse ni corregirse
+desde aquí. Re-verificado el 2026-09-24 sobre los datos de hoy: las horas
+crudas de las 78 charlas actuales siguen cayendo entre 07 y 16 — consistente
+con un evento presencial normal, no con UTC real.
 
 ⚠️ **Dato real disponible y sin usar**: los laboratorios traen `cupo`,
 `disponibilidad` y `objetivos[]` que hoy ninguna pantalla pinta. No es un
