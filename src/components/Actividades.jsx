@@ -7,6 +7,11 @@ export default function Actividades({ eventos = [], espacio }) {
   const [lugarSeleccionado, setLugarSeleccionado] = useState("");
   const [floorImageIndex, setFloorImageIndex] = useState(0);
   const [floorImageNotFound, setFloorImageNotFound] = useState(false);
+  /* La proporción del plano NO se cablea en el CSS: el modal se dimensiona
+     contra la pantalla y necesita saber la forma REAL de la imagen para no
+     dejar bandas ni desbordar. Se lee del propio archivo al cargar; hasta
+     entonces manda el respaldo de `--floor-aspect` en espacios.css. */
+  const [floorAspect, setFloorAspect] = useState(null);
 
   const floorImageCandidates = useMemo(() => {
     if (!lugarSeleccionado) return [];
@@ -63,12 +68,14 @@ export default function Actividades({ eventos = [], espacio }) {
     setLugarSeleccionado(lugar);
     setFloorImageIndex(0);
     setFloorImageNotFound(false);
+    setFloorAspect(null);
   };
 
   const closeFloorMap = () => {
     setLugarSeleccionado("");
     setFloorImageIndex(0);
     setFloorImageNotFound(false);
+    setFloorAspect(null);
   };
 
   const currentFloorImage = floorImageCandidates[floorImageIndex] || "";
@@ -167,7 +174,15 @@ export default function Actividades({ eventos = [], espacio }) {
             }
           }}
         >
-          <div className="floor-map-modal" role="dialog" aria-modal="true" aria-label="Mapa del piso">
+          <div
+            className={`floor-map-modal${
+              floorImageNotFound ? " floor-map-modal--sin-imagen" : ""
+            }`}
+            style={floorAspect ? { "--floor-aspect": floorAspect } : undefined}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mapa del piso"
+          >
             <div className="floor-map-header">
               <h2>Mapa del piso</h2>
               <button
@@ -187,6 +202,12 @@ export default function Actividades({ eventos = [], espacio }) {
                 className="floor-map-image"
                 src={currentFloorImage}
                 alt={`Mapa del piso para ${lugarSeleccionado}`}
+                onLoad={(event) => {
+                  const { naturalWidth, naturalHeight } = event.currentTarget;
+                  if (naturalWidth > 0 && naturalHeight > 0) {
+                    setFloorAspect(naturalWidth / naturalHeight);
+                  }
+                }}
                 onError={() => {
                   if (hasMoreCandidates) {
                     setFloorImageIndex((currentIndex) => currentIndex + 1);

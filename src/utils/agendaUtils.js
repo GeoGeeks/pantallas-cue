@@ -157,15 +157,30 @@ export function getItemTopics(item) {
  * todos: medido contra producción, dos de las tres pantallas salían vacías.
  *
  * Ahora la sección declara qué **incluye** (lista cerrada, para Laboratorios) o
- * por qué **prefijo** entra (para Salones). Un salón nuevo entra solo.
+ * por qué **prefijo(s)** entra (para Salones/Charlas). Un salón nuevo entra solo.
+ *
+ * 🔴 `prefijos` (2026-09-22, decisión del dueño sobre el catálogo real de
+ * Colombia): una sección puede entrar por MÁS de un prefijo — Salones
+ * temáticos acepta «Salón…» y «Summit…», dos familias de tipos distintas que
+ * hoy conviven en la misma pantalla. `ademas` es para el caso contrario: una
+ * cadena EXACTA que no justifica su propio prefijo («Meet & Greet» en
+ * Charlas técnicas — no hay una familia «Meet & Greet algo»).
  */
 function matchesActivityType(item, filtroTipo) {
   const tipo = normalizeText(item.tipo_actividad);
   if (filtroTipo?.incluir) {
     return filtroTipo.incluir.map(normalizeText).includes(tipo);
   }
-  if (filtroTipo?.prefijo) {
-    return tipo.startsWith(normalizeText(filtroTipo.prefijo));
+  const prefijos =
+    filtroTipo?.prefijos || (filtroTipo?.prefijo ? [filtroTipo.prefijo] : null);
+  if (prefijos) {
+    const entraPorPrefijo = prefijos.some((prefijo) =>
+      tipo.startsWith(normalizeText(prefijo)),
+    );
+    const entraPorAdemas = (filtroTipo.ademas || [])
+      .map(normalizeText)
+      .includes(tipo);
+    return entraPorPrefijo || entraPorAdemas;
   }
   if (filtroTipo?.excluir) {
     return !filtroTipo.excluir.map(normalizeText).includes(tipo);

@@ -24,28 +24,26 @@ export default defineConfig(({ mode }) => {
     base: basePath,
     server: {
       proxy: {
+        /* Conectado 2026-09-22 al backend real de Colombia
+           (appmovilapi.esri.co, NestJS + SQL Server — el mismo que usa el
+           panel de administración de CUE_CO). Verificado en vivo con `curl`:
+           las rutas que este proxy reenvía (`/admin/eventos/{id}/charlas`,
+           `/laboratorios`, y `/api/catalogos-agenda` / `/api/franjas-
+           horarias` si algún día se consumen) responden 200 SIN
+           Authorization — ver el aviso completo en `agendaApi.js` sobre por
+           qué están abiertas y qué pasa si el backend cierra ese hueco.
+
+           🔴 Por eso ya NO se inyecta ningún Bearer por defecto: el token de
+           `.env` era el de PANAMÁ (`pais: panama`), inútil contra este
+           backend, y mandarlo no aporta nada. Si el equipo de backend pide
+           más adelante un token de servicio para estas rutas, se reintroduce
+           aquí — el mecanismo ya no vive en este archivo, hay que reponerlo. */
         [apiProxyPath]: {
-          target: env.VITE_API_PROXY_TARGET || "https://cue.esri.pa",
+          target: env.VITE_API_PROXY_TARGET || "https://appmovilapi.esri.co",
           changeOrigin: true,
           secure: proxySecure,
           rewrite: (path) =>
-            path.replace(
-              apiProxyPattern,
-              env.VITE_API_PROXY_PATH || "/rest/v1/panama",
-            ),
-          configure: (proxy) => {
-            proxy.on("proxyReq", (proxyReq) => {
-              const existingAuth = proxyReq.getHeader("Authorization");
-              if (existingAuth) {
-                return;
-              }
-
-              const token = env.API_TOKEN || env.AUTH_TOKEN || "";
-              if (token) {
-                proxyReq.setHeader("Authorization", `Bearer ${token}`);
-              }
-            });
-          },
+            path.replace(apiProxyPattern, env.VITE_API_PROXY_PATH || "/api"),
         },
       },
     },

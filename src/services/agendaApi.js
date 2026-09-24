@@ -1,35 +1,104 @@
-﻿import { withBase } from "../config/agenda";
+﻿import { withBase, ID_EVENTO } from "../config/agenda";
 
 const API_BASE_URL = withBase("/api/agenda");
 
 /**
- * ⚠️ `salones` apunta a `/charlas/` y no es un error: así se llama el endpoint
- * de la API. La sección se resuelve después, por el tipo de actividad
- * (`AGENDA_SECTIONS.salones.filtroTipo`), no por la URL.
+ * Conectado 2026-09-22 al backend real de Colombia (`appmovilapi.esri.co`),
+ * a través del proxy propio (`vite.config.js` en dev, `server/` + IIS en
+ * producción) — nunca directo desde el navegador. El proxy reenvía
+ * `withBase("/api/agenda")/*` hacia `https://appmovilapi.esri.co/api/*` tal
+ * cual, así que las rutas de abajo son las rutas REALES del backend
+ * (`/admin/eventos/{id}/charlas`, verificadas en vivo con `curl`, 200 sin
+ * token — ver `README.md` §Colombia).
  *
- * La clave `charlas` se retiró el 2026-09-01 con la sección de charlas técnicas
- * (Panamá no las tiene). Solo la usaban los dos valores por defecto de este
- * archivo, y ninguna ruta la pedía.
+ * ⚠️ `salones` Y `charlas` apuntan al MISMO endpoint (`/charlas`) y no es un
+ * error: es el único endpoint de listado que no es de laboratorios en esta
+ * API. Las dos secciones se resuelven DESPUÉS, por el tipo de actividad
+ * (`AGENDA_SECTIONS.*.filtroTipo`), no por la URL — igual que antes del
+ * 2026-09-01 en Panamá.
+ *
+ * 🔴 Son las rutas `/admin/...`, no las rutas de asistente (`/api/eventos/
+ * {id}/charlas`, que sí piden bearer). Están abiertas hoy por un hueco de
+ * seguridad ya documentado en el panel de administración de CUE_CO
+ * (`EntraIdGuard` sin aplicar a esas rutas), no porque el backend las haya
+ * declarado públicas a propósito — si el equipo de backend cierra ese hueco,
+ * esto empieza a dar 401 sin aviso. Ver el pendiente en el README.
  */
 const ENDPOINTS = {
-  salones: "/charlas/",
-  laboratorios: "/laboratorios/",
+  salones: `/admin/eventos/${ID_EVENTO}/charlas`,
+  charlas: `/admin/eventos/${ID_EVENTO}/charlas`,
+  laboratorios: `/admin/eventos/${ID_EVENTO}/laboratorios`,
 };
 
 /**
+ * El contrato real (`nombre/descripcion/fecha/horaInicio/horaFin/
+ * tipoActividad/lugar/visibilidad/tematicas[]/productosEsri[]/
+ * publicosObjetivo[]/nivelesSesion[]`) no se parece al viejo contrato de
+ * EC/PA (`name/description/date/startTime/...`) que el resto de este archivo
+ * ya sabe leer. En vez de reescribir `normalizeItem` y todo lo que depende de
+ * su forma de salida (`agendaUtils.js`, `Actividades.jsx`), se traduce ACÁ,
+ * en la frontera, al contrato viejo — es la única función nueva que conoce
+ * los dos lados.
+ *
+ * Los catálogos (`tematicas`, `productosEsri`, `publicosObjetivo`,
+ * `nivelesSesion`) llegan como arreglos de `{id, valor, valorNormalizado}`,
+ * varios con `valor: ""` (catálogo global sin usar todavía en este evento) —
+ * se descartan con `.filter(Boolean)`, igual que ya hacía `normalizeList`
+ * con sus propias entradas vacías.
+ *
+ * `nivelesSesion` es un ARREGLO en el contrato real (antes `sessionLevel` era
+ * un string suelto). Se toma el primero: hoy cada charla/laboratorio trae
+ * como máximo uno, y `nivel` se usa como valor único en los filtros
+ * (`agendaUtils.js`), no como lista.
+ *
+ * `industry` no existe en el contrato real — no hay endpoint ni campo
+ * equivalente a la industria del Figma de Panamá. El filtro "Industria" del
+ * panel de filtros queda sin opciones y se oculta solo (`getFilterGroups` ya
+ * descarta los grupos sin opciones), no hace falta tocar la UI.
+ *
+ * Los laboratorios SÍ traen `tematicas`/`productosEsri`/`publicosObjetivo`/
+ * `nivelesSesion` (verificado 2026-09-22 contra los 6 reales: cada uno con
+ * 1-2 temáticas propias, ej. "Model Builder", "BIM 3D", "Drones") — se leen
+ * igual que en charlas. Traen ADEMÁS `objetivos[]`, `cupo` y `disponibilidad`,
+ * que hoy no pinta ninguna pantalla y quedan sin usar.
+ */
+function adaptRealApiItem(raw) {
+  const pickValores = (lista) =>
+    Array.isArray(lista)
+      ? lista.map((entrada) => entrada?.valor || "").filter(Boolean)
+      : [];
+
+  return {
+    id: raw.id,
+    name: raw.nombre,
+    description: raw.descripcion,
+    date: raw.fecha,
+    startTime: raw.horaInicio,
+    endTime: raw.horaFin,
+    location: raw.lugar,
+    sessionLevel: pickValores(raw.nivelesSesion)[0] || "",
+    topics: pickValores(raw.tematicas),
+    esriProducts: pickValores(raw.productosEsri),
+    targetAudiences: pickValores(raw.publicosObjetivo),
+    tipo_actividad: raw.tipoActividad,
+    visibility: raw.visibilidad,
+  };
+}
+
+/**
  * Respaldo cableado de la agenda. ⚠️ Los lugares y las fechas son de EJEMPLO
- * («Salón A», «Laboratorio 1»): no existen en Panamá, y eso es lo único que
- * hoy delata en pantalla que estos datos no son reales.
+ * («Salón A», «Laboratorio 1»): no existen en el venue real de Colombia, y
+ * eso es lo único que hoy delata en pantalla que estos datos no son reales.
  *
  * 🔴 NO rellenarlo con los salones y las fechas de verdad. Sería peor: dejaría
  * el respaldo indistinguible de la agenda real para quien mire el kiosco. Si
  * hace falta agenda de verdad sin backend, va por el proxy contra la API, no
  * por aquí.
  *
- * El bloque `charlas` (3 sesiones «Charla Técnica», con «Lorem ipsum» y «Salón
- * K - Piso 3») se retiró el 2026-09-01 junto con esa sección: sus items no
- * pasaban el filtro de ninguna de las dos secciones que quedan, así que la rama
- * que caía ahí solo podía producir una pantalla vacía.
+ * Colombia reintroduce `charlas` (se había retirado el 2026-09-01 con la
+ * sección, para Panamá). El tipo va con prefijo «Charla», igual que la
+ * sección real — ver el aviso en `config/agenda.js` sobre que este prefijo
+ * no está verificado contra un catálogo real todavía.
  */
 const FALLBACK_AGENDA = {
   salones: [
@@ -46,6 +115,22 @@ const FALLBACK_AGENDA = {
       targetAudiences: ["Nivel intermedio"],
       industry: ["Gobierno", "Servicios"],
       tipo_actividad: "Salón temático",
+    },
+  ],
+  charlas: [
+    {
+      name: "Mapas y análisis espacial",
+      description: "Ver detalles de la sesión",
+      date: "2026-10-02",
+      startTime: "2026-10-02T14:00:00",
+      endTime: "2026-10-02T15:00:00",
+      location: "Salón B",
+      sessionLevel: "Básico",
+      topics: ["Cartografía", "Analítica espacial"],
+      esriProducts: ["ArcGIS Online"],
+      targetAudiences: ["Público general"],
+      industry: ["Educación", "Gobierno"],
+      tipo_actividad: "Charla técnica",
     },
   ],
   laboratorios: [
@@ -110,6 +195,16 @@ function normalizeDate(value) {
   return rawValue;
 }
 
+/**
+ * 🔴 A propósito NO convierte zona horaria. El backend real de Colombia
+ * manda `horaInicio`/`horaFin` con sufijo `Z` (ej. `2026-10-01T08:00:00.000Z`,
+ * "UTC"), pero convertir de verdad (UTC−5) dejaría una Plenaria de apertura a
+ * las 3:00 a.m. — un dato real de evento no se abre a esa hora. Es el mismo
+ * síntoma que ya se documentó en `CUE_EC` (`useUTC:true` NO arregla el
+ * desfase): todo indica que el backend guarda la hora de pared de Bogotá y la
+ * marca como si fuera UTC. Se toman los dígitos tal cual, ignorando el sufijo
+ * — sin verificarlo contra el cronograma real del evento (nadie lo ha hecho
+ * todavía). Si algún día una hora se ve corrida, empezar por aquí. */
 function normalizeTime(value) {
   if (!value) return "";
 
@@ -233,10 +328,13 @@ function normalizeItem(item, tipoActividad) {
 }
 
 /**
- * Las charlas privadas (`visibility: "privada"`) son asignaciones que el panel
- * hace usuario por usuario: no son agenda pública y no deben verse en las
- * pantallas del evento. El backend ya las oculta a los asistentes, pero estas
- * pantallas consultan la API con un token de panel, que las recibe todas.
+ * Las charlas privadas (`visibilidad: "privada"` en el contrato real,
+ * traducido a `visibility` por `adaptRealApiItem`) son asignaciones que el
+ * panel hace usuario por usuario: no son agenda pública y no deben verse en
+ * las pantallas del evento. Esta app consulta la ruta ADMIN
+ * (`/admin/eventos/{id}/charlas`, sin token — ver `ENDPOINTS`), que las
+ * recibe todas mezcladas con las públicas; el filtro de abajo es lo único
+ * que las separa antes de pintarlas en el kiosco.
  *
  * Se descarta cualquier visibilidad declarada que no sea "publica", no solo
  * "privada": si el catálogo gana un valor nuevo, esto lo deja fuera en vez de
@@ -309,6 +407,19 @@ function buildApiErrorMessage(status, errorBody) {
   );
 }
 
+/**
+ * Tipo por defecto para los items que llegan SIN `tipo_actividad` ni
+ * `activityType` — y para el respaldo cableado. Colombia reintroduce
+ * `charlas`, que Panamá había retirado (2026-09-01) junto con esa rama.
+ * ⚠️ Los tres textos pasan el filtro de prefijo de su sección porque
+ * `matchesActivityType` compara sin tildes (comprobado).
+ */
+function defaultTipoActividad(espacio) {
+  if (espacio === "laboratorios") return "Laboratorios de entrenamiento";
+  if (espacio === "charlas") return "Charla técnica";
+  return "Salón temático";
+}
+
 function getFallbackAgenda(espacio) {
   const fallback = FALLBACK_AGENDA[espacio] || FALLBACK_AGENDA.salones;
   // 🔴 El respaldo se sirve SIN decir en pantalla que no son datos en vivo, y
@@ -333,12 +444,9 @@ function getFallbackAgenda(espacio) {
   // Si algún día se revisa, las dos salidas planteadas fueron: (a) usar el
   // respaldo solo en desarrollo y dejar que producción muestre el error real,
   // o (b) conservarlo con una banda visible de «datos de ejemplo».
-  const tipoActividad =
-    espacio === "laboratorios"
-      ? "Laboratorios de entrenamiento"
-      : "Salón temático";
-
-  return fallback.map((item) => normalizeItem(item, tipoActividad));
+  return fallback.map((item) =>
+    normalizeItem(item, defaultTipoActividad(espacio)),
+  );
 }
 
 export async function fetchAgendaData(espacio, options = {}) {
@@ -394,14 +502,7 @@ export async function fetchAgendaData(espacio, options = {}) {
   const payload = await response.json();
   const rawItems = extractItems(payload);
 
-  // Tipo por defecto para los items que llegan SIN `tipo_actividad` ni
-  // `activityType`. La rama `"Charlas técnicas"` se retiró con la sección
-  // (2026-09-01). ⚠️ «Salones temáticos» pasa el filtro de prefijo «Salón»
-  // porque `matchesActivityType` compara sin tildes (comprobado).
-  const tipoActividad =
-    espacio === "laboratorios"
-      ? "Laboratorios de entrenamiento"
-      : "Salones temáticos";
+  const tipoActividad = defaultTipoActividad(espacio);
 
   if (rawItems.length === 0) {
     console.warn("API sin items de agenda, usando agenda local de respaldo.", {
@@ -414,7 +515,13 @@ export async function fetchAgendaData(espacio, options = {}) {
   // Se filtra DESPUÉS de comprobar que la API trajo algo: quedarse sin items
   // por descartar los privados es una respuesta legítima (un día que solo
   // tiene agenda privada se ve vacío), no un fallo que justifique el respaldo.
+  //
+  // `isDeleted` es del contrato real (borrado lógico): se descarta ANTES de
+  // adaptar, sobre el item crudo — `adaptRealApiItem` no lo traduce a ningún
+  // campo del contrato viejo, así que filtrarlo después ya no sería posible.
   return rawItems
+    .filter((item) => !item?.isDeleted)
+    .map((item) => adaptRealApiItem(item))
     .filter(isPublicItem)
     .map((item) => normalizeItem(item, tipoActividad));
 }
