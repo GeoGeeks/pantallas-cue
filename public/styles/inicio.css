@@ -174,7 +174,7 @@
    de 1080, o sea 11,31u: los QR de Colombia son individualmente MÁS PEQUEÑOS
    que el único de PA, no del mismo tamaño. Verificado con el panel de Figma. */
 .qr-item img {
-  width: calc(11.31 * var(--u));
+  width: calc(14 * var(--u));
   height: auto;
 }
 /* El distintivo de tienda (Google Play / App Store) es más ancho que alto
@@ -184,4 +184,11 @@
 .qr-item .store-badge {
   width: auto;
   height: calc(3.2 * var(--u));
+}
+
+.qr-item-text {
+  font-size: 8px !important;
+  color: rgba(255, 255, 255, 0.609) !important;
+  font-weight: 100;
+  margin-top: 4px
 }
