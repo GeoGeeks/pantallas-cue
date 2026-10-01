@@ -44,19 +44,13 @@ function HomePage() {
             <div className="qr-item">
               <img
                 src={withBase("images/qr-android.webp")}
-                alt="Código QR para descargar la app en Google Play"
+                alt="Código QR para descargar la app en la web"
                 loading="lazy"
                 decoding="async"
                 width={200}
                 height={200}
               />
-              <img
-                className="store-badge"
-                src={withBase("images/badge-google-play.webp")}
-                alt="Disponible en Google Play"
-                loading="lazy"
-                decoding="async"
-              />
+              <p className='qr-item-text'>Disponible en Android</p>
             </div>
             <div className="qr-item">
               <img
@@ -67,13 +61,7 @@ function HomePage() {
                 width={200}
                 height={200}
               />
-              <img
-                className="store-badge"
-                src={withBase("images/badge-app-store.webp")}
-                alt="Disponible en App Store"
-                loading="lazy"
-                decoding="async"
-              />
+            <p className='qr-item-text'>Disponible en iOS</p>
             </div>
           </div>
         </div>

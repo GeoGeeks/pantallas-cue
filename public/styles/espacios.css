@@ -783,6 +783,8 @@
 .evento .tematicas {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: calc(1 * var(--u));
 }
 /* Del Figma de PA se conservan los COLORES: píldora clara, fondo gris3 #DFDFDF
