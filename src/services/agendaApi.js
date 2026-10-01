@@ -59,8 +59,9 @@ const ENDPOINTS = {
  * Los laboratorios SÍ traen `tematicas`/`productosEsri`/`publicosObjetivo`/
  * `nivelesSesion` (verificado 2026-09-22 contra los 6 reales: cada uno con
  * 1-2 temáticas propias, ej. "Model Builder", "BIM 3D", "Drones") — se leen
- * igual que en charlas. Traen ADEMÁS `objetivos[]`, `cupo` y `disponibilidad`,
- * que hoy no pinta ninguna pantalla y quedan sin usar.
+ * igual que en charlas. Traen ADEMÁS `objetivos[]` y `cupo`, que hoy no pinta
+ * ninguna pantalla, y `disponibilidad`, de donde sale su horario (ver
+ * `expandirFranjasDeLaboratorio`, justo abajo).
  */
 function adaptRealApiItem(raw) {
   const pickValores = (lista) =>
@@ -83,6 +84,39 @@ function adaptRealApiItem(raw) {
     tipo_actividad: raw.tipoActividad,
     visibility: raw.visibilidad,
   };
+}
+
+/**
+ * 🔴 Los laboratorios reales NO traen `fecha`, `horaInicio` ni `horaFin` en el
+ * nivel de arriba (verificado 2026-09-30 contra los 6 de `CUE_26_CO`): el
+ * horario vive en `disponibilidad[]`, una entrada por franja de una hora
+ * (`{fecha, franjaHoraria: {horaInicio: "14:00", horaFin: "15:00"}}`). Sin
+ * esto la tarjeta pintaba el icono del reloj con la hora vacía, y el lab no
+ * caía en ningún día. (`dia: "Jueves"` tampoco sirve: los 6 se dictan el
+ * jueves Y el viernes.)
+ *
+ * Se abre un item por franja; `mergeRepeatedLaboratoryEvents` ya los junta
+ * por nombre + lugar + fecha en un rango (primera hora → última). Hoy las
+ * franjas de cada lab son contiguas (jue 14–17, vie 7–12), así que el rango
+ * no esconde huecos; si algún día dejan de serlo, el rango los taparía.
+ * Las horas de franja llegan sin `Z` ni fecha: `normalizeTime` las lee igual.
+ */
+function expandirFranjasDeLaboratorio(raw) {
+  if (raw?.horaInicio || !Array.isArray(raw?.disponibilidad)) return [raw];
+
+  const franjas = raw.disponibilidad.filter(
+    (slot) =>
+      slot?.fecha && slot?.franjaHoraria && !slot.franjaHoraria.isDeleted,
+  );
+  if (franjas.length === 0) return [raw];
+
+  return franjas.map((slot) => ({
+    ...raw,
+    id: `${raw.id}::${slot.fecha}`,
+    fecha: slot.fecha,
+    horaInicio: slot.franjaHoraria.horaInicio,
+    horaFin: slot.franjaHoraria.horaFin,
+  }));
 }
 
 /**
@@ -521,6 +555,7 @@ export async function fetchAgendaData(espacio, options = {}) {
   // campo del contrato viejo, así que filtrarlo después ya no sería posible.
   return rawItems
     .filter((item) => !item?.isDeleted)
+    .flatMap(expandirFranjasDeLaboratorio)
     .map((item) => adaptRealApiItem(item))
     .filter(isPublicItem)
     .map((item) => normalizeItem(item, tipoActividad));
