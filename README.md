@@ -284,6 +284,25 @@ Esta aplicación sirve el evento de **Panamá**. Lo que eso implica y no es obvi
   `.espacios::before`), no en el elemento: si no, en cualquier pantalla que no sea
   9:16 quedaban bandas en blanco a los lados de la columna.
 
+## Colombia (2026-09-30) — hora de los laboratorios y tipo «DevTalks»
+
+✅ **Cerrado el hallazgo principal de la auditoría del 23-09 (abajo): los laboratorios ya
+muestran su hora y su día.** El backend sigue sin mandar `fecha`/`horaInicio`/`horaFin` en el
+laboratorio; el horario está en `disponibilidad[]`, una franja de una hora por entrada.
+`expandirFranjasDeLaboratorio` (`agendaApi.js`) abre un item por franja y la fusión que ya
+existía (`mergeRepeatedLaboratoryEvents`) los junta por día en un rango. Verificado en
+navegador contra el backend real: los 6 laboratorios salen el **jueves 2:00 p.m. – 5:00 p.m.**
+y el **viernes 7:00 a.m. – 12:00 p.m.**, cada uno en su pestaña de día.
+⚠️ El rango solo es honesto mientras las franjas de un laboratorio sean contiguas (hoy lo son
+en los 6). Si un día tuviera un hueco (7–8 y 10–11), se pintaría 7–11. `cupo` y `objetivos[]`
+siguen sin pintarse.
+
+✅ **Tipo nuevo `DevTalks` → Charlas técnicas** (pedido del dueño), por `ademas`, como «Meet &
+Greet». El evento pasó de 71 a **120 charlas**; cruzadas contra `AGENDA_SECTIONS`: 60 a Salones
+(36 «Salón…» + 24 «Summit…») + 56 a Charlas (30 «Charla técnica» + 20 DevTalks + 6 Meet & Greet)
++ 4 fuera (Plenaria, Actividad social) = 120, sin huecos. En pantalla, Charlas técnicas muestra
+23 el jueves y 33 el viernes.
+
 ## Colombia (2026-09-23, noche) — auditoría e2e: datos, funcionalidad y diseño
 
 🧭 Auditoría completa contra el PR #4 ya abierto (dev server real, no solo lectura de código):

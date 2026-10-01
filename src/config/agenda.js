@@ -62,6 +62,9 @@ export const TIPOS_LABORATORIO = ["Laboratorio practico"];
  *     porque es una cadena EXACTA, no una familia por prefijo: solo hay un
  *     tipo así, no una serie «Meet & Greet algo» que justifique tratarlo
  *     como prefijo.
+ *   · «DevTalks» (2026-09-30, pedido del dueño: tipo nuevo, 20 charlas
+ *     reales ese día) entra a **Charlas técnicas** por `ademas`, igual que
+ *     «Meet & Greet»: una cadena exacta, no una familia.
  *   · «Plenaria» y «Actividad social» (4, Break/Almuerzo) se QUEDAN FUERA a
  *     propósito — son logística del evento, no contenido que alguien busque
  *     en la agenda del kiosco.
@@ -73,7 +76,7 @@ export const AGENDA_SECTIONS = {
   },
   charlas: {
     title: "Charlas técnicas",
-    filtroTipo: { prefijo: "Charla", ademas: ["Meet & Greet"] },
+    filtroTipo: { prefijo: "Charla", ademas: ["Meet & Greet", "DevTalks"] },
   },
   laboratorios: {
     title: "Laboratorios de entrenamiento",

@@ -374,11 +374,17 @@
   border: none;
   display: flex;
   align-items: center;
+  /* La X creció ×3,24 (abajo): sin este margen negativo la barra se hacía más
+     alta al abrir el buscador y la lista saltaba hacia abajo. */
+  margin-block: calc(-2.24 * var(--u));
 }
 .close-icon {
-  width: calc(2 * var(--u));
+  /* ×3,24 sobre el original (2u con 0,2rem de padding), pedido del dueño el
+     2026-09-30 (×3, +20 % y luego −10 %): la X de cerrar la búsqueda casi no se
+     veía. El padding sube en la misma proporción que la caja. */
+  width: calc(6.48 * var(--u));
   aspect-ratio: 1;
-  padding: 0.2rem;
+  padding: 0.648rem;
   color: var(--color-espacio-dark);
 }
 
