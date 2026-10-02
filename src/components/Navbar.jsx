@@ -16,7 +16,19 @@ export default function Navbar({ title, espacio }) {
 
       <div className={`banner-segmento ${espacio}`}>
         <div className={`header-nav ${menuOpen ? "is-open" : "is-closed"}`}>
-          <h1>{menuOpen ? "Espacios" : title}</h1>
+          <div className="header-nav-titulo">
+            {/* Volver al inicio (Figma Colombia, 2026-10-01). Se oculta con el
+                menú abierto: ahí el encabezado dice «Espacios» y el diseño no
+                lo trae. */}
+            {!menuOpen && (
+              <Link to="/" className="back-button" aria-label="Volver al inicio">
+                <svg>
+                  <use href="#icon-back" />
+                </svg>
+              </Link>
+            )}
+            <h1>{menuOpen ? "Espacios" : title}</h1>
+          </div>
 
           <button
             onClick={toggleMenu}

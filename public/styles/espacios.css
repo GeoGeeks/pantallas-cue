@@ -151,6 +151,26 @@
   font-size: var(--font-xl);
   margin: 0;
 }
+/* Botón de volver al inicio, a la izquierda del título (Figma Colombia,
+   2026-10-01). Mismo tamaño y color que el del menú: los dos son la misma
+   textura con `currentColor`, así que cambian solos con la sección. El hueco
+   hasta el título sale del PNG: ~34 px a 1080 de ancho ≈ 3u. */
+.header-nav-titulo {
+  display: flex;
+  align-items: center;
+  gap: calc(3 * var(--u));
+}
+.header-nav .back-button {
+  width: calc(4 * var(--u));
+  height: calc(4 * var(--u));
+  flex-shrink: 0;
+  display: flex;
+  color: var(--color-espacio-dark);
+}
+.header-nav .back-button svg {
+  width: 100%;
+  height: 100%;
+}
 .header-nav .menu-button {
   width: calc(4 * var(--u));
   height: calc(4 * var(--u));
